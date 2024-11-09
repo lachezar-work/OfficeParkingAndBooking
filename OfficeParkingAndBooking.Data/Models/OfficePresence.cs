@@ -7,10 +7,10 @@ namespace OfficeParkingAndBooking.Data.Models
         public int Id { get; set; }
         public DateOnly Date { get; set; }
         public int EmployeeId { get; set; }
-        public virtual required Employee Employee { get; set; }
+        public virtual Employee? Employee { get; set; }
 
         public int RoomId { get; set; }
-        public required Room OfficeRoom { get; set; }
+        public Room? OfficeRoom { get; set; }
 
         public int? ParkingSpotReservationId { get; set; }
         public virtual ParkingSpotReservation? ParkingSpotReservation { get; set; }

@@ -9,7 +9,7 @@ namespace OfficeParkingAndBooking.Data.Models
         [MaxLength(30)] public required string Lastname { get; set; }
         
         public int TeamId { get; set; } 
-        public required Team Team { get; set; }
+        public required Team? Team { get; set; }
 
         public virtual HashSet<OfficePresence>? OfficePresences { get; set; } = new();
         public virtual HashSet<Car>? Cars { get; set; } = new();

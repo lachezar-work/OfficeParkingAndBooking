@@ -9,7 +9,7 @@ namespace OfficeParkingAndBooking.Data.Models
         [MaxLength(20)] public required string RegistrationPlate { get; set; }
 
         public int EmployeeId { get; set; }
-        public virtual Employee Employee { get; set; }
+        public virtual Employee? Employee { get; set; }
 
         public virtual ParkingSpotReservation? ParkingSpotReservation { get; set; }
     }
