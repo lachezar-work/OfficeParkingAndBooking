@@ -9,6 +9,7 @@ namespace OfficeParkingAndBooking.Data
         public DbSet<Employee> Employees { get; set; }
         public DbSet<OfficePresence> OfficePresences { get; set; }
         public DbSet<ParkingSpot> ParkingSpots { get; set; } 
+        public DbSet<ParkingSpotReservation> ParkingSpotReservations { get; set; } 
         public DbSet<Room> Rooms { get; set; } 
         public DbSet<Team> Teams { get; set; } 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -39,7 +40,17 @@ namespace OfficeParkingAndBooking.Data
             );
             // Test data
             modelBuilder.Entity<Employee>().HasData(
-                new Employee { Id = 1, Firstname = "Lachezar", Lastname = "Atanasov", TeamId = 1 }
+                new Employee { Id = 1, Firstname = "Lachezar", Lastname = "Atanasov", TeamId = 1
+                }
+            );
+            modelBuilder.Entity<OfficePresence>().HasData(
+                new OfficePresence() { Id = 1, Date = DateOnly.Parse("11-11-2024"), RoomId = 1, EmployeeId = 1 }
+            );
+            modelBuilder.Entity<Car>().HasData(
+                new Car() { Id = 1, Brand = "Audi A3", RegistrationPlate = "CB5768MT", EmployeeId = 1 }
+                );
+            modelBuilder.Entity<ParkingSpotReservation>().HasData(
+                new ParkingSpotReservation() { Id = 1, CarId = 1, ParkingSpotId = 1,ReservedFrom = TimeOnly.Parse("09:00:00"),ReservedUntil = TimeOnly.Parse("18:00:00") }
             );
         }
     }

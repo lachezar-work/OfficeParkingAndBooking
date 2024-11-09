@@ -1,4 +1,6 @@
-﻿namespace OfficeParkingAndBooking.Data
+﻿using System.Security.Cryptography.X509Certificates;
+
+namespace OfficeParkingAndBooking.Data
 {
     internal class Program
     {
@@ -7,6 +9,7 @@
             var context = new OfficeParkingDbContext();
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
+
         }
     }
 }
