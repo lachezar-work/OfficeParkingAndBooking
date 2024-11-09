@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph GraphDirection="LeftToRight" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+<Node Id="IModel" Label="OfficeParkingDbContext" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot" PropertyAccessMode="PropertyAccessMode.Default" ProductVersion="8.0.10" Annotations="BaseTypeDiscoveryConvention:DerivedTypes: System.Collections.Generic.Dictionary`2[System.Type,System.Collections.Generic.List`1[Microsoft.EntityFrameworkCore.Metadata.IConventionEntityType]]
+Relational:MaxIdentifierLength: 128
+RelationshipDiscoveryConvention:InverseNavigationCandidates: System.Collections.Generic.Dictionary`2[System.Type,System.Collections.Generic.SortedSet`1[System.Type]]
+SqlServer:ValueGenerationStrategy: IdentityColumn" Category="Model" Group="Expanded" />
+<Node Id = "Car" Label="Car" Name="Car" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="Relational:TableName: Cars
+RelationshipDiscoveryConvention:NavigationCandidates: System.Collections.Immutable.ImmutableSortedDictionary`2[System.Reflection.PropertyInfo,System.ValueTuple`2[System.Type,System.Nullable`1[System.Boolean]]]" Category="EntityType" Group="Expanded" />
+<Node Id = "Employee" Label="Employee" Name="Employee" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="Relational:TableName: Employees
+RelationshipDiscoveryConvention:NavigationCandidates: System.Collections.Immutable.ImmutableSortedDictionary`2[System.Reflection.PropertyInfo,System.ValueTuple`2[System.Type,System.Nullable`1[System.Boolean]]]" Category="EntityType" Group="Expanded" />
+<Node Id = "Car.Id" Label="Id (int)" Name="Id" Category="Property Primary" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="SqlServer:ValueGenerationStrategy: IdentityColumn" IsPrimaryKey="True" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="ValueGenerated.OnAdd" />
+<Node Id = "Car.Employee" Label="Employee (1)" Name="Employee" Category="Navigation Property" Type="Employee"  Field="" Dependent="" Principal="Employee" Inverse="Cars" PropertyAccessMode="PropertyAccessMode.Default" />
+<Node Id = "Car.Brand" Label="Brand (string)" Name="Brand" Category="Property Required" Type="string" MaxLength="(30)" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="MaxLength: 30" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Car.EmployeeId" Label="EmployeeId (int)" Name="EmployeeId" Category="Property Foreign" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="True" IsRequired="True" IsIndexed="True" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Car.RegistrationPlate" Label="RegistrationPlate (string)" Name="RegistrationPlate" Category="Property Required" Type="string" MaxLength="(20)" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="MaxLength: 20" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "OfficePresence" Label="OfficePresence" Name="OfficePresence" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="Relational:TableName: OfficePresences
+RelationshipDiscoveryConvention:NavigationCandidates: System.Collections.Immutable.ImmutableSortedDictionary`2[System.Reflection.PropertyInfo,System.ValueTuple`2[System.Type,System.Nullable`1[System.Boolean]]]" Category="EntityType" Group="Expanded" />
+<Node Id = "Employee.Id" Label="Id (int)" Name="Id" Category="Property Primary" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="SqlServer:ValueGenerationStrategy: IdentityColumn" IsPrimaryKey="True" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="ValueGenerated.OnAdd" />
+<Node Id = "Employee.Cars" Label="Cars (*)" Name="Cars" Category="Navigation Collection" Type="HashSet&lt;Car&gt;"  Field="" Dependent="Car" Principal="" Inverse="Employee" PropertyAccessMode="PropertyAccessMode.Default" />
+<Node Id = "Employee.OfficePresences" Label="OfficePresences (*)" Name="OfficePresences" Category="Navigation Collection" Type="HashSet&lt;OfficePresence&gt;"  Field="" Dependent="OfficePresence" Principal="" Inverse="Employee" PropertyAccessMode="PropertyAccessMode.Default" />
+<Node Id = "Employee.Team" Label="Team (1)" Name="Team" Category="Navigation Property" Type="Team"  Field="" Dependent="" Principal="Team" Inverse="" PropertyAccessMode="PropertyAccessMode.Default" />
+<Node Id = "Employee.Name" Label="Name (string)" Name="Name" Category="Property Required" Type="string" MaxLength="(50)" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="MaxLength: 50" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Employee.TeamId" Label="TeamId (int)" Name="TeamId" Category="Property Foreign" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="True" IsRequired="True" IsIndexed="True" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "ParkingSpot" Label="ParkingSpot" Name="ParkingSpot" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="Relational:TableName: ParkingSpots
+RelationshipDiscoveryConvention:NavigationCandidates: System.Collections.Immutable.ImmutableSortedDictionary`2[System.Reflection.PropertyInfo,System.ValueTuple`2[System.Type,System.Nullable`1[System.Boolean]]]" Category="EntityType" Group="Expanded" />
+<Node Id = "OfficePresence.Id" Label="Id (int)" Name="Id" Category="Property Primary" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="SqlServer:ValueGenerationStrategy: IdentityColumn" IsPrimaryKey="True" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="ValueGenerated.OnAdd" />
+<Node Id = "OfficePresence.Employee" Label="Employee (1)" Name="Employee" Category="Navigation Property" Type="Employee"  Field="" Dependent="" Principal="Employee" Inverse="OfficePresences" PropertyAccessMode="PropertyAccessMode.Default" />
+<Node Id = "OfficePresence.OfficeRoom" Label="OfficeRoom (1)" Name="OfficeRoom" Category="Navigation Property" Type="Room"  Field="" Dependent="" Principal="Room" Inverse="OfficePresences" PropertyAccessMode="PropertyAccessMode.Default" />
+<Node Id = "OfficePresence.Date" Label="Date (DateOnly)" Name="Date" Category="Property Required" Type="DateOnly" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "OfficePresence.EmployeeId" Label="EmployeeId (int)" Name="EmployeeId" Category="Property Foreign" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="True" IsRequired="True" IsIndexed="True" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "OfficePresence.Notes" Label="Notes (string)" Name="Notes" Category="Property Optional" Type="string" MaxLength="(100)" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="MaxLength: 100" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "OfficePresence.ParkingArrivalTime" Label="ParkingArrivalTime (TimeOnly?)" Name="ParkingArrivalTime" Category="Property Optional" Type="TimeOnly?" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "OfficePresence.ParkingDepartureTime" Label="ParkingDepartureTime (TimeOnly?)" Name="ParkingDepartureTime" Category="Property Optional" Type="TimeOnly?" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "OfficePresence.ParkingSpotNumber" Label="ParkingSpotNumber (SpotNumber?)" Name="ParkingSpotNumber" Category="Property Optional" Type="SpotNumber?" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "OfficePresence.RoomId" Label="RoomId (int)" Name="RoomId" Category="Property Foreign" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="True" IsRequired="True" IsIndexed="True" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "OfficePresence.UsesParkingSpot" Label="UsesParkingSpot (bool)" Name="UsesParkingSpot" Category="Property Required" Type="bool" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Room" Label="Room" Name="Room" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="Relational:TableName: Rooms
+RelationshipDiscoveryConvention:NavigationCandidates: System.Collections.Immutable.ImmutableSortedDictionary`2[System.Reflection.PropertyInfo,System.ValueTuple`2[System.Type,System.Nullable`1[System.Boolean]]]" Category="EntityType" Group="Expanded" />
+<Node Id = "ParkingSpot.ParkingSpotId" Label="ParkingSpotId (int)" Name="ParkingSpotId" Category="Property Primary" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="SqlServer:ValueGenerationStrategy: IdentityColumn" IsPrimaryKey="True" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="ValueGenerated.OnAdd" />
+<Node Id = "ParkingSpot.OfficePresences" Label="OfficePresences (1)" Name="OfficePresences" Category="Navigation Property" Type="OfficePresence"  Field="" Dependent="" Principal="OfficePresence" Inverse="" PropertyAccessMode="PropertyAccessMode.Default" />
+<Node Id = "ParkingSpot.IsReserved" Label="IsReserved (bool)" Name="IsReserved" Category="Property Required" Type="bool" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "ParkingSpot.OfficePresencesId" Label="OfficePresencesId (int?)" Name="OfficePresencesId" Category="Property Foreign" Type="int?" MaxLength="None" Field="nofield" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="True" IsRequired="False" IsIndexed="True" IsShadow="True" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "ParkingSpot.ReservedDate" Label="ReservedDate (DateOnly?)" Name="ReservedDate" Category="Property Optional" Type="DateOnly?" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "ParkingSpot.ReservedFrom" Label="ReservedFrom (TimeOnly?)" Name="ReservedFrom" Category="Property Optional" Type="TimeOnly?" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "ParkingSpot.ReservedUntil" Label="ReservedUntil (TimeOnly?)" Name="ReservedUntil" Category="Property Optional" Type="TimeOnly?" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "ParkingSpot.SpotNumber" Label="SpotNumber (SpotNumber)" Name="SpotNumber" Category="Property Required" Type="SpotNumber" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Team" Label="Team" Name="Team" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="Relational:TableName: Teams
+RelationshipDiscoveryConvention:NavigationCandidates: System.Collections.Immutable.ImmutableSortedDictionary`2[System.Reflection.PropertyInfo,System.ValueTuple`2[System.Type,System.Nullable`1[System.Boolean]]]" Category="EntityType" Group="Expanded" />
+<Node Id = "Room.Id" Label="Id (int)" Name="Id" Category="Property Primary" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="SqlServer:ValueGenerationStrategy: IdentityColumn" IsPrimaryKey="True" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="ValueGenerated.OnAdd" />
+<Node Id = "Room.OfficePresences" Label="OfficePresences (*)" Name="OfficePresences" Category="Navigation Collection" Type="HashSet&lt;OfficePresence&gt;"  Field="" Dependent="OfficePresence" Principal="" Inverse="OfficeRoom" PropertyAccessMode="PropertyAccessMode.Default" />
+<Node Id = "Room.Number" Label="Number (int)" Name="Number" Category="Property Required" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Room.RoomCapacity" Label="RoomCapacity (int)" Name="RoomCapacity" Category="Property Required" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Team" Label="Team" Name="Team" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="" Category="EntityType" Group="Expanded" />
+<Node Id = "Team.Id" Label="Id (int)" Name="Id" Category="Property Primary" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="SqlServer:ValueGenerationStrategy: IdentityColumn" IsPrimaryKey="True" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="ValueGenerated.OnAdd" />
+<Node Id = "Team.FullName" Label="FullName (string)" Name="FullName" Category="Property Required" Type="string" MaxLength="(50)" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="MaxLength: 50" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Team.ShortName" Label="ShortName (string)" Name="ShortName" Category="Property Required" Type="string" MaxLength="(20)" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="MaxLength: 20" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+  </Nodes>
+  <Links>
+<Link Source = "IModel" Target="Car" Category="Contains" />
+<Link Source = "IModel" Target="Employee" Category="Contains" />
+<Link Source = "Car" Target="Car.Employee" Category="Contains" />
+<Link Source = "Car" Target="Car.Id" Category="Contains" />
+<Link Source="Car" Target="Employee" From="Car.EmployeeId" To="Employee.Id" Name="Car -> Employee" Annotations="" IsUnique="False" Label="1:*" Category="Foreign Key" />
+<Link Source = "Car" Target="Car.Brand" Category="Contains" />
+<Link Source = "Car" Target="Car.EmployeeId" Category="Contains" />
+<Link Source = "Car" Target="Car.RegistrationPlate" Category="Contains" />
+<Link Source = "IModel" Target="OfficePresence" Category="Contains" />
+<Link Source = "Employee" Target="Employee.Cars" Category="Contains" />
+<Link Source = "Employee" Target="Employee.OfficePresences" Category="Contains" />
+<Link Source = "Employee" Target="Employee.Team" Category="Contains" />
+<Link Source = "Employee" Target="Employee.Id" Category="Contains" />
+<Link Source="Employee" Target="Team" From="Employee.TeamId" To="Team.Id" Name="Employee -> Team" Annotations="" IsUnique="False" Label="1:*" Category="Foreign Key" />
+<Link Source = "Employee" Target="Employee.Name" Category="Contains" />
+<Link Source = "Employee" Target="Employee.TeamId" Category="Contains" />
+<Link Source = "IModel" Target="ParkingSpot" Category="Contains" />
+<Link Source = "OfficePresence" Target="OfficePresence.Employee" Category="Contains" />
+<Link Source = "OfficePresence" Target="OfficePresence.OfficeRoom" Category="Contains" />
+<Link Source = "OfficePresence" Target="OfficePresence.Id" Category="Contains" />
+<Link Source="OfficePresence" Target="Employee" From="OfficePresence.EmployeeId" To="Employee.Id" Name="OfficePresence -> Employee" Annotations="" IsUnique="False" Label="1:*" Category="Foreign Key" />
+<Link Source="OfficePresence" Target="Room" From="OfficePresence.RoomId" To="Room.Id" Name="OfficePresence -> Room" Annotations="" IsUnique="False" Label="1:*" Category="Foreign Key" />
+<Link Source = "OfficePresence" Target="OfficePresence.Date" Category="Contains" />
+<Link Source = "OfficePresence" Target="OfficePresence.EmployeeId" Category="Contains" />
+<Link Source = "OfficePresence" Target="OfficePresence.Notes" Category="Contains" />
+<Link Source = "OfficePresence" Target="OfficePresence.ParkingArrivalTime" Category="Contains" />
+<Link Source = "OfficePresence" Target="OfficePresence.ParkingDepartureTime" Category="Contains" />
+<Link Source = "OfficePresence" Target="OfficePresence.ParkingSpotNumber" Category="Contains" />
+<Link Source = "OfficePresence" Target="OfficePresence.RoomId" Category="Contains" />
+<Link Source = "OfficePresence" Target="OfficePresence.UsesParkingSpot" Category="Contains" />
+<Link Source = "IModel" Target="Room" Category="Contains" />
+<Link Source = "ParkingSpot" Target="ParkingSpot.OfficePresences" Category="Contains" />
+<Link Source = "ParkingSpot" Target="ParkingSpot.ParkingSpotId" Category="Contains" />
+<Link Source="ParkingSpot" Target="OfficePresence" From="ParkingSpot.OfficePresencesId" To="OfficePresence.Id" Name="ParkingSpot -> OfficePresence" Annotations="" IsUnique="False" Label="1:*" Category="Foreign Key" />
+<Link Source = "ParkingSpot" Target="ParkingSpot.IsReserved" Category="Contains" />
+<Link Source = "ParkingSpot" Target="ParkingSpot.OfficePresencesId" Category="Contains" />
+<Link Source = "ParkingSpot" Target="ParkingSpot.ReservedDate" Category="Contains" />
+<Link Source = "ParkingSpot" Target="ParkingSpot.ReservedFrom" Category="Contains" />
+<Link Source = "ParkingSpot" Target="ParkingSpot.ReservedUntil" Category="Contains" />
+<Link Source = "ParkingSpot" Target="ParkingSpot.SpotNumber" Category="Contains" />
+<Link Source = "IModel" Target="Team" Category="Contains" />
+<Link Source = "Room" Target="Room.OfficePresences" Category="Contains" />
+<Link Source = "Room" Target="Room.Id" Category="Contains" />
+<Link Source = "Room" Target="Room.Number" Category="Contains" />
+<Link Source = "Room" Target="Room.RoomCapacity" Category="Contains" />
+<Link Source = "IModel" Target="Team" Category="Contains" />
+<Link Source = "Team" Target="Team.Id" Category="Contains" />
+<Link Source = "Team" Target="Team.FullName" Category="Contains" />
+<Link Source = "Team" Target="Team.ShortName" Category="Contains" />
+  </Links>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="EntityType" ValueLabel="True">
+      <Condition Expression="HasCategory('EntityType')" />
+      <Setter Property="Background" Value="#FFC0C0C0" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Property Primary" ValueLabel="True">
+      <Condition Expression="HasCategory('Property Primary')" />
+      <Setter Property="Background" Value="#FF008000" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Property Optional" ValueLabel="True">
+      <Condition Expression="HasCategory('Property Optional')" />
+      <Setter Property="Background" Value="#FF808040" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Property Foreign" ValueLabel="True">
+      <Condition Expression="HasCategory('Property Foreign')" />
+      <Setter Property="Background" Value="#FF8080FF" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Property Required" ValueLabel="True">
+      <Condition Expression="HasCategory('Property Required')" />
+      <Setter Property="Background" Value="#FFC0A000" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Navigation Property" ValueLabel="True">
+      <Condition Expression="HasCategory('Navigation Property')" />
+      <Setter Property="Background" Value="#FF990000" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Navigation Collection" ValueLabel="True">
+      <Condition Expression="HasCategory('Navigation Collection')" />
+      <Setter Property="Background" Value="#FFFF3232" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Model" ValueLabel="True">
+      <Condition Expression="HasCategory('Model')" />
+      <Setter Property="Background" Value="#FFFFFFFF" />
+    </Style>
+  </Styles>
+  <Properties>
+    <Property Id="Name" Group="Model Properties" DataType="System.String" />
+    <Property Id="Field"  Description="Backing field" Group="Model Properties" DataType="System.String" />
+    <Property Id="Type"  Description="CLR data type" Group="Model Properties" DataType="System.String" />
+    <Property Id="To" Description="Source property" Group="Model Properties" DataType="System.String" />
+    <Property Id="From" Description="Target property" Group="Model Properties" DataType="System.String" />
+    <Property Id="Dependent" Description="Dependent entity" Group="Model Properties" DataType="System.String" />
+    <Property Id="Inverse" Description="Inverse entity" Group="Model Properties" DataType="System.String" />
+    <Property Id="Principal" Description="Principal entity" Group="Model Properties" DataType="System.String" />    
+    <Property Id="Annotations" Description="Annotations" Group="Model Properties" DataType="System.String" />
+    <Property Id="BaseClass"  Description="Base class" Group="Model Properties" DataType="System.String" />
+    <Property Id="ChangeTrackingStrategy" Description="Change tracking strategy" Group="Model Properties" DataType="System.String" />
+    <Property Id="IsUnique" Group="Model Properties" DataType="System.Boolean" />
+    <Property Id="IsAbstract" Group="Model Properties" DataType="System.Boolean" />
+    <Property Id="ProductVersion" Label="Product Version" Description="EF Core product version" Group="Model Properties" DataType="System.String" />
+    <Property Id="IsIndexed" Group="Property Flags" DataType="System.Boolean" />
+    <Property Id="IsRequired" Group="Property Flags" DataType="System.Boolean" />
+    <Property Id="IsPrimaryKey" Group="Property Flags" DataType="System.Boolean" />
+    <Property Id="IsForeignKey" Group="Property Flags" DataType="System.Boolean" />
+    <Property Id="IsShadow" Group="Property Flags" DataType="System.Boolean" />
+    <Property Id="IsAlternateKey" Group="Property Flags" DataType="System.Boolean" />
+    <Property Id="IsConcurrencyToken" Group="Property Flags" DataType="System.Boolean" />
+    <Property Id="IsIndexed" Group="Property Flags" DataType="System.Boolean" />
+    <Property Id="IsUnicode" Group="Property Flags" DataType="System.Boolean" />
+    <Property Id="ValueGenerated" Group="Property Flags" DataType="System.String" />
+    <Property Id="BeforeSaveBehavior" Group="Property Flags" DataType="System.String" />
+    <Property Id="AfterSaveBehavior" Group="Property Flags" DataType="System.String" />
+    <Property Id="PropertyAccessMode" Group="Property Flags" DataType="System.String" />
+  </Properties>
+</DirectedGraph>
