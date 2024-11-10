@@ -8,6 +8,6 @@ namespace OfficeParkingAndBooking.Data.Models
         [MaxLength(20)] public required string ShortName { get; set; }
         [MaxLength(50)] public required string FullName { get; set; }
 
-        public HashSet<Employee> Employees { get; set; } = new();
+        public virtual HashSet<Employee>? Employees { get; set; } = new();
     }
 }
