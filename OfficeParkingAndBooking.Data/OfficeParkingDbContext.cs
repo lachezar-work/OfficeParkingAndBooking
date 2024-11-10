@@ -3,7 +3,7 @@ using OfficeParkingAndBooking.Data.Models;
 
 namespace OfficeParkingAndBooking.Data
 {
-    internal class OfficeParkingDbContext:DbContext
+    public class OfficeParkingDbContext(DbContextOptions<OfficeParkingDbContext> options) : DbContext(options)
     {
         public DbSet<Car> Cars { get; set; }
         public DbSet<Employee> Employees { get; set; }
@@ -11,11 +11,8 @@ namespace OfficeParkingAndBooking.Data
         public DbSet<ParkingSpot> ParkingSpots { get; set; } 
         public DbSet<ParkingSpotReservation> ParkingSpotReservations { get; set; } 
         public DbSet<Room> Rooms { get; set; } 
-        public DbSet<Team> Teams { get; set; } 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(@"Server=.\sqlexpress;Database=OfficeAndParkingDB;User Id=sa;Password=test;TrustServerCertificate=True;");
-        }
+        public DbSet<Team> Teams { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Team>().HasData(

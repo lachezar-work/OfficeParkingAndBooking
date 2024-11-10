@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using OfficeAndParkingAPI;
+using OfficeParkingAndBooking.Data;
 
 namespace OfficeAndParkingAPI;
 
@@ -13,12 +16,25 @@ public class Program
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+        builder.Services.AddDbContext<OfficeParkingDbContext>(
+            options => options
+                .UseSqlServer(builder.Configuration.GetConnectionString("OfficeAndParkingConnection"))
+                .EnableSensitiveDataLogging()
+                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+            );
 
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
+            using (var scope = app.Services.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<OfficeParkingDbContext>();
+                dbContext.Database.EnsureDeleted();
+                dbContext.Database.EnsureCreated();
+            }
+
             app.UseSwagger();
             app.UseSwaggerUI();
         }
@@ -46,6 +62,8 @@ public class Program
         })
         .WithName("GetWeatherForecast")
         .WithOpenApi();
+
+        app.MapEmployeeEndpoints();
 
         app.Run();
     }
