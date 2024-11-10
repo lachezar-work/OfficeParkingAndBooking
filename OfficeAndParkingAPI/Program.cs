@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using OfficeAndParkingAPI;
 using OfficeParkingAndBooking.Data;
@@ -22,6 +23,9 @@ public class Program
                 .EnableSensitiveDataLogging()
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
             );
+
+        builder.Services.ConfigureHttpJsonOptions(
+            options => options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
         var app = builder.Build();
 

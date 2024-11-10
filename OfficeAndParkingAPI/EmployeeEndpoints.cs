@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.OpenApi;
 using OfficeParkingAndBooking.Data;
 using OfficeParkingAndBooking.Data.Models;
+using OfficeAndParkingAPI.DTO;
 namespace OfficeAndParkingAPI;
 
 public static class EmployeeEndpoints
@@ -11,10 +12,9 @@ public static class EmployeeEndpoints
     {
         var group = routes.MapGroup("/api/Employee").WithTags(nameof(Employee));
 
-        group.MapGet("/", async (OfficeParkingDbContext db) =>
-        {
-            return await db.Employees.ToListAsync();
-        })
+        group.MapGet("/", async (OfficeParkingDbContext db) => await db.Employees
+                .Select(x=>new GetAllEmployeesDTO(x.Firstname,x.Lastname,x.Team!.FullName))
+                .ToListAsync())
         .WithName("GetAllEmployees")
         .WithOpenApi();
 
