@@ -48,7 +48,7 @@ namespace OfficeAndParkingTests
             var response = await client.PostAsJsonAsync("/api/employee/", employeeToAdd);
             var employee = await response.Content.ReadFromJsonAsync<Employee>();
             Assert.AreEqual(response.StatusCode,HttpStatusCode.Created);
-            Assert.AreNotEqual(0,employee.Id);
+            Assert.AreNotEqual(0,employee?.Id);
         }
     }
 }
