@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeAndParkingAPI", "Offi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeAndParkingTests", "OfficeAndParkingTest\OfficeAndParkingTests.csproj", "{B4271DC2-492D-41F6-9F31-B17788D8B1F4}"
 EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "OfficeAndParkingUI", "OfficeAndParkingUI\OfficeAndParkingUI.esproj", "{546531D7-F92F-42BF-BE02-1DDC763013CD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,12 @@ Global
 		{B4271DC2-492D-41F6-9F31-B17788D8B1F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4271DC2-492D-41F6-9F31-B17788D8B1F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4271DC2-492D-41F6-9F31-B17788D8B1F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{546531D7-F92F-42BF-BE02-1DDC763013CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{546531D7-F92F-42BF-BE02-1DDC763013CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{546531D7-F92F-42BF-BE02-1DDC763013CD}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{546531D7-F92F-42BF-BE02-1DDC763013CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{546531D7-F92F-42BF-BE02-1DDC763013CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{546531D7-F92F-42BF-BE02-1DDC763013CD}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
