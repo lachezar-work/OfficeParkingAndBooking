@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OfficeAndParkingAPI;
 using OfficeParkingAndBooking.Data;
@@ -21,6 +22,11 @@ public class Program
                 .EnableSensitiveDataLogging()
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
             );
+
+        builder.Services.Configure<ApiBehaviorOptions>(options =>
+        {
+            options.SuppressMapClientErrors = true;
+        });
 
         builder.Services.AddControllers();
 
