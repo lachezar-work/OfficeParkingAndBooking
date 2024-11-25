@@ -15,10 +15,10 @@
       "launchBrowser": true,
       "launchUrl": "api/employee",
       "applicationUrl": "http://localhost:5013",
-      /*"environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.SpaProxy"
-      }*/
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+        /*"ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.SpaProxy"*/
+      }
     },
     "https": {
       "commandName": "Project",

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace OfficeAndParkingAPI.Controllers
 {
-    [Route("api/{controller}")]
+    [Route("api/employee")]
     [ApiController]
     public class EmployeeController : ControllerBase
     {
@@ -74,12 +74,18 @@ namespace OfficeAndParkingAPI.Controllers
 
         // POST: api/employee
         [HttpPost]
-        public async Task<ActionResult<Employee>> CreateEmployee(Employee employee)
+        public async Task<ActionResult<Employee>> CreateEmployee(CreateEmployeeDTO employee)
         {
-            _dbContext.Employees.Add(employee);
+            var employeeToAdd = new Employee()
+            {
+                Firstname = employee.FirstName,
+                Lastname = employee.LastName,
+                TeamId = employee.TeamId
+            };
+            _dbContext.Employees.Add(employeeToAdd);
             await _dbContext.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetEmployeeById), new { id = employee.Id }, employee);
+            return CreatedAtAction(nameof(GetEmployeeById), new { id = employeeToAdd.Id }, employeeToAdd);
         }
 
         // DELETE: api/employee/{id}
