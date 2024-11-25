@@ -19,6 +19,16 @@ namespace OfficeAndParkingAPI.Controllers
         {
             _employeeService = employeeService;
         }
+        [HttpPost("assignrole")]
+        public async Task<IActionResult> AssignRole(RegisterEmployeeDTO model)
+        {
+            var result = await _employeeService.RegisterAsync(model);
+
+            if (!result.Succeeded)
+                return BadRequest(result.Errors);
+
+            return Ok("Registration successful.");
+        }
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterEmployeeDTO model)
         {

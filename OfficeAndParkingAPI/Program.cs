@@ -37,7 +37,7 @@ public class Program
                    .EnableSensitiveDataLogging()
                    .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
 
-        builder.Services.AddIdentityApiEndpoints<Employee>(
+        builder.Services.AddIdentity<Employee,IdentityRole>(
                 options =>
                 {
                     options.User.RequireUniqueEmail = true;
@@ -48,7 +48,8 @@ public class Program
                     options.Password.RequireUppercase = false;
                     options.Password.RequireLowercase = false;
                 })
-            .AddEntityFrameworkStores<OfficeParkingDbContext>();
+            .AddEntityFrameworkStores<OfficeParkingDbContext>()
+            .AddDefaultTokenProviders();
 
         builder.Services.AddScoped(typeof(IBaseRepository<,>), typeof(BaseRepository<,>));
         builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
@@ -78,6 +79,15 @@ public class Program
             app.UseSwaggerUI();
         }
 
+        // Seed roles and users
+        using (var scope = app.Services.CreateScope())
+        {
+            var services = scope.ServiceProvider;
+            var userManager = services.GetRequiredService<UserManager<Employee>>();
+            var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+            SeedData.Initialize(services, userManager, roleManager).GetAwaiter().GetResult();
+        }
+
         // Common Middleware
         app.UseHttpsRedirection();
         app.UseAuthentication();
@@ -98,4 +108,5 @@ public class Program
             dbContext.Database.EnsureCreated();
         }
     }
+
 }
