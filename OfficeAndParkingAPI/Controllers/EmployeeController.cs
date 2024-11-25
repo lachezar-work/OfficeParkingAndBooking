@@ -5,6 +5,7 @@ using OfficeAndParkingAPI.Services.Contracts;
 using OfficeAndParking.Data.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace OfficeAndParkingAPI.Controllers
 {
@@ -18,7 +19,27 @@ namespace OfficeAndParkingAPI.Controllers
         {
             _employeeService = employeeService;
         }
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(RegisterEmployeeDTO model)
+        {
+            var result = await _employeeService.RegisterAsync(model);
 
+            if (!result.Succeeded)
+                return BadRequest(result.Errors);
+
+            return Ok("Registration successful.");
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(LoginDTO model)
+        {
+            var result = await _employeeService.LoginAsync(model);
+
+            if (!result.Succeeded)
+                return Unauthorized("Invalid login attempt.");
+
+            return Ok("Login successful.");
+        }
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GetEmployeeDTO>>> GetAllEmployees()
         {
@@ -28,7 +49,7 @@ namespace OfficeAndParkingAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<GetEmployeeDTO>> GetEmployeeById(int id)
+        public async Task<ActionResult<GetEmployeeDTO>> GetEmployeeById(string id)
         {
             var employee = await _employeeService
                 .GetEmployeeByIdAsync(id);
@@ -39,16 +60,8 @@ namespace OfficeAndParkingAPI.Controllers
             return Ok(employee);
         }
 
-        [HttpPost]
-        public async Task<ActionResult> CreateEmployee(CreateEmployeeDTO employeeDto)
-        {
-            await _employeeService
-                .CreateEmployeeAsync(employeeDto);
-            return CreatedAtAction(nameof(GetEmployeeById), new { id = employeeDto.TeamId }, employeeDto);
-        }
-
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateEmployee(int id, UpdateEmployeeDTO employee)
+        public async Task<ActionResult> UpdateEmployee(string id, UpdateEmployeeDTO employee)
         {
             try
             {
@@ -63,7 +76,7 @@ namespace OfficeAndParkingAPI.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteEmployee(int id)
+        public async Task<ActionResult> DeleteEmployee(string id)
         {
             await _employeeService
                 .DeleteEmployeeAsync(id);

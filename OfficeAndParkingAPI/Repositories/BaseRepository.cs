@@ -2,10 +2,11 @@
 using OfficeAndParkingAPI.Repositories.Contracts;
 using OfficeAndParking.Data;
 using System.Linq.Expressions;
+using System.Security.Cryptography;
 
 namespace OfficeAndParkingAPI.Repositories
 {
-    public class BaseRepository<T> : IBaseRepository<T> where T : class
+    public class BaseRepository<T, TId> : IBaseRepository<T, TId> where T : class
     {
         protected readonly OfficeParkingDbContext _dbContext;
 
@@ -19,7 +20,7 @@ namespace OfficeAndParkingAPI.Repositories
             return await _dbContext.Set<T>().ToListAsync();
         }
 
-        public async Task<T?> GetByIdAsync(int id)
+        public async Task<T?> GetByIdAsync(TId id)
         {
             return await _dbContext.Set<T>().FindAsync(id);
         }

@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 
 namespace OfficeAndParkingAPI.Repositories.Contracts
 {
-    public interface IBaseRepository<T> where T : class
+    public interface IBaseRepository<T, in TId> where T : class
     {
         Task<IEnumerable<T>> GetAllAsync();
-        Task<T?> GetByIdAsync(int id);
+        Task<T?> GetByIdAsync(TId id);
         Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate);
         Task AddAsync(T entity);
         Task UpdateAsync(T entity);

@@ -3,7 +3,7 @@ using OfficeAndParkingAPI.Common;
 
 namespace OfficeAndParkingAPI.DTOs
 {
-    public class CreateEmployeeDTO(string firstName, string lastName, int teamId)
+    public class RegisterEmployeeDTO(string firstName, string lastName, int teamId, string email, string password)
     {
         [Required]
         [StringLength(GlobalConstants.MaxEmployeeFirstNameLength, MinimumLength = GlobalConstants.MinEmployeeFirstNameLength)]
@@ -13,5 +13,13 @@ namespace OfficeAndParkingAPI.DTOs
         public string LastName { get; init; } = lastName;
         [Required]
         public int TeamId { get; init; } = teamId;
+
+        [Required] 
+        [EmailAddress] 
+        public string Email { get; set; } = email;
+
+        [Required]
+        [MinLength(6)] 
+        public string Password { get; set; } = password;
     }
 }

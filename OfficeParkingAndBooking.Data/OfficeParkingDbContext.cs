@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using OfficeAndParking.Data.Models;
 using OfficeAndParkingAPI.Common;
 
 namespace OfficeAndParking.Data
 {
-    public class OfficeParkingDbContext(DbContextOptions<OfficeParkingDbContext> options) : DbContext(options)
+    public class OfficeParkingDbContext(DbContextOptions<OfficeParkingDbContext> options) : IdentityDbContext<Employee>(options)
     {
         public DbSet<Car> Cars { get; set; }
         public DbSet<Employee> Employees { get; set; }
@@ -42,6 +43,7 @@ namespace OfficeAndParking.Data
                 .Property(x => x.FullName)
                 .IsRequired()
                 .HasMaxLength(GlobalConstants.MaxTeamFullnameLength);
+            base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Team>().HasData(
                 new Team { Id = 1, ShortName = "DotNet", FullName = ".NET Development" },
@@ -53,6 +55,7 @@ namespace OfficeAndParking.Data
                 new Team { Id = 7, ShortName = "AM", FullName = "Account Management" },
                 new Team { Id = 8, ShortName = "FO", FullName = "Front Office" }
             );
+
             modelBuilder.Entity<Room>().HasData(
                 new Room { Id = 1, Number = 403, RoomCapacity = 8},
                 new Room { Id = 2, Number = 404, RoomCapacity = 8}
@@ -63,6 +66,7 @@ namespace OfficeAndParking.Data
                 new ParkingSpot { Id = 3, SpotNumber = 3 },
                 new ParkingSpot { Id = 4, SpotNumber = 4 }
             );
+            /*
             // Test data
             modelBuilder.Entity<Employee>().HasData(
                 new Employee { Id = 1, Firstname = "Lachezar", Lastname = "Atanasov", TeamId = 1
@@ -77,6 +81,7 @@ namespace OfficeAndParking.Data
             modelBuilder.Entity<ParkingSpotReservation>().HasData(
                 new ParkingSpotReservation() { Id = 1, CarId = 1, ParkingSpotId = 1,ReservedFrom = TimeOnly.Parse("09:00:00"),ReservedUntil = TimeOnly.Parse("18:00:00") }
             );
+*/
         }
     }
 }

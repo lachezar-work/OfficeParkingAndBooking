@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OfficeAndParkingAPI.Repositories.Contracts;
@@ -6,6 +7,8 @@ using OfficeAndParkingAPI.Repositories;
 using OfficeAndParkingAPI.Services;
 using OfficeAndParkingAPI.Services.Contracts;
 using OfficeAndParking.Data;
+using OfficeAndParking.Data.Models;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace OfficeAndParkingAPI;
 
@@ -34,17 +37,25 @@ public class Program
                    .EnableSensitiveDataLogging()
                    .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
 
-        builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+        builder.Services.AddIdentityApiEndpoints<Employee>(
+                options =>
+                {
+                    options.User.RequireUniqueEmail = true;
+                    options.SignIn.RequireConfirmedEmail = false;
+                    options.Password.RequireDigit = false;
+                    options.Password.RequiredLength = 6;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireLowercase = false;
+                })
+            .AddEntityFrameworkStores<OfficeParkingDbContext>();
+
+        builder.Services.AddScoped(typeof(IBaseRepository<,>), typeof(BaseRepository<,>));
         builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
         builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
         builder.Services.ConfigureHttpJsonOptions(options =>
             options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
-
-        builder.Services.Configure<ApiBehaviorOptions>(options =>
-        {
-            options.SuppressMapClientErrors = true;
-        });
 
         builder.Services.AddControllers();
 
@@ -71,6 +82,8 @@ public class Program
         app.UseHttpsRedirection();
         app.UseAuthentication();
         app.UseAuthorization();
+
+        //app.MapIdentityApi<Employee>();
 
         // Map Controllers
         app.MapControllers();

@@ -5,7 +5,7 @@ using OfficeAndParking.Data.Models;
 
 namespace OfficeAndParkingAPI.Repositories
 {
-    public class EmployeeRepository : BaseRepository<Employee>, IEmployeeRepository
+    public class EmployeeRepository : BaseRepository<Employee,string>, IEmployeeRepository
     {
         public EmployeeRepository(OfficeParkingDbContext dbContext) : base(dbContext)
         {
@@ -18,7 +18,7 @@ namespace OfficeAndParkingAPI.Repositories
                 .ToListAsync();
         }
 
-        public async Task<Employee?> GetWithTeamByIdAsync(int id)
+        public async Task<Employee?> GetWithTeamByIdAsync(string id)
         {
             return await _dbContext.Employees
                 .Include(e => e.Team)

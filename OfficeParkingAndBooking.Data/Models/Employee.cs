@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
 namespace OfficeAndParking.Data.Models
 {
-    public class Employee
+    public class Employee:IdentityUser
     {
-        public int Id { get; set; }
         public string Firstname { get; set; }
         public string Lastname { get; set; }
         
