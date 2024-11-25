@@ -1,107 +1,73 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using OfficeAndParkingAPI.DTOs;
-using OfficeParkingAndBooking.Data.Models;
-using OfficeParkingAndBooking.Data;
-using Microsoft.EntityFrameworkCore;
+using OfficeAndParkingAPI.Services;
+using OfficeAndParkingAPI.Services.Contracts;
+using OfficeAndParking.Data.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OfficeAndParkingAPI.Controllers
 {
-    [Route("api/employee")]
+    [Route("api/[controller]")]
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-        private readonly OfficeParkingDbContext _dbContext;
+        private readonly IEmployeeService _employeeService;
 
-        public EmployeeController(OfficeParkingDbContext dbContext)
+        public EmployeeController(IEmployeeService employeeService)
         {
-            _dbContext = dbContext;
+            _employeeService = employeeService;
         }
 
-        // GET: api/employee
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GetEmployeeDTO>>> GetAllEmployees()
         {
-            var employees = await _dbContext.Employees
-                .Include(e => e.Team)
-                .Select(x => new GetEmployeeDTO(x.Firstname, x.Lastname, x.Team!.FullName))
-                .ToListAsync();
-
+            var employees = await _employeeService
+                .GetAllEmployeesAsync();
             return Ok(employees);
         }
 
-        // GET: api/employee/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult<GetEmployeeDTO>> GetEmployeeById(int id)
         {
-            var employee = await _dbContext.Employees
-                .Include(e => e.Team)
-                .AsNoTracking() // To ensure we don't modify anything unintentionally
-                .FirstOrDefaultAsync(e => e.Id == id);
-
+            var employee = await _employeeService
+                .GetEmployeeByIdAsync(id);
             if (employee == null)
             {
                 return NotFound();
             }
-
-            var dto = new GetEmployeeDTO(employee.Firstname, employee.Lastname, employee.Team!.FullName);
-            return Ok(dto);
+            return Ok(employee);
         }
 
-        // PUT: api/employee/{id}
-        [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateEmployee(int id, Employee employee)
+        [HttpPost]
+        public async Task<ActionResult> CreateEmployee(CreateEmployeeDTO employeeDto)
         {
-            if (id != employee.Id)
+            await _employeeService
+                .CreateEmployeeAsync(employeeDto);
+            return CreatedAtAction(nameof(GetEmployeeById), new { id = employeeDto.TeamId }, employeeDto);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateEmployee(int id, UpdateEmployeeDTO employee)
+        {
+            try
+            {
+                await _employeeService
+                    .UpdateEmployeeAsync(id, employee);
+                return NoContent();
+            }
+            catch (ArgumentException)
             {
                 return BadRequest();
             }
-
-            var existingEmployee = await _dbContext.Employees.FindAsync(id);
-            if (existingEmployee == null)
-            {
-                return NotFound();
-            }
-
-            existingEmployee.Firstname = employee.Firstname;
-            existingEmployee.Lastname = employee.Lastname;
-            existingEmployee.TeamId = employee.TeamId;
-
-            await _dbContext.SaveChangesAsync();
-
-            return NoContent(); // Return a 204 status code indicating success without content
         }
 
-        // POST: api/employee
-        [HttpPost]
-        public async Task<ActionResult<Employee>> CreateEmployee(CreateEmployeeDTO employee)
-        {
-            var employeeToAdd = new Employee()
-            {
-                Firstname = employee.FirstName,
-                Lastname = employee.LastName,
-                TeamId = employee.TeamId
-            };
-            _dbContext.Employees.Add(employeeToAdd);
-            await _dbContext.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetEmployeeById), new { id = employeeToAdd.Id }, employeeToAdd);
-        }
-
-        // DELETE: api/employee/{id}
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteEmployee(int id)
         {
-            var employee = await _dbContext.Employees.FindAsync(id);
-            if (employee == null)
-            {
-                return NotFound();
-            }
-
-            _dbContext.Employees.Remove(employee);
-            await _dbContext.SaveChangesAsync();
-
-            return NoContent(); // Return a 204 status code indicating the entity was deleted successfully
+            await _employeeService
+                .DeleteEmployeeAsync(id);
+            return NoContent();
         }
     }
 }
