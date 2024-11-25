@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Testing;
 using OfficeAndParkingAPI;
 using OfficeAndParkingAPI.DTOs;
-using OfficeParkingAndBooking.Data.Models;
+using OfficeAndParking.Data.Models;
 
 namespace OfficeAndParkingTests
 {

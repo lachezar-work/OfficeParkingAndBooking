@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace OfficeParkingAndBooking.Data.Models
+namespace OfficeAndParking.Data.Models
 {
     public class Employee
     {
         public int Id { get; set; }
-        [MaxLength(30)] public required string Firstname { get; set; }
-        [MaxLength(30)] public required string Lastname { get; set; }
+        public string Firstname { get; set; }
+        public string Lastname { get; set; }
         
         public int TeamId { get; set; } 
         public Team? Team { get; set; }

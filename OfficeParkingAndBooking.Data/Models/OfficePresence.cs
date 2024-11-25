@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace OfficeParkingAndBooking.Data.Models
+namespace OfficeAndParking.Data.Models
 {
     public class OfficePresence
     {

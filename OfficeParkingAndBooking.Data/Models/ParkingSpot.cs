@@ -1,4 +1,4 @@
-﻿namespace OfficeParkingAndBooking.Data.Models
+﻿namespace OfficeAndParking.Data.Models
 {
     public class ParkingSpot
     {

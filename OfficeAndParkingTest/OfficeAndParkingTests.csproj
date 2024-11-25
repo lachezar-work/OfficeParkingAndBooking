@@ -24,7 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\OfficeAndParkingAPI\OfficeAndParkingAPI.csproj" />
-    <ProjectReference Include="..\OfficeParkingAndBooking.Data\OfficeParkingAndBooking.Data.csproj" />
+    <ProjectReference Include="..\OfficeParkingAndBooking.Data\OfficeAndParking.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>

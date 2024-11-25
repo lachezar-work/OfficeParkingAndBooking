@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OfficeParkingAndBooking.Data.Models;
+using OfficeAndParking.Data.Models;
+using OfficeAndParkingAPI.Common;
 
-namespace OfficeParkingAndBooking.Data
+namespace OfficeAndParking.Data
 {
     public class OfficeParkingDbContext(DbContextOptions<OfficeParkingDbContext> options) : DbContext(options)
     {
@@ -15,6 +16,33 @@ namespace OfficeParkingAndBooking.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Car>()
+                .Property(x => x.Brand)
+                .IsRequired()
+                .HasMaxLength(GlobalConstants.MaxCarBrandLength);
+            modelBuilder.Entity<Car>()
+                .Property(x => x.RegistrationPlate)
+                .IsRequired()
+                .HasMaxLength(GlobalConstants.MaxCarRegistrationPlateLength);
+
+            modelBuilder.Entity<Employee>()
+                .Property(x => x.Firstname)
+                .IsRequired()
+                .HasMaxLength(GlobalConstants.MaxEmployeeFirstNameLength);
+            modelBuilder.Entity<Employee>()
+                .Property(x => x.Lastname)
+                .IsRequired()
+                .HasMaxLength(GlobalConstants.MaxEmployeeLastNameLength);
+
+            modelBuilder.Entity<Team>()
+                .Property(x => x.ShortName)
+                .IsRequired()
+                .HasMaxLength(GlobalConstants.MaxTeamShortnameLength);
+            modelBuilder.Entity<Team>()
+                .Property(x => x.FullName)
+                .IsRequired()
+                .HasMaxLength(GlobalConstants.MaxTeamFullnameLength);
+
             modelBuilder.Entity<Team>().HasData(
                 new Team { Id = 1, ShortName = "DotNet", FullName = ".NET Development" },
                 new Team { Id = 5, ShortName = "Java", FullName = "Java Development" },
