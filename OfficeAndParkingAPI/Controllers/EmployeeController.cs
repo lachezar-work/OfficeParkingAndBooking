@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OfficeAndParking.Services.Services;
 using OfficeAndParkingAPI.Services.DTOs;
 using OfficeAndParking.Services.Services.Contracts;
 
@@ -39,9 +40,9 @@ namespace OfficeAndParkingAPI.Controllers
             var result = await _employeeService.LoginAsync(model);
 
             if (!result.Succeeded)
-                return Unauthorized("Invalid login attempt.");
+                return Unauthorized(new{message= "Invalid login attempt." });
 
-            return Ok("Login successful.");
+            return Ok(model);
         }
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GetEmployeeDTO>>> GetAllEmployees()

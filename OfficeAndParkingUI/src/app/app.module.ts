@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -16,19 +16,25 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { AppComponent } from './app.component';
 import { PresenceFormComponent } from './components/presence-form/presence-form.component';
 import { CarManagementComponent } from './components/car-management/car-management.component';
+import { SignInComponent } from './components/user/sign-in/sign-in.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
     AppComponent,
     PresenceFormComponent,
-    CarManagementComponent
+    CarManagementComponent,
+    SignInComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: '', redirectTo: '/presence', pathMatch: 'full' },
+      { path: 'sign-in', component: SignInComponent },
       { path: 'presence', component: PresenceFormComponent },
       { path: 'cars', component: CarManagementComponent }
     ]),
