@@ -16,7 +16,7 @@ namespace OfficeAndParking.Services.Repositories
         public OfficePresenceRepository(OfficeParkingDbContext dbContext) : base(dbContext)
         {
         }
-        public async Task<IEnumerable<OfficePresence>> GetAllWithParkingSpots()
+        public async Task<IEnumerable<OfficePresence>> GetAllWithDetails()
         {
             return await _dbContext.OfficePresences
                 .Include(op => op.ParkingSpotReservation)
@@ -32,6 +32,18 @@ namespace OfficeAndParking.Services.Repositories
 
             return presence != null;
         }
-        
+        public async Task<bool> HasFreeOfficeSpot(int roomId, DateOnly date)
+        {
+            {
+                var usedSeats = _dbContext.OfficePresences
+                .Where(op => op.Date == date && op.RoomId == roomId)
+                .Count();
+            if (usedSeats<)
+            {
+                
+            }
+            return presence == null;
+        }
+
     }
 }

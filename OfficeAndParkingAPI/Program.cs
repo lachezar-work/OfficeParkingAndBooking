@@ -86,8 +86,9 @@ public class Program
         {
             var services = scope.ServiceProvider;
             var userManager = services.GetRequiredService<UserManager<Employee>>();
+            var officeParkingDbContext = services.GetRequiredService<OfficeParkingDbContext>();
             var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-            SeedData.Initialize(services, userManager, roleManager).GetAwaiter().GetResult();
+            SeedData.Initialize(services, officeParkingDbContext,userManager, roleManager).GetAwaiter().GetResult();
         }
 
         // Common Middleware

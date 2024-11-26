@@ -5,7 +5,7 @@ namespace OfficeAndParking.Data.Seeder
 {
     public class SeedData
     {
-        public static async Task Initialize(IServiceProvider serviceProvider, UserManager<Employee> userManager, RoleManager<IdentityRole> roleManager)
+        public static async Task Initialize(IServiceProvider serviceProvider,OfficeParkingDbContext context, UserManager<Employee> userManager, RoleManager<IdentityRole> roleManager)
         {
             var roleNames = new[] { "Admin", "User", "Manager" }; // Example roles
             var employees = new[]
@@ -41,7 +41,7 @@ namespace OfficeAndParking.Data.Seeder
                 }
             }
 
-            // Seed Users
+            // Seed Users and presences
             foreach (var userData in employees)
             {
                 var user = await userManager.FindByNameAsync(userData.Username);
@@ -57,6 +57,30 @@ namespace OfficeAndParking.Data.Seeder
                     };
 
                     var createResult = await userManager.CreateAsync(user, userData.Password);
+                    context.OfficePresences.AddRange(new List<OfficePresence>()
+                    {
+                        new OfficePresence()
+                        {
+                            Date = DateOnly.Parse("26-11-2024"),
+                            EmployeeId = user.Id,
+                            RoomId = 1,
+                            Notes = "Test"
+                        },
+                        new OfficePresence()
+                        {
+                            Date = DateOnly.Parse("27-11-2024"),
+                            EmployeeId = user.Id,
+                            RoomId = 1,
+                            Notes = "Test"
+                        },
+                        new OfficePresence()
+                        {
+                            Date = DateOnly.Parse("28-11-2024"),
+                            EmployeeId = user.Id,
+                            RoomId = 1,
+                            Notes = "Test"
+                        },
+                    });
                     if (createResult.Succeeded)
                     {
                         await userManager.AddToRoleAsync(user, userData.Role);

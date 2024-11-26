@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OfficeAndParking.Services.DTOs.EmployeeDTOs;
 using OfficeAndParking.Services.DTOs.OfficePresenceDTOs;
 using OfficeAndParking.Services.Services;
-using OfficeAndParking.Services.Services.Contracts;
 
 namespace OfficeAndParkingAPI.Controllers
 {
@@ -39,6 +37,14 @@ namespace OfficeAndParkingAPI.Controllers
         {
             await _presenceService.AddOfficePresence(model);
             return Ok();
-        } 
+        }
+
+        [HttpPost("remove")]
+        [Authorize]
+        public async Task<IActionResult> RemoveOfficePresence(int id)
+        {
+            await _presenceService.RemoveOfficePresenceAsync(id);
+            return Ok();
+        }
     }
 }

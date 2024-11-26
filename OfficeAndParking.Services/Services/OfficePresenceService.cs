@@ -1,18 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using OfficeAndParking.Data.Models;
 using OfficeAndParking.Services.DTOs.OfficePresenceDTOs;
 using OfficeAndParking.Services.Exceptions;
 using OfficeAndParking.Services.Repositories;
+using System.Security.Claims;
 
 namespace OfficeAndParking.Services.Services
 {
@@ -28,7 +20,7 @@ namespace OfficeAndParking.Services.Services
             _presenceRepository = presenceRepository;
             _httpContextAccessor = httpContextAccessor;
         }
-
+        // Separate service 
         private string GetCurrentUserId()
         {
             return _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -40,6 +32,11 @@ namespace OfficeAndParking.Services.Services
             if (await _presenceRepository.HasPresenceAtDateAsync(model.Date, userId))
             {
                 throw new DuplicateEntityException( "You already have presence at this date");
+            }
+
+            if (expr)
+            {
+                
             }
             var officePresenceToAdd = new OfficePresence()
             {
@@ -54,9 +51,25 @@ namespace OfficeAndParking.Services.Services
         }
         public async Task<IEnumerable<OfficePresence>> GetAllOfficePresencesAsync()
         {
-            var officePresences = await _presenceRepository.GetAllWithParkingSpots();
+            var officePresences = await _presenceRepository.GetAllWithDetails();
             return officePresences;
         }
+        public async Task RemoveOfficePresenceAsync(int id)
+        {
+            var presenceToDelete = await _presenceRepository.GetByIdAsync(id);
+            if (presenceToDelete == null)
+            {
+                throw new EntityNotFoundException("Office presence not found");
+            }
 
+            if (GetCurrentUserId() != presenceToDelete.EmployeeId)
+            {
+                throw new NonAuthorizedException("You cannot delete that! ");
+            }
+            await _presenceRepository.DeleteAsync(new OfficePresence()
+            {
+                Id=id
+            });
+        }
     }
 }

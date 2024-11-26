@@ -35,6 +35,8 @@ namespace OfficeAndParkingAPI.Middlewares
                 KeyNotFoundException => StatusCodes.Status404NotFound,
                 DuplicateEntityException => StatusCodes.Status400BadRequest,
                 InvalidInputException => StatusCodes.Status400BadRequest,
+                EntityNotFoundException => StatusCodes.Status400BadRequest,
+                NonAuthorizedException => StatusCodes.Status403Forbidden,
                 _ => StatusCodes.Status500InternalServerError,
             };
 
