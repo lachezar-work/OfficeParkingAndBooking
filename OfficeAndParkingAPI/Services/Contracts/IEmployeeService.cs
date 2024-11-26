@@ -8,7 +8,6 @@ namespace OfficeAndParkingAPI.Services.Contracts
     {
         Task<IEnumerable<GetEmployeeDTO>> GetAllEmployeesAsync();
         Task<GetEmployeeDTO?> GetEmployeeByIdAsync(string id);
-        Task CreateEmployeeAsync(RegisterEmployeeDTO employeeDto);
         Task UpdateEmployeeAsync(string id, UpdateEmployeeDTO employee);
         Task DeleteEmployeeAsync(string id);
         Task<IdentityResult> RegisterAsync(RegisterEmployeeDTO model);
