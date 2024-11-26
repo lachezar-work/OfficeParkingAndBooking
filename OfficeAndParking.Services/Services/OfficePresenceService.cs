@@ -39,7 +39,7 @@ namespace OfficeAndParking.Services.Services
             var userId = GetCurrentUserId();
             if (await _presenceRepository.HasPresenceAtDateAsync(model.Date, userId))
             {
-                throw new DuplicateNameException( "You already have presence at this date");
+                throw new DuplicateEntityException( "You already have presence at this date");
             }
             var officePresenceToAdd = new OfficePresence()
             {

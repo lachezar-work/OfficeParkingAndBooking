@@ -1,4 +1,6 @@
-﻿namespace OfficeAndParkingAPI.Middlewares
+﻿using OfficeAndParking.Services.Exceptions;
+
+namespace OfficeAndParkingAPI.Middlewares
 {
     public class ExceptionMiddleware
     {
@@ -31,6 +33,8 @@
             {
                 InvalidOperationException => StatusCodes.Status400BadRequest,
                 KeyNotFoundException => StatusCodes.Status404NotFound,
+                DuplicateEntityException => StatusCodes.Status400BadRequest,
+                InvalidInputException => StatusCodes.Status400BadRequest,
                 _ => StatusCodes.Status500InternalServerError,
             };
 

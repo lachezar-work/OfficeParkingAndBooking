@@ -17,6 +17,10 @@ namespace OfficeAndParking.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<OfficePresence>()
+                .HasIndex(op => new { op.Date, op.EmployeeId })
+                .IsUnique();
+
             modelBuilder.Entity<Car>()
                 .Property(x => x.Brand)
                 .IsRequired()

@@ -6,20 +6,20 @@ namespace OfficeAndParking.Services.Exceptions
 {
     public class DuplicateEntityException : Exception
     {
-        public string StatusCode { get; }
+        public int StatusCode { get; }
 
         public DuplicateEntityException() : base() { }
 
         public DuplicateEntityException(string message) : base(message) { }
 
-        public DuplicateEntityException(string message, string statusCode) : base(message)
+        public DuplicateEntityException(string message, int statusCode) : base(message)
         {
             StatusCode = statusCode;
         }
 
         public DuplicateEntityException(string message, Exception innerException) : base(message, innerException) { }
 
-        public DuplicateEntityException(string message, string statusCode, Exception innerException) : base(message, innerException)
+        public DuplicateEntityException(string message, int statusCode, Exception innerException) : base(message, innerException)
         {
             StatusCode = statusCode;
         }
