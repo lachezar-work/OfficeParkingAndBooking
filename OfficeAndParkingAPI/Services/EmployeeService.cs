@@ -38,7 +38,8 @@ namespace OfficeAndParkingAPI.Services
 
         public async Task<SignInResult> LoginAsync(LoginDTO model)
         {
-            return await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
+            return await _signInManager
+                .PasswordSignInAsync(model.Email, model.Password, false, false);
         }
         public async Task<IEnumerable<GetEmployeeDTO>> GetAllEmployeesAsync()
         {
@@ -55,18 +56,6 @@ namespace OfficeAndParkingAPI.Services
             return new GetEmployeeDTO(employee.Id, employee.Firstname, employee.Lastname, employee.Team?.FullName ?? "");
         }
 
-        public async Task CreateEmployeeAsync(RegisterEmployeeDTO employeeDto)
-        {
-            var employee = new Employee
-            {
-                Firstname = employeeDto.FirstName,
-                Lastname = employeeDto.LastName,
-                TeamId = employeeDto.TeamId
-            };
-            await _employeeRepository.AddAsync(employee);
-            await _employeeRepository.SaveChangesAsync();
-        }
-
         public async Task UpdateEmployeeAsync(string id, UpdateEmployeeDTO employee)
         {
             var employeeToUpdate = await _employeeRepository.GetWithTeamByIdAsync(id);
@@ -79,8 +68,16 @@ namespace OfficeAndParkingAPI.Services
             if (!string.IsNullOrEmpty(employee.LastName))
                 employeeToUpdate.Lastname = employee.LastName;
 
+            if (!string.IsNullOrEmpty(employee.Email))
+                employeeToUpdate.Email = employee.Email;
+
             if (employee.TeamId != 0)
                 employeeToUpdate.TeamId = employee.TeamId;
+
+            if (!string.IsNullOrEmpty(employee.Password))
+                employeeToUpdate.PasswordHash = _userManager
+                    .PasswordHasher
+                    .HashPassword(employeeToUpdate,employee.Password);
 
             await _employeeRepository.UpdateAsync(employeeToUpdate);
             await _employeeRepository.SaveChangesAsync();
@@ -89,10 +86,10 @@ namespace OfficeAndParkingAPI.Services
         public async Task DeleteEmployeeAsync(string id)
         {
             var employee = await _employeeRepository.GetByIdAsync(id);
+
             if (employee != null)
             {
-                await _employeeRepository.DeleteAsync(employee);
-                await _employeeRepository.SaveChangesAsync();
+                await _userManager.DeleteAsync(employee);
             }
         }
 

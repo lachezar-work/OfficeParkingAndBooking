@@ -9,6 +9,7 @@ using OfficeAndParkingAPI.Services.Contracts;
 using OfficeAndParking.Data;
 using OfficeAndParking.Data.Models;
 using Microsoft.Extensions.DependencyInjection;
+using OfficeAndParking.Data.Seeder;
 
 namespace OfficeAndParkingAPI;
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using OfficeAndParking.Data.Models;
 
-namespace OfficeAndParking.Data
+namespace OfficeAndParking.Data.Seeder
 {
     public class SeedData
     {
@@ -17,7 +17,7 @@ namespace OfficeAndParking.Data
             {
                 new
                 {
-                    Firstname = "Lachezar", 
+                    Firstname = "Lachezar",
                     Lastname = "Atanasov",
                     Email = "lachezar.atanasov@leadconsult.eu",
                     TeamId = 1,

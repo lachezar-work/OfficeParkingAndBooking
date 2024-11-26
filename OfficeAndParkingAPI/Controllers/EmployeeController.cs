@@ -6,6 +6,7 @@ using OfficeAndParking.Data.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace OfficeAndParkingAPI.Controllers
 {
@@ -20,6 +21,7 @@ namespace OfficeAndParkingAPI.Controllers
             _employeeService = employeeService;
         }
         [HttpPost("assignrole")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AssignRole(RegisterEmployeeDTO model)
         {
             var result = await _employeeService.RegisterAsync(model);
