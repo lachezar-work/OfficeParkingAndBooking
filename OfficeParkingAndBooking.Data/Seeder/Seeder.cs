@@ -49,7 +49,7 @@ namespace OfficeAndParking.Data.Seeder
                 {
                     user = new Employee()
                     {
-                        Email = userData.Username,
+                        Email = userData.Username+"@abv.bg",
                         Firstname = userData.Firstname,
                         Lastname = userData.Lastname,
                         TeamId = userData.TeamId,

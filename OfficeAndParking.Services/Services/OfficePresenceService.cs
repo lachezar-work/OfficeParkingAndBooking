@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using OfficeAndParking.Data.Models;
 using OfficeAndParking.Services.DTOs.OfficePresenceDTOs;
+using OfficeAndParking.Services.Exceptions;
 using OfficeAndParking.Services.Repositories;
 
 namespace OfficeAndParking.Services.Services
@@ -35,7 +37,10 @@ namespace OfficeAndParking.Services.Services
         public async Task AddOfficePresence(AddPresenceDTO model)
         {
             var userId = GetCurrentUserId();
-
+            if (await _presenceRepository.HasPresenceAtDateAsync(model.Date, userId))
+            {
+                throw new DuplicateNameException( "You already have presence at this date");
+            }
             var officePresenceToAdd = new OfficePresence()
             {
                 Date = model.Date,
@@ -47,20 +52,10 @@ namespace OfficeAndParking.Services.Services
             await _presenceRepository.AddAsync(officePresenceToAdd);
             await _presenceRepository.SaveChangesAsync();
         }
-        public async Task<IEnumerable<GetOfficePresenceDTO>> GetAllOfficePresencesAsync()
+        public async Task<IEnumerable<OfficePresence>> GetAllOfficePresencesAsync()
         {
             var officePresences = await _presenceRepository.GetAllWithParkingSpots();
-            return officePresences.Select(x => new GetOfficePresenceDTO()
-            {
-                Date = x.Date,
-                EmployeeName = $"{x.Employee.Firstname} {x.Employee.Lastname}",
-                EmployeeTeam = x.Employee.Team.FullName,
-                RoomId = x.RoomId,
-                ParkingSpot = x.ParkingSpotReservationId,
-                ParkingArrivalTime = x.ParkingSpotReservation?.ReservedFrom,
-                ParkingDepartureTime = x.ParkingSpotReservation?.ReservedUntil,
-                Notes = x.Notes
-            });
+            return officePresences;
         }
 
     }

@@ -19,8 +19,18 @@ namespace OfficeAndParkingAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllPresence()
         {
-            await _presenceService.GetAllOfficePresencesAsync();
-            return Ok();
+            var presences = await _presenceService.GetAllOfficePresencesAsync();
+            return Ok(presences.Select(x => new GetOfficePresenceDTO()
+            {
+                Date = x.Date,
+                EmployeeName = $"{x.Employee.Firstname} {x.Employee.Lastname}",
+                EmployeeTeam = x.Employee.Team.FullName,
+                RoomId = x.RoomId,
+                ParkingSpot = x.ParkingSpotReservationId,
+                ParkingArrivalTime = x.ParkingSpotReservation?.ReservedFrom,
+                ParkingDepartureTime = x.ParkingSpotReservation?.ReservedUntil,
+                Notes = x.Notes
+            }));
         }
 
         [HttpPost("add")]
