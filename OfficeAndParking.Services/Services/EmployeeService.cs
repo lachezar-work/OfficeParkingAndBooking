@@ -1,26 +1,24 @@
-﻿using OfficeAndParkingAPI.DTOs;
-using OfficeAndParkingAPI.Repositories;
-using OfficeAndParkingAPI.Repositories.Contracts;
-using OfficeAndParkingAPI.Services.Contracts;
+﻿using Microsoft.AspNetCore.Identity;
 using OfficeAndParking.Data.Models;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+using OfficeAndParking.Services.Repositories.Contracts;
+using OfficeAndParkingAPI.Services.DTOs;
+using OfficeAndParking.Services.Services.Contracts;
 
-namespace OfficeAndParkingAPI.Services
+namespace OfficeAndParking.Services.Services
 {
     public class EmployeeService : IEmployeeService
     {
         private readonly IEmployeeRepository _employeeRepository;
         private readonly UserManager<Employee> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly SignInManager<Employee> _signInManager;
 
-        public EmployeeService(UserManager<Employee> userManager, SignInManager<Employee> signInManager, IEmployeeRepository employeeRepository)
+        public EmployeeService(UserManager<Employee> userManager, RoleManager<IdentityRole> roleManager, SignInManager<Employee> signInManager, IEmployeeRepository employeeRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _employeeRepository = employeeRepository;
+            _roleManager = roleManager;
         }
         public async Task<IdentityResult> RegisterAsync(RegisterEmployeeDTO model)
         {
@@ -35,7 +33,6 @@ namespace OfficeAndParkingAPI.Services
 
             return await _userManager.CreateAsync(user, model.Password);
         }
-
         public async Task<SignInResult> LoginAsync(LoginDTO model)
         {
             return await _signInManager
@@ -47,7 +44,6 @@ namespace OfficeAndParkingAPI.Services
                 .GetAllWithTeamAsync();
             return employees.Select(e => new GetEmployeeDTO(e.Id,e.Firstname, e.Lastname, e.Team?.FullName ?? ""));
         }
-
         public async Task<GetEmployeeDTO?> GetEmployeeByIdAsync(string id)
         {
             var employee = await _employeeRepository.GetWithTeamByIdAsync(id);
@@ -56,9 +52,34 @@ namespace OfficeAndParkingAPI.Services
             return new GetEmployeeDTO(employee.Id, employee.Firstname, employee.Lastname, employee.Team?.FullName ?? "");
         }
 
+        public async Task AssignRoleAsync(AssignRoleDTO model)
+        {
+            var roleExists = await _roleManager.RoleExistsAsync(model.RoleName);
+            if (!roleExists)
+            {
+                throw new InvalidOperationException($"Role does not exist!");
+            }
+
+            var user = await _employeeRepository.GetByIdAsync(model.EmployeeId);
+
+            if (user == null)
+            {
+                throw new KeyNotFoundException($"Employee with ID {model.EmployeeId} not found.");
+            }
+
+            var isInRole = await _userManager.IsInRoleAsync(user, model.RoleName);
+            if (isInRole)
+            {
+                throw new InvalidOperationException($"User already in this role.");
+            }
+
+            await _userManager.RemoveFromRolesAsync(user, await _userManager.GetRolesAsync(user));
+            await _userManager.AddToRoleAsync(user, model.RoleName);
+        }
+
         public async Task UpdateEmployeeAsync(string id, UpdateEmployeeDTO employee)
         {
-            var employeeToUpdate = await _employeeRepository.GetWithTeamByIdAsync(id);
+            var employeeToUpdate = await _employeeRepository.GetByIdAsync(id);
 
             if (employeeToUpdate == null) return;
 

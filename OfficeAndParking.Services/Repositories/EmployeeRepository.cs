@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OfficeAndParkingAPI.Repositories.Contracts;
-using OfficeAndParking.Data;
 using OfficeAndParking.Data.Models;
+using OfficeAndParking.Services.Repositories.Contracts;
+using OfficeAndParking.Data;
 
-namespace OfficeAndParkingAPI.Repositories
+namespace OfficeAndParking.Services.Repositories
 {
     public class EmployeeRepository : BaseRepository<Employee,string>, IEmployeeRepository
     {

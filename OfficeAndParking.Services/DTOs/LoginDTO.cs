@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace OfficeAndParkingAPI.DTOs
+namespace OfficeAndParkingAPI.Services.DTOs
 {
     public class LoginDTO
     {

@@ -1,6 +1,7 @@
 ﻿using OfficeAndParking.Data.Models;
+using OfficeAndParking.Services.Repositories.Contracts;
 
-namespace OfficeAndParkingAPI.Repositories.Contracts
+namespace OfficeAndParking.Services.Repositories.Contracts
 {
     public interface IEmployeeRepository : IBaseRepository<Employee,string>
     {

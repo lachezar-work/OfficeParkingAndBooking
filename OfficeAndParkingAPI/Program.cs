@@ -1,15 +1,14 @@
-using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using OfficeAndParkingAPI.Repositories.Contracts;
-using OfficeAndParkingAPI.Repositories;
-using OfficeAndParkingAPI.Services;
-using OfficeAndParkingAPI.Services.Contracts;
-using OfficeAndParking.Data;
+using System.Text.Json.Serialization;
 using OfficeAndParking.Data.Models;
-using Microsoft.Extensions.DependencyInjection;
+using OfficeAndParking.Data;
 using OfficeAndParking.Data.Seeder;
+using OfficeAndParking.Services.Repositories;
+using OfficeAndParking.Services.Repositories.Contracts;
+using OfficeAndParking.Services.Services;
+using OfficeAndParking.Services.Services.Contracts;
+using OfficeAndParkingAPI.Middlewares;
 
 namespace OfficeAndParkingAPI;
 
@@ -97,6 +96,7 @@ public class Program
         //app.MapIdentityApi<Employee>();
 
         // Map Controllers
+        app.UseMiddleware<ExceptionMiddleware>();
         app.MapControllers();
     }
 

@@ -1,9 +1,7 @@
-﻿using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
-using OfficeAndParking.Data.Models;
+﻿using System.ComponentModel.DataAnnotations;
 using OfficeAndParkingAPI.Common;
-using System.ComponentModel.DataAnnotations;
 
-namespace OfficeAndParkingAPI.DTOs
+namespace OfficeAndParkingAPI.Services.DTOs
 {
     public class UpdateEmployeeDTO
     {

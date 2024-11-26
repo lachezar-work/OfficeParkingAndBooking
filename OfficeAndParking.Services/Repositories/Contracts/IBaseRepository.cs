@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace OfficeAndParkingAPI.Repositories.Contracts
+namespace OfficeAndParking.Services.Repositories.Contracts
 {
     public interface IBaseRepository<T, in TId> where T : class
     {

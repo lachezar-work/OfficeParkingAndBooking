@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OfficeAndParkingAPI.Repositories.Contracts;
-using OfficeAndParking.Data;
 using System.Linq.Expressions;
 using System.Security.Cryptography;
+using OfficeAndParking.Services.Repositories.Contracts;
+using OfficeAndParking.Data;
 
-namespace OfficeAndParkingAPI.Repositories
+namespace OfficeAndParking.Services.Repositories
 {
     public class BaseRepository<T, TId> : IBaseRepository<T, TId> where T : class
     {

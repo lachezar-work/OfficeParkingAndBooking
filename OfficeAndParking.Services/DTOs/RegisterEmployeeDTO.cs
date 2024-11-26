@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using OfficeAndParkingAPI.Common;
 
-namespace OfficeAndParkingAPI.DTOs
+namespace OfficeAndParkingAPI.Services.DTOs
 {
     public class RegisterEmployeeDTO(string firstName, string lastName, int teamId, string email, string password)
     {

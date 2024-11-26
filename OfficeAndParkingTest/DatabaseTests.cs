@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using OfficeAndParking.Data;
 using OfficeAndParking.Data.Models;
 
 namespace OfficeAndParkingTests

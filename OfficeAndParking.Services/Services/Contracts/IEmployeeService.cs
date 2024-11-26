@@ -1,13 +1,13 @@
-﻿using OfficeAndParkingAPI.DTOs;
-using OfficeAndParking.Data.Models;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
+using OfficeAndParkingAPI.Services.DTOs;
 
-namespace OfficeAndParkingAPI.Services.Contracts
+namespace OfficeAndParking.Services.Services.Contracts
 {
     public interface IEmployeeService
     {
         Task<IEnumerable<GetEmployeeDTO>> GetAllEmployeesAsync();
         Task<GetEmployeeDTO?> GetEmployeeByIdAsync(string id);
+        Task AssignRoleAsync(AssignRoleDTO model);
         Task UpdateEmployeeAsync(string id, UpdateEmployeeDTO employee);
         Task DeleteEmployeeAsync(string id);
         Task<IdentityResult> RegisterAsync(RegisterEmployeeDTO model);

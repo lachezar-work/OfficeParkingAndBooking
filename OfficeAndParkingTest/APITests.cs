@@ -6,8 +6,7 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Testing;
-using OfficeAndParkingAPI;
-using OfficeAndParkingAPI.DTOs;
+using OfficeAndParkingAPI.API.Services.Services;
 using OfficeAndParking.Data.Models;
 
 namespace OfficeAndParkingTests

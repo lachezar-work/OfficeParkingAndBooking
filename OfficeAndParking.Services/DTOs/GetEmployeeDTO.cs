@@ -1,4 +1,4 @@
-﻿namespace OfficeAndParkingAPI.DTOs
+﻿namespace OfficeAndParkingAPI.Services.DTOs
 {
     public class GetEmployeeDTO(string id,string firstName, string lastName, string teamName)
     {

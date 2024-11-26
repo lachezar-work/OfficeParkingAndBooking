@@ -1,12 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using OfficeAndParkingAPI.DTOs;
-using OfficeAndParkingAPI.Services;
-using OfficeAndParkingAPI.Services.Contracts;
-using OfficeAndParking.Data.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using OfficeAndParkingAPI.Services.DTOs;
+using OfficeAndParking.Services.Services.Contracts;
 
 namespace OfficeAndParkingAPI.Controllers
 {
@@ -20,16 +15,12 @@ namespace OfficeAndParkingAPI.Controllers
         {
             _employeeService = employeeService;
         }
+
         [HttpPost("assignrole")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> AssignRole(RegisterEmployeeDTO model)
+        public async Task<IActionResult> AssignRole(AssignRoleDTO model)
         {
-            var result = await _employeeService.RegisterAsync(model);
-
-            if (!result.Succeeded)
-                return BadRequest(result.Errors);
-
-            return Ok("Registration successful.");
+            await _employeeService.AssignRoleAsync(model);
+            return Ok("Role assignment successful.");
         }
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterEmployeeDTO model)

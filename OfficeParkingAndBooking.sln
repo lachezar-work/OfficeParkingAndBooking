@@ -13,6 +13,8 @@ Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "OfficeAndParkingUI", "Offic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeAndParking.Common", "OfficeAndParking.Common\OfficeAndParking.Common.csproj", "{868A1D4A-DFE6-4A83-9B31-A325E6737D66}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeAndParking.Services", "OfficeAndParking.Services\OfficeAndParking.Services.csproj", "{01181013-C62B-481E-B831-5FF2421CF650}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{868A1D4A-DFE6-4A83-9B31-A325E6737D66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{868A1D4A-DFE6-4A83-9B31-A325E6737D66}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{868A1D4A-DFE6-4A83-9B31-A325E6737D66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01181013-C62B-481E-B831-5FF2421CF650}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01181013-C62B-481E-B831-5FF2421CF650}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01181013-C62B-481E-B831-5FF2421CF650}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01181013-C62B-481E-B831-5FF2421CF650}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

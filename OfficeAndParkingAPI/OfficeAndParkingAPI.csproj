@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\OfficeAndParking.Common\OfficeAndParking.Common.csproj" />
+    <ProjectReference Include="..\OfficeAndParking.Services\OfficeAndParking.Services.csproj" />
     <ProjectReference Include="..\OfficeAndParkingUI\OfficeAndParkingUI.esproj" />
     <ProjectReference Include="..\OfficeParkingAndBooking.Data\OfficeAndParking.Data.csproj" />
   </ItemGroup>
