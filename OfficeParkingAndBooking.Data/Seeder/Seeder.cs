@@ -14,7 +14,7 @@ namespace OfficeAndParking.Data.Seeder
                 {
                     Firstname = "Lachezar",
                     Lastname = "Atanasov",
-                    Email = "lachezar.atanasov@leadconsult.eu",
+                    Username = "lachezar",
                     TeamId = 1,
                     Password = "123456",
                     Role=roleNames[0]
@@ -23,7 +23,7 @@ namespace OfficeAndParking.Data.Seeder
                 {
                     Firstname = "Test",
                     Lastname = "Testov",
-                    Email = "test@leadconsult.eu",
+                    Username = "test",
                     TeamId = 1,
                     Password = "123456",
                     Role=roleNames[1]
@@ -44,16 +44,16 @@ namespace OfficeAndParking.Data.Seeder
             // Seed Users
             foreach (var userData in employees)
             {
-                var user = await userManager.FindByEmailAsync(userData.Email);
+                var user = await userManager.FindByNameAsync(userData.Username);
                 if (user == null)
                 {
                     user = new Employee()
                     {
-                        Email = userData.Email,
+                        Email = userData.Username,
                         Firstname = userData.Firstname,
                         Lastname = userData.Lastname,
                         TeamId = userData.TeamId,
-                        UserName = userData.Email
+                        UserName = userData.Username
                     };
 
                     var createResult = await userManager.CreateAsync(user, userData.Password);

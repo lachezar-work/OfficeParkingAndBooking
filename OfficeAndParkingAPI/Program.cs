@@ -54,6 +54,8 @@ public class Program
         builder.Services.AddScoped(typeof(IBaseRepository<,>), typeof(BaseRepository<,>));
         builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
         builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+        builder.Services.AddScoped<OfficePresenceRepository>();
+        builder.Services.AddScoped<OfficePresenceService>();
 
         builder.Services.ConfigureHttpJsonOptions(options =>
             options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);

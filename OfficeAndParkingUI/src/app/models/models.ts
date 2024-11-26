@@ -15,7 +15,7 @@ export interface OfficePresence {
   id: number;
   date: Date;
   employeeId: number;
-  room: Room;
+  roomId: number;
   parkingSpot?: number;
   parkingArrivalTime?: string;
   parkingDepartureTime?: string;

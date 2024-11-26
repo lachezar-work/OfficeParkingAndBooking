@@ -6,7 +6,7 @@ namespace OfficeAndParking.Data.Models
     {
         public int Id { get; set; }
         public DateOnly Date { get; set; }
-        public int EmployeeId { get; set; }
+        public string EmployeeId { get; set; }
         public virtual Employee? Employee { get; set; }
 
         public int RoomId { get; set; }

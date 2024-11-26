@@ -1,6 +1,6 @@
-﻿namespace OfficeAndParkingAPI.Services.DTOs
+﻿namespace OfficeAndParking.Services.DTOs.EmployeeDTOs
 {
-    public class GetEmployeeDTO(string id,string firstName, string lastName, string teamName)
+    public class GetEmployeeDTO(string id, string firstName, string lastName, string teamName)
     {
         public string Id { get; init; } = id;
         public string FirstName { get; init; } = firstName;

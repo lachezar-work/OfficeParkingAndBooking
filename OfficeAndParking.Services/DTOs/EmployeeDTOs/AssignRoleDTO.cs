@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace OfficeAndParkingAPI.Services.DTOs
+namespace OfficeAndParking.Services.DTOs.EmployeeDTOs
 {
     public class AssignRoleDTO
     {

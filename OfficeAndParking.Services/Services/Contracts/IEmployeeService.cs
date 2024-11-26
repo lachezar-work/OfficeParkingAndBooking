@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using OfficeAndParkingAPI.Services.DTOs;
+using OfficeAndParking.Services.DTOs.EmployeeDTOs;
 
 namespace OfficeAndParking.Services.Services.Contracts
 {

@@ -9,7 +9,7 @@ namespace OfficeAndParking.Data.Models
         public string Brand { get; set; }
         public string RegistrationPlate { get; set; }
 
-        public int EmployeeId { get; set; }
+        public string EmployeeId { get; set; }
         public virtual Employee? Employee { get; set; }
 
         public virtual ParkingSpotReservation? ParkingSpotReservation { get; set; }

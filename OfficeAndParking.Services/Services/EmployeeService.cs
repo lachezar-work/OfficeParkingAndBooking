@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using OfficeAndParking.Data.Models;
 using OfficeAndParking.Services.Repositories.Contracts;
-using OfficeAndParkingAPI.Services.DTOs;
 using OfficeAndParking.Services.Services.Contracts;
+using OfficeAndParking.Services.DTOs.EmployeeDTOs;
 
 namespace OfficeAndParking.Services.Services
 {
@@ -13,7 +13,7 @@ namespace OfficeAndParking.Services.Services
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly SignInManager<Employee> _signInManager;
 
-        public EmployeeService(UserManager<Employee> userManager, RoleManager<IdentityRole> roleManager, SignInManager<Employee> signInManager, IEmployeeRepository employeeRepository)
+        public EmployeeService(UserManager<Employee> userManager, RoleManager<IdentityRole> roleManager, SignInManager<Employee> signInManager, IEmployeeRepository employeeRepository) 
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -24,8 +24,8 @@ namespace OfficeAndParking.Services.Services
         {
             var user = new Employee
             {
-                UserName = model.Email,
-                Email = model.Email,
+                UserName = model.Username,
+                Email = model.Username,
                 Firstname = model.FirstName,
                 Lastname = model.LastName,
                 TeamId = model.TeamId
@@ -36,7 +36,7 @@ namespace OfficeAndParking.Services.Services
         public async Task<SignInResult> LoginAsync(LoginDTO model)
         {
             return await _signInManager
-                .PasswordSignInAsync(model.Email, model.Password, false, false);
+                .PasswordSignInAsync(model.Username, model.Password, false, false);
         }
         public async Task<IEnumerable<GetEmployeeDTO>> GetAllEmployeesAsync()
         {
@@ -89,8 +89,12 @@ namespace OfficeAndParking.Services.Services
             if (!string.IsNullOrEmpty(employee.LastName))
                 employeeToUpdate.Lastname = employee.LastName;
 
-            if (!string.IsNullOrEmpty(employee.Email))
-                employeeToUpdate.Email = employee.Email;
+            if (!string.IsNullOrEmpty(employee.Username))
+            {
+                employeeToUpdate.UserName = employee.Username;
+                employeeToUpdate.Email = employee.Username;
+            }
+                
 
             if (employee.TeamId != 0)
                 employeeToUpdate.TeamId = employee.TeamId;

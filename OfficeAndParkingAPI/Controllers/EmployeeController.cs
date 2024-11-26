@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OfficeAndParking.Services.Services;
-using OfficeAndParkingAPI.Services.DTOs;
 using OfficeAndParking.Services.Services.Contracts;
+using OfficeAndParking.Services.DTOs.EmployeeDTOs;
 
 namespace OfficeAndParkingAPI.Controllers
 {

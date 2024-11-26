@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using OfficeAndParkingAPI.Common;
 
-namespace OfficeAndParkingAPI.Services.DTOs
+namespace OfficeAndParking.Services.DTOs.EmployeeDTOs
 {
-    public class RegisterEmployeeDTO(string firstName, string lastName, int teamId, string email, string password)
+    public class RegisterEmployeeDTO(string firstName, string lastName, int teamId, string username, string password)
     {
         [Required]
         [StringLength(GlobalConstants.MaxEmployeeFirstNameLength, MinimumLength = GlobalConstants.MinEmployeeFirstNameLength)]
@@ -14,12 +14,11 @@ namespace OfficeAndParkingAPI.Services.DTOs
         [Required]
         public int TeamId { get; init; } = teamId;
 
-        [Required] 
-        [EmailAddress] 
-        public string Email { get; set; } = email;
+        [Required]
+        public string Username { get; set; } = username;
 
         [Required]
-        [MinLength(6)] 
+        [MinLength(6)]
         public string Password { get; set; } = password;
     }
 }

@@ -1,12 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace OfficeAndParkingAPI.Services.DTOs
+namespace OfficeAndParking.Services.DTOs.EmployeeDTOs
 {
     public class LoginDTO
     {
         [Required]
-        [EmailAddress]
-        public string Email { get; set; }
+        public string Username { get; set; }
 
         [Required]
         public string Password { get; set; }
