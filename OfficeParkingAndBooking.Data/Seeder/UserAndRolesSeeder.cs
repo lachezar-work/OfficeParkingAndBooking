@@ -81,6 +81,15 @@ namespace OfficeAndParking.Data.Seeder
                             Notes = "Test"
                         },
                     });
+                    context.Cars.AddRange(new List<Car>()
+                    {
+                        new Car()
+                        {
+                            Brand = "Audi A3",
+                            RegistrationPlate = "CB5768M"+char.ToUpper(user.Firstname[0]),
+                            EmployeeId = user.Id
+                        }
+                    });
                     if (createResult.Succeeded)
                     {
                         await userManager.AddToRoleAsync(user, userData.Role);

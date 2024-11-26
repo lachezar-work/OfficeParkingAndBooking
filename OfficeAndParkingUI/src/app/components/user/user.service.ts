@@ -33,5 +33,6 @@ export class UserService {
       withCredentials: true,
       observe: 'response',
       responseType: 'text'
-    }
-
+    });
+}
+}

@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataService } from '../../services/data.service';
-import { Team, Room } from '../../models/models';
 import { MatTableDataSource } from '@angular/material/table';
 import { map } from 'rxjs/operators';
+import { Room } from '../../models/models';
 import { UserService } from '../user/user.service';
 
 @Component({
   selector: 'app-presence-form',
-  templateUrl: './presence.form.html',
+  templateUrl: './presence-form.html',
   styles: [`
     .form-container {
       max-width: 600px;
@@ -29,12 +29,11 @@ import { UserService } from '../user/user.service';
 export class PresenceFormComponent implements OnInit {
   presenceForm: FormGroup;
   employees$;
-  rooms = Object.values(Room);
+  rooms: Room[] = [];
   parkingSpots = [1, 2, 3, 4];
   displayedColumns = ['employeeName', 'room', 'parkingSpot', 'notes'];
   
   // Declare a MatTableDataSource
-  dataSource: MatTableDataSource<any> = new MatTableDataSource();
   todayPresences: MatTableDataSource<any> = new MatTableDataSource();
 
   constructor(
@@ -49,7 +48,7 @@ export class PresenceFormComponent implements OnInit {
         new Date(p.date).toDateString() === new Date().toDateString()
       ))
     ).subscribe(presences => {
-      this.dataSource.data = presences; // Update the MatTableDataSource with filtered data
+      this.todayPresences.data = presences; // Update the MatTableDataSource with filtered data
     });
 
     // Initialize the form
@@ -95,7 +94,7 @@ export class PresenceFormComponent implements OnInit {
         id: 0,
         date: formValue.date,
         employeeId: formValue.employeeId,
-        room: formValue.room,
+        roomId: formValue.roomId,
         parkingSpot: formValue.needsParking ? formValue.parkingSpot : undefined,
         parkingArrivalTime: formValue.needsParking ? formValue.parkingArrivalTime : undefined,
         parkingDepartureTime: formValue.needsParking ? formValue.parkingDepartureTime : undefined,

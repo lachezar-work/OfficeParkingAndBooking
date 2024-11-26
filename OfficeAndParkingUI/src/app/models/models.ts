@@ -22,13 +22,13 @@ export interface OfficePresence {
   notes?: string;
 }
 
-export enum Team {
-  BA = 'BA',
-  HR = 'HR',
-  SysAdmin = 'Sys Admin',
-  DevOps = 'DevOps',
-  Java = 'Java',
-  DotNet = '.NET',
-  AM = 'AM',
-  FO = 'FO'
+export interface Team {
+  id: number;
+  shortName: string;
+  fullName: string;
+}
+
+export interface Room {
+  id: number;
+  number: number;
 }

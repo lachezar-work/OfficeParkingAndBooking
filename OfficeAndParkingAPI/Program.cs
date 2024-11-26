@@ -57,6 +57,8 @@ public class Program
         builder.Services.AddScoped<OfficePresenceRepository>();
         builder.Services.AddScoped<OfficePresenceService>();
         builder.Services.AddScoped<RoomRepository>();
+        builder.Services.AddScoped<TeamRepository>();
+        builder.Services.AddScoped<TeamService>();
 
         builder.Services.ConfigureHttpJsonOptions(options =>
             options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
