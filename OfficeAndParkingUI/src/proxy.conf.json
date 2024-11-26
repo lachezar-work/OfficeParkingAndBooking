@@ -1,5 +1,5 @@
 {
-  "/weatherforecast":{
+  "/api":{
     "target":"http://localhost:5013",
     "secure": false
   }

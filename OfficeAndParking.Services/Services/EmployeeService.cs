@@ -20,6 +20,11 @@ namespace OfficeAndParking.Services.Services
             _employeeRepository = employeeRepository;
             _roleManager = roleManager;
         }
+
+        public async Task Logout()
+        {
+            await _signInManager.SignOutAsync();
+        }
         public async Task<IdentityResult> RegisterAsync(RegisterEmployeeDTO model)
         {
             var user = new Employee

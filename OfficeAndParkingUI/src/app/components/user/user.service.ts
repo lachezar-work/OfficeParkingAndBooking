@@ -29,5 +29,9 @@ export class UserService {
 
   signOut() {
     this.user.next(null);
-  }
-}
+    return this.http.post('/api/employee/logout', {}, {
+      withCredentials: true,
+      observe: 'response',
+      responseType: 'text'
+    }
+

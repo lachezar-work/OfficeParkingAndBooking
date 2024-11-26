@@ -32,8 +32,3 @@ export enum Team {
   AM = 'AM',
   FO = 'FO'
 }
-
-export enum Room {
-  Room403 = 'Room 403',
-  Room404 = 'Room 404'
-}

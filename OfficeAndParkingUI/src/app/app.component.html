@@ -1,3 +1,15 @@
-<h1>Angular App</h1>
-<p-button label="Click Me"></p-button>
+<mat-toolbar color="primary">
+  <span style="flex: 1;">Office Management System</span>
+  <div style="flex: 1; text-align: center;">
+    <a mat-button routerLink="/presence">Office Presence</a>
+    <a mat-button routerLink="/cars">Car Management</a>
+  </div>
+  <div style="flex: 1; text-align: right;">
+    <a mat-button routerLink="/signin">Sign In</a>
+    <a mat-button routerLink="/register">Register</a>
+    <span *ngIf="isLoggedIn">{{ fullName }}</span>
+    <a *ngIf="isLoggedIn" mat-button (click)="logout()">Logout</a>
+  </div>
+</mat-toolbar>
+
 <router-outlet></router-outlet>

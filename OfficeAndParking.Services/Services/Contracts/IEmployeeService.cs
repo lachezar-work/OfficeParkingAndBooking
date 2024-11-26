@@ -12,5 +12,6 @@ namespace OfficeAndParking.Services.Services.Contracts
         Task DeleteEmployeeAsync(string id);
         Task<IdentityResult> RegisterAsync(RegisterEmployeeDTO model);
         Task<SignInResult> LoginAsync(LoginDTO model);
+        Task Logout();
     }
 }

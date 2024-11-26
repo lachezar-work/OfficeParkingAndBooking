@@ -29,6 +29,9 @@ namespace OfficeAndParking.Data
                 .Property(x => x.RegistrationPlate)
                 .IsRequired()
                 .HasMaxLength(GlobalConstants.MaxCarRegistrationPlateLength);
+            modelBuilder.Entity<Car>()
+                .HasIndex(x=>x.RegistrationPlate)
+                .IsUnique();
 
             modelBuilder.Entity<Employee>()
                 .Property(x => x.Firstname)

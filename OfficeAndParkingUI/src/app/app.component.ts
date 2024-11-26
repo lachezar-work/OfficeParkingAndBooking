@@ -2,15 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  template: `
-    <mat-toolbar color="primary">
-      <span>Office Management System</span>
-      <a mat-button routerLink="/presence">Office Presence</a>
-      <a mat-button routerLink="/cars">Car Management</a>
-    </mat-toolbar>
-
-    <router-outlet></router-outlet>
-  `,
+  templateUrl: 'app.component.html',
   styles: [`
     mat-toolbar {
       margin-bottom: 20px;
@@ -20,4 +12,12 @@ import { Component } from '@angular/core';
     }
   `]
 })
-export class AppComponent {}
+export class AppComponent {
+  isLoggedIn = false;
+  fullName = 'John Doe';
+
+  logout() {
+    // Implement logout logic here
+    this.isLoggedIn = false;
+  }
+}

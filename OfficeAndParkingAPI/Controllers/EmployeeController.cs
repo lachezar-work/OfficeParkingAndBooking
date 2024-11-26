@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using OfficeAndParking.Services.Services;
 using OfficeAndParking.Services.Services.Contracts;
 using OfficeAndParking.Services.DTOs.EmployeeDTOs;
+using Microsoft.AspNetCore.Identity;
 
 namespace OfficeAndParkingAPI.Controllers
 {
@@ -33,7 +34,7 @@ namespace OfficeAndParkingAPI.Controllers
 
             return Ok("Registration successful.");
         }
-
+        
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDTO model)
         {
@@ -43,6 +44,17 @@ namespace OfficeAndParkingAPI.Controllers
                 return Unauthorized(new{message= "Invalid login attempt." });
 
             return Ok(model);
+        }
+        [Authorize]
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout(object? empty)
+        {
+            if (empty != null)
+            {
+                await _employeeService.Logout();
+                return Ok();
+            }
+            return Unauthorized();
         }
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GetEmployeeDTO>>> GetAllEmployees()
