@@ -12,20 +12,32 @@ namespace OfficeAndParking.Services.Services
     {
         private readonly UserManager<Employee> _userManager;
         private readonly OfficePresenceRepository _presenceRepository;
+        private readonly RoomRepository _roomRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public OfficePresenceService(UserManager<Employee> userManager, OfficePresenceRepository presenceRepository, IHttpContextAccessor httpContextAccessor)
+        public OfficePresenceService(UserManager<Employee> userManager, 
+            OfficePresenceRepository presenceRepository, IHttpContextAccessor httpContextAccessor, RoomRepository roomRepository)
         {
             _userManager = userManager;
             _presenceRepository = presenceRepository;
             _httpContextAccessor = httpContextAccessor;
+            _roomRepository = roomRepository;
         }
         // Separate service 
         private string GetCurrentUserId()
         {
             return _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
         }
+        private async Task ValidateRoomCapacity(int roomId, DateOnly date)
+        {
+            var room = await _roomRepository.GetByIdAsync(roomId);
+            var occupiedSpots = await _presenceRepository.GetOccupiedSpots(roomId, date);
 
+            if (room.RoomCapacity <= occupiedSpots)
+            {
+                throw new InvalidOperationException("No more space in that room!");
+            }
+        }
         public async Task AddOfficePresence(AddPresenceDTO model)
         {
             var userId = GetCurrentUserId();
@@ -34,10 +46,8 @@ namespace OfficeAndParking.Services.Services
                 throw new DuplicateEntityException( "You already have presence at this date");
             }
 
-            if (expr)
-            {
-                
-            }
+            await ValidateRoomCapacity(model.RoomId, model.Date);
+
             var officePresenceToAdd = new OfficePresence()
             {
                 Date = model.Date,

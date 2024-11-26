@@ -4,14 +4,14 @@ using System.Threading.Tasks;
 
 namespace OfficeAndParking.Services.Repositories.Contracts
 {
-    public interface IBaseRepository<T, in TId> where T : class
+    public interface IBaseRepository<TEntity, in TEntityIdType> where TEntity : class
     {
-        Task<IEnumerable<T>> GetAllAsync();
-        Task<T?> GetByIdAsync(TId id);
-        Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate);
-        Task AddAsync(T entity);
-        Task UpdateAsync(T entity);
-        Task DeleteAsync(T entity);
+        Task<IEnumerable<TEntity>> GetAllAsync();
+        Task<TEntity?> GetByIdAsync(TEntityIdType id);
+        Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate);
+        Task AddAsync(TEntity entity);
+        Task UpdateAsync(TEntity entity);
+        Task DeleteAsync(TEntity entity);
         Task SaveChangesAsync();
     }
 }

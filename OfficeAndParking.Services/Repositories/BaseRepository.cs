@@ -6,7 +6,7 @@ using OfficeAndParking.Data;
 
 namespace OfficeAndParking.Services.Repositories
 {
-    public class BaseRepository<T, TId> : IBaseRepository<T, TId> where T : class
+    public class BaseRepository<TEntity, TEntityIdType> : IBaseRepository<TEntity, TEntityIdType> where TEntity : class
     {
         protected readonly OfficeParkingDbContext _dbContext;
 
@@ -15,34 +15,34 @@ namespace OfficeAndParking.Services.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync()
+        public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            return await _dbContext.Set<T>().ToListAsync();
+            return await _dbContext.Set<TEntity>().ToListAsync();
         }
 
-        public async Task<T?> GetByIdAsync(TId id)
+        public async Task<TEntity?> GetByIdAsync(TEntityIdType id)
         {
-            return await _dbContext.Set<T>().FindAsync(id);
+            return await _dbContext.Set<TEntity>().FindAsync(id);
         }
 
-        public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)
+        public async Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return await _dbContext.Set<T>().Where(predicate).ToListAsync();
+            return await _dbContext.Set<TEntity>().Where(predicate).ToListAsync();
         }
 
-        public async Task AddAsync(T entity)
+        public async Task AddAsync(TEntity entity)
         {
-            await _dbContext.Set<T>().AddAsync(entity);
+            await _dbContext.Set<TEntity>().AddAsync(entity);
         }
 
-        public async Task UpdateAsync(T entity)
+        public async Task UpdateAsync(TEntity entity)
         {
-            _dbContext.Set<T>().Update(entity);
+            _dbContext.Set<TEntity>().Update(entity);
         }
 
-        public async Task DeleteAsync(T entity)
+        public async Task DeleteAsync(TEntity entity)
         {
-            _dbContext.Set<T>().Remove(entity);
+            _dbContext.Set<TEntity>().Remove(entity);
         }
 
         public async Task SaveChangesAsync()

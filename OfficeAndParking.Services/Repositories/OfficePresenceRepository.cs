@@ -16,12 +16,17 @@ namespace OfficeAndParking.Services.Repositories
         public OfficePresenceRepository(OfficeParkingDbContext dbContext) : base(dbContext)
         {
         }
+        /// <summary>
+        /// Retrieves all OfficePresence records from the database, including related ParkingSpotReservation,
+        /// Employee, and Team details.
+        /// </summary>
+        /// <returns>A list of OfficePresence records with related details.</returns>
         public async Task<IEnumerable<OfficePresence>> GetAllWithDetails()
         {
             return await _dbContext.OfficePresences
                 .Include(op => op.ParkingSpotReservation)
-                .Include(op=> op.Employee)
-                .ThenInclude(e=>e.Team)
+                .Include(op => op.Employee)
+                .ThenInclude(e => e.Team)
                 .ToListAsync();
         }
         public async Task<bool> HasPresenceAtDateAsync(DateOnly date, string employeeId)
@@ -32,17 +37,12 @@ namespace OfficeAndParking.Services.Repositories
 
             return presence != null;
         }
-        public async Task<bool> HasFreeOfficeSpot(int roomId, DateOnly date)
+        public async Task<int> GetOccupiedSpots(int roomId, DateOnly date)
         {
-            {
-                var usedSeats = _dbContext.OfficePresences
-                .Where(op => op.Date == date && op.RoomId == roomId)
-                .Count();
-            if (usedSeats<)
-            {
-                
-            }
-            return presence == null;
+                var usedSeats = await _dbContext.OfficePresences
+                    .Where(op => op.Date == date && op.RoomId == roomId)
+                    .CountAsync();
+            return usedSeats;
         }
 
     }
