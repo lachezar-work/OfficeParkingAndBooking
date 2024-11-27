@@ -1,7 +1,7 @@
 export interface Employee {
   id: number;
-  name: string;
-  team: Team;
+  fullName: string;
+  teamName: string;
 }
 
 export interface Car {
@@ -13,6 +13,7 @@ export interface Car {
 export interface AddOfficePresence {
   date: Date;
   roomNumber: number;
+  employeeId: string;
   parkingSpot?: number;
   parkingArrivalTime?: string;
   parkingDepartureTime?: string;

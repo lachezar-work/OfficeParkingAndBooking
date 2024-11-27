@@ -3,14 +3,18 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatTableModule } from '@angular/material/table';
-import { MatToolbarModule } from '@angular/material/toolbar';
+import { CalendarModule } from 'primeng/calendar';
+import { DropdownModule } from 'primeng/dropdown';
+import { CheckboxModule } from 'primeng/checkbox';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { ButtonModule } from 'primeng/button';
+import { TableModule } from 'primeng/table';
+import { ToolbarModule } from 'primeng/toolbar';
+import { TagModule } from 'primeng/tag';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { CommonModule } from '@angular/common';
 
 
 import { AppComponent } from './app.component';
@@ -38,14 +42,18 @@ import { HttpClientModule } from '@angular/common/http';
       { path: 'presence', component: PresenceFormComponent },
       { path: 'cars', component: CarManagementComponent }
     ]),
-    MatButtonModule,
-    MatInputModule,
-    MatSelectModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatCheckboxModule,
-    MatTableModule,
-    MatToolbarModule
+    CalendarModule,
+    DropdownModule,
+    CheckboxModule,
+    InputTextModule,
+    InputTextareaModule,
+    ButtonModule,
+    TableModule,
+    ToolbarModule,
+    TagModule,
+    MultiSelectModule,
+    ProgressBarModule,
+    CommonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,15 +1,17 @@
-<mat-toolbar color="primary">
-  <span style="flex: 1;">Office Management System</span>
-  <div style="flex: 1; text-align: center;">
-    <a mat-button routerLink="/presence">Office Presence</a>
-    <a mat-button routerLink="/cars">Car Management</a>
+<p-toolbar>
+  <div class="p-toolbar-group-left">
+    <span style="flex: 1;">Office Management System</span>
   </div>
-  <div style="flex: 1; text-align: right;">
-    <a mat-button routerLink="/signin">Sign In</a>
-    <a mat-button routerLink="/register">Register</a>
+  <div class="p-toolbar-group-center">
+    <button pButton type="button" label="Office Presence" routerLink="/presence"></button>
+    <button pButton type="button" label="Car Management" routerLink="/cars"></button>
+  </div>
+  <div class="p-toolbar-group-right">
+    <button pButton type="button" label="Sign In" routerLink="/sign-in"></button>
+    <button pButton type="button" label="Register" routerLink="/register"></button>
     <span *ngIf="isLoggedIn">{{ fullName }}</span>
-    <a *ngIf="isLoggedIn" mat-button (click)="logout()">Logout</a>
+    <button *ngIf="isLoggedIn" pButton type="button" label="Logout" (click)="logout()"></button>
   </div>
-</mat-toolbar>
+</p-toolbar>
 
 <router-outlet></router-outlet>

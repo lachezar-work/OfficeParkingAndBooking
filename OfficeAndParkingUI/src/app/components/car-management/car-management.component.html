@@ -1,52 +1,38 @@
+<div class="car-container">
+  <h2>Car Registration</h2>
+  
+  <form [formGroup]="carForm" (ngSubmit)="onSubmit()" class="car-form">
 
-    <div class="car-container">
-      <h2>Car Registration</h2>
-      
-      <form [formGroup]="carForm" (ngSubmit)="onSubmit()" class="car-form">
-        <mat-form-field>
-          <mat-label>Employee Name</mat-label>
-          <mat-select formControlName="employeeId">
-            <mat-option *ngFor="let employee of employees$ | async" [value]="employee.id">
-              {{employee.name}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field>
-          <mat-label>Car Brand</mat-label>
-          <input matInput formControlName="brand">
-        </mat-form-field>
-
-        <mat-form-field>
-          <mat-label>Registration Plate</mat-label>
-          <input matInput formControlName="registrationPlate">
-        </mat-form-field>
-
-        <button mat-raised-button color="primary" type="submit" [disabled]="!carForm.valid">
-          Register Car
-        </button>
-      </form>
-
-      <div class="car-list">
-        <h3>Registered Cars</h3>
-        <mat-table [dataSource]="carsDataSource">
-          <ng-container matColumnDef="employeeName">
-            <mat-header-cell *matHeaderCellDef> Employee Name </mat-header-cell>
-            <mat-cell *matCellDef="let car"> {{car.employeeName}} </mat-cell>
-          </ng-container>
-
-          <ng-container matColumnDef="brand">
-            <mat-header-cell *matHeaderCellDef> Brand </mat-header-cell>
-            <mat-cell *matCellDef="let car"> {{car.brand}} </mat-cell>
-          </ng-container>
-
-          <ng-container matColumnDef="registrationPlate">
-            <mat-header-cell *matHeaderCellDef> Registration Plate </mat-header-cell>
-            <mat-cell *matCellDef="let car"> {{car.registrationPlate}} </mat-cell>
-          </ng-container>
-
-          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-        </mat-table>
-      </div>
+    <div class="p-field">
+      <label for="brand">Car Brand</label>
+      <input pInputText id="brand" formControlName="brand">
     </div>
+
+    <div class="p-field">
+      <label for="registrationPlate">Registration Plate</label>
+      <input pInputText id="registrationPlate" formControlName="registrationPlate">
+    </div>
+
+    <button pButton type="submit" label="Register Car" [disabled]="!carForm.valid" class="p-button-primary"></button>
+  </form>
+
+  <div class="car-list">
+    <h3>Registered Cars</h3>
+    <p-table [value]="carsDataSource">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Employee Name</th>
+          <th>Brand</th>
+          <th>Registration Plate</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-car>
+        <tr>
+          <td>{{car.employeeName}}</td>
+          <td>{{car.brand}}</td>
+          <td>{{car.registrationPlate}}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

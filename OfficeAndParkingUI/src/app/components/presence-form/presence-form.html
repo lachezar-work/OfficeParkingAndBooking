@@ -1,81 +1,108 @@
 <form [formGroup]="presenceForm" (ngSubmit)="onSubmit()" class="form-container">
   <h2>Office Presence Registration</h2>
 
-  <mat-form-field>
-    <mat-label>Date</mat-label>
-    <input matInput [matDatepicker]="picker" formControlName="date">
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
-
-  <mat-form-field>
-    <mat-label>Room</mat-label>
-    <mat-select formControlName="room">
-      <mat-option *ngFor="let room of rooms" [value]="room.id">
-        {{room.number}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-
-  <mat-checkbox formControlName="needsParking">Need Parking Spot</mat-checkbox>
-
-  <div *ngIf="presenceForm.get('needsParking')?.value">
-    <mat-form-field>
-      <mat-label>Parking Spot</mat-label>
-      <mat-select formControlName="parkingSpot">
-        <mat-option *ngFor="let spot of parkingSpots" [value]="spot">
-          Spot {{spot}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Arrival Time</mat-label>
-      <input matInput type="time" formControlName="parkingArrivalTime">
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Departure Time</mat-label>
-      <input matInput type="time" formControlName="parkingDepartureTime">
-    </mat-form-field>
+  <div class="p-field">
+    <label for="date">Date</label>
+    <p-calendar id="date" formControlName="date" class="input-field"></p-calendar>
   </div>
 
-  <mat-form-field>
-    <mat-label>Notes</mat-label>
-    <textarea matInput formControlName="notes"></textarea>
-  </mat-form-field>
+  <div class="p-field">
+    <label for="employeeName">Employee</label>
+    <p-dropdown 
+    [showClear]="true"
+    [options]="employees"
+    [(ngModel)]="selectedEmployee"
+    optionLabel="fullName"
+    [filter]="true"
+    filterBy="fullName" 
+    placeholder="Select an Employee"
+    optionValue="id"
+    formControlName="employeeId"
+    >
+  </p-dropdown>
+  </div>
 
-  <button mat-raised-button color="primary" type="submit" [disabled]="!presenceForm.valid">
-    Submit
-  </button>
+  <div class="p-field">
+    <label for="room">Room</label>
+    <p-dropdown id="room" [options]="rooms" optionLabel="number" optionValue="id" formControlName="room" class="input-field"></p-dropdown>
+  </div>
+
+  <div class="p-field-checkbox">
+    <p-checkbox id="needsParking" formControlName="needsParking" binary="true" class="input-field"></p-checkbox>
+    <label for="needsParking">Need Parking Spot</label>
+  </div>
+
+  <div *ngIf="presenceForm.get('needsParking')?.value">
+    <div class="p-field">
+      <label for="parkingSpot">Parking Spot</label>
+      <p-dropdown id="parkingSpot" [options]="parkingSpots" formControlName="parkingSpot" class="input-field"></p-dropdown>
+    </div>
+    <div class="p-field">
+      <label for="parkingArrivalTime">Arrival Time</label>
+      <input pInputText type="time" id="parkingArrivalTime" formControlName="parkingArrivalTime" class="input-field">
+    </div>
+  
+    <div class="p-field">
+      <label for="parkingDepartureTime">Departure Time</label>
+      <input pInputText type="time" id="parkingDepartureTime" formControlName="parkingDepartureTime" class="input-field">
+    </div>
+  
+  <div class="p-field">
+    <label for="notes">Notes</label>
+    <textarea pInputTextarea id="notes" formControlName="notes" class="input-field"></textarea>
+  </div>
+  </div>
+  
+  <button pButton type="submit" label="Submit"></button>
 </form>
 
 <div class="presence-list">
   <h3>Today's Office Presence</h3>
-  <mat-table [dataSource]="todayPresences">
-    <ng-container matColumnDef="employeeName">
-      <mat-header-cell *matHeaderCellDef> Employee </mat-header-cell>
-      <mat-cell *matCellDef="let presence"> {{presence.employeeName}} </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="room">
-      <mat-header-cell *matHeaderCellDef> Room </mat-header-cell>
-      <mat-cell *matCellDef="let presence"> {{presence.roomNumber}} </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="parkingSpot">
-      <mat-header-cell *matHeaderCellDef> Parking </mat-header-cell>
-      <mat-cell *matCellDef="let presence">
-        {{presence.parkingSpot ? 'Spot ' + presence.parkingSpot : 'No parking'}}
-      </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="notes">
-      <mat-header-cell *matHeaderCellDef> Notes </mat-header-cell>
-      <mat-cell *matCellDef="let presence"> {{presence.notes}} </mat-cell>
-    </ng-container>
-
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-  </mat-table>
+  <p-table 
+  #dt [value]="allPresences" 
+  (sortFunction)="customSort($event)" 
+  [customSort]="true"
+  [globalFilterFields]="['employeeName', 'roomNumber','date','employeeTeam', 'parking', 'notes']"
+  >
+  <ng-template pTemplate="caption">
+    <div class="flex">
+      <span class="p-input-icon-left ml-auto">
+            <i class="pi pi-search"></i>
+            <input pInputText type="text" [(ngModel)]="searchValue" (input)="applyFilterGlobal($event, 'contains')" placeholder="Search keyword" />
+        </span>
+    </div>
+</ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="employeeName">
+          Employee <p-sortIcon field="employeeName" />
+      </th>
+      <th pSortableColumn="roomNumber">
+        Room <p-sortIcon field="roomNumber" />
+      </th>
+      <th pSortableColumn="date">
+        Date <p-sortIcon field="date" />
+      </th>
+      <th pSortableColumn="employeeTeam">
+        Team <p-sortIcon field="employeeTeam" />
+      </th>
+      <th pSortableColumn="parking">
+        Parking <p-sortIcon field="parking" />
+      </th>
+      <th pSortableColumn="notes">
+        Notes <p-sortIcon field="notes" />
+      </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-presence>
+      <tr>
+        <td>{{presence.employeeName}}</td>
+        <td>{{presence.roomNumber}}</td>
+        <td>{{presence.date}}</td>
+        <td>{{presence.employeeTeam}}</td>
+        <td>{{presence.parkingSpot ? 'Spot ' + presence.parkingSpot : 'No parking'}}</td>
+        <td>{{presence.notes}}</td>
+      </tr>
+    </ng-template>
+  </p-table>
 </div>

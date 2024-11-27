@@ -18,7 +18,6 @@ export class DataService {
     });
     return this.employees.asObservable();
   }
-  
   private rooms = new BehaviorSubject<Room[]>([]);
 
   getRooms(): Observable<Room[]> {
@@ -49,15 +48,15 @@ export class DataService {
   }
 
   addPresence(presence: AddOfficePresence): void {
-    this.http.get<{ employeeName: string, employeeTeam: string }>('/api/employee/current')
+    this.http.post('/api/employee/add', presence)
       .pipe(
-        tap(employee => {
+        tap(() => {
           const current = this.presences.value;
           const newPresence: GetOfficePresence = {
             ...presence,
             id: current.length + 1,
-            employeeName: employee.employeeName,
-            employeeTeam: employee.employeeTeam
+            employeeName: '', 
+            employeeTeam: ''  
           };
           this.presences.next([...current, newPresence]);
         })

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataService } from '../../services/data.service';
 import { map } from 'rxjs/operators';
-import { MatTableDataSource } from '@angular/material/table';
+import { Car } from '../../models/models';
 
 @Component({
   selector: 'app-car-management',
@@ -26,17 +26,15 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class CarManagementComponent {
   carForm: FormGroup;
-  employees$;
+  employees$=[];
   cars$;
-  carsDataSource;
-  
+  carsDataSource = [];
   displayedColumns = ['employeeName', 'brand', 'registrationPlate'];
 
   constructor(
     private fb: FormBuilder,
     private dataService: DataService
   ) {
-    this.employees$ = this.dataService.getEmployees();
     this.cars$ = this.dataService.getCars().pipe(
       map(cars => 
         cars.map(car => ({
@@ -45,7 +43,6 @@ export class CarManagementComponent {
         }))
       )
     );
-    this.carsDataSource = new MatTableDataSource([]);
     this.carForm = this.fb.group({
       employeeId: ['', Validators.required],
       brand: ['', Validators.required],

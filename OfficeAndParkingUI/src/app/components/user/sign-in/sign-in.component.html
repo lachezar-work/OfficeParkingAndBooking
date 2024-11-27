@@ -2,7 +2,7 @@
   <form #signInForm="ngForm" class="form" (ngSubmit)="signIn()">
     <div class="sign-in">Sign In</div>
     <div class="sub-text">to reserve your spot</div>
-    <input name="email" required #username="ngModel" [(ngModel)]="credentials.username" placeholder="Email Address"
+    <input name="email" required #username="ngModel" [(ngModel)]="credentials.username" placeholder="Username"
       type="text" />
     <em class="error" *ngIf="username.errors?.['required'] && username.touched">Username is required</em>
     <input name="password" required #password="ngModel" [(ngModel)]="credentials.password" placeholder="Password"
