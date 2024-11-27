@@ -11,6 +11,7 @@ namespace OfficeAndParking.Services.DTOs.OfficePresenceDTOs
     {
         public int Id { get; set; }
         public DateOnly Date { get; set; }
+        public string EmployeeId{ get; set; }
         public string EmployeeName { get; set; }
         public string EmployeeTeam { get; set; }
         public int RoomNumber { get; set; }

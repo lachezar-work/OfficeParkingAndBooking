@@ -23,6 +23,7 @@ namespace OfficeAndParkingAPI.Controllers
                 Date = x.Date,
                 EmployeeName = $"{x.Employee.Firstname} {x.Employee.Lastname}",
                 EmployeeTeam = x.Employee.Team.FullName,
+                EmployeeId = x.Employee.Id,
                 RoomNumber = x.OfficeRoom.Number,
                 ParkingSpot = x.ParkingSpotReservationId,
                 ParkingArrivalTime = x.ParkingSpotReservation?.ReservedFrom,
@@ -32,7 +33,6 @@ namespace OfficeAndParkingAPI.Controllers
         }
 
         [HttpPost("add")]
-        [Authorize]
         public async Task<IActionResult> AddOfficePresence(AddPresenceDTO model)
         {
             await _presenceService.AddOfficePresence(model);
@@ -40,7 +40,6 @@ namespace OfficeAndParkingAPI.Controllers
         }
 
         [HttpPost("remove")]
-        [Authorize]
         public async Task<IActionResult> RemoveOfficePresence(int id)
         {
             await _presenceService.RemoveOfficePresenceAsync(id);

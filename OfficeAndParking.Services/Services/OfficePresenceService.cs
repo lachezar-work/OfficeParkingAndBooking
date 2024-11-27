@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using OfficeAndParking.Data.Models;
 using OfficeAndParking.Services.DTOs.OfficePresenceDTOs;
 using OfficeAndParking.Services.Exceptions;
 using OfficeAndParking.Services.Repositories;
-using System.Security.Claims;
 
 namespace OfficeAndParking.Services.Services
 {
@@ -38,10 +36,9 @@ namespace OfficeAndParking.Services.Services
         }
         public async Task AddOfficePresence(AddPresenceDTO model)
         {
-            var userId = _identityService.GetCurrentUserId();
-            if (await _presenceRepository.HasPresenceAtDateAsync(model.Date, userId))
+            if (await _presenceRepository.HasPresenceAtDateAsync(model.Date, model.EmployeeId))
             {
-                throw new DuplicateEntityException( "You already have presence at this date");
+                throw new DuplicateEntityException( "This employee already have presence at this date");
             }
 
             await ValidateRoomCapacity(model.RoomId, model.Date);
@@ -49,7 +46,7 @@ namespace OfficeAndParking.Services.Services
             var officePresenceToAdd = new OfficePresence()
             {
                 Date = model.Date,
-                EmployeeId = userId,
+                EmployeeId = model.EmployeeId,
                 RoomId = model.RoomId,
                 ParkingSpotReservationId = model.ParkingSpot,
                 Notes = model.Notes
