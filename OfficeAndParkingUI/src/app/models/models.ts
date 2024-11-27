@@ -10,17 +10,20 @@ export interface Car {
   brand: string;
   registrationPlate: string;
 }
-
-export interface OfficePresence {
-  id: number;
+export interface AddOfficePresence {
   date: Date;
-  employeeId: number;
-  roomId: number;
+  roomNumber: number;
   parkingSpot?: number;
   parkingArrivalTime?: string;
   parkingDepartureTime?: string;
   notes?: string;
 }
+export interface GetOfficePresence extends AddOfficePresence {
+  id: number;
+  employeeName: string;
+  employeeTeam: string;
+}
+
 
 export interface Team {
   id: number;

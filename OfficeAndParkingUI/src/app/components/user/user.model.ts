@@ -1,11 +1,11 @@
 export interface IUser {
   firstName: string;
   lastName: string;
-  email: string;
+  username: string;
   password?: string;
 }
 
 export interface IUserCredentials {
-  email: string;
+  username: string;
   password: string;
 }

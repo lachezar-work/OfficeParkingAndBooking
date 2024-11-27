@@ -2,10 +2,9 @@
   <form #signInForm="ngForm" class="form" (ngSubmit)="signIn()">
     <div class="sign-in">Sign In</div>
     <div class="sub-text">to reserve your spot</div>
-    <input name="email" required email #email="ngModel" [(ngModel)]="credentials.email" placeholder="Email Address"
+    <input name="email" required #username="ngModel" [(ngModel)]="credentials.username" placeholder="Email Address"
       type="text" />
-    <em class="error" *ngIf="email.errors?.['required'] && email.touched">Email is required</em>
-    <em class="error" *ngIf="email.errors?.['email'] && email.touched">Must be a valid email format</em>
+    <em class="error" *ngIf="username.errors?.['required'] && username.touched">Username is required</em>
     <input name="password" required #password="ngModel" [(ngModel)]="credentials.password" placeholder="Password"
       type="password" />
     <em class="error" *ngIf="password.invalid && password.touched">Password is required</em>

@@ -62,19 +62,17 @@ export class PresenceFormComponent implements OnInit {
       notes: ['']
     });
   }
+  ngOnInit(): void{
+    this.dataService.getRooms().subscribe((rooms: Room[]) => {
+      this.rooms = rooms;
+    });
 
-  ngOnInit() {
-    this.userService.getUser().subscribe(email => {
-      this.presenceForm.patchValue({ employeeName: email })
+    this.userService.getUser().subscribe(username => {
+      this.presenceForm.patchValue({ employeeName: username })
     }
-    )
+    );
   }
 
-  getEmployeeName(employeeId: number): string {
-    const employees = (this.dataService.getEmployees() as any).value;
-    const employee = employees.find((e: any) => e.id === employeeId);
-    return employee ? employee.name : 'Unknown';
-  }
 
   onSubmit() {
     if (this.presenceForm.valid) {
@@ -91,10 +89,8 @@ export class PresenceFormComponent implements OnInit {
       }
 
       this.dataService.addPresence({
-        id: 0,
         date: formValue.date,
-        employeeId: formValue.employeeId,
-        roomId: formValue.roomId,
+        roomNumber: formValue.roomId,
         parkingSpot: formValue.needsParking ? formValue.parkingSpot : undefined,
         parkingArrivalTime: formValue.needsParking ? formValue.parkingArrivalTime : undefined,
         parkingDepartureTime: formValue.needsParking ? formValue.parkingDepartureTime : undefined,

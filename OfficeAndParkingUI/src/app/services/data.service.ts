@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { Employee, Car, OfficePresence, Team, Room } from '../models/models';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { Employee, Car, GetOfficePresence, Room, AddOfficePresence } from '../models/models';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { 
+  }
 
   private employees = new BehaviorSubject<Employee[]>([]);
 
@@ -34,10 +35,10 @@ export class DataService {
     { id: 4, employeeId: 4, brand: 'Audi', registrationPlate: 'GHI789' }
   ]);
 
-  private presences = new BehaviorSubject<OfficePresence[]>([]);
+  private presences = new BehaviorSubject<GetOfficePresence[]>([]);
 
-  getPresences(): Observable<OfficePresence[]> {
-    this.http.get<OfficePresence[]>('/api/officepresence').subscribe(data => {
+  getPresences(): Observable<GetOfficePresence[]> {
+    this.http.get<GetOfficePresence[]>('/api/officepresence').subscribe(data => {
       this.presences.next(data);
     });
     return this.presences.asObservable();
@@ -47,9 +48,20 @@ export class DataService {
     return this.cars.asObservable();
   }
 
-  addPresence(presence: OfficePresence) {
-    const current = this.presences.value;
-    this.presences.next([...current, { ...presence, id: current.length + 1 }]);
+  addPresence(presence: AddOfficePresence): void {
+    this.http.get<{ employeeName: string, employeeTeam: string }>('/api/employee/current')
+      .pipe(
+        tap(employee => {
+          const current = this.presences.value;
+          const newPresence: GetOfficePresence = {
+            ...presence,
+            id: current.length + 1,
+            employeeName: employee.employeeName,
+            employeeTeam: employee.employeeTeam
+          };
+          this.presences.next([...current, newPresence]);
+        })
+      ).subscribe();
   }
 
   addCar(car: Car) {

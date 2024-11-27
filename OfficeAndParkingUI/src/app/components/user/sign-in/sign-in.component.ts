@@ -9,7 +9,7 @@ import { UserService } from '../user.service';
   styleUrls: ['./sign-in.component.css'],
 })
 export class SignInComponent {
-  credentials: IUserCredentials = { email: '', password: '' };
+  credentials: IUserCredentials = { username: '', password: '' };
   signInError: boolean = false;
   signInErrorMessage: string = "";
 

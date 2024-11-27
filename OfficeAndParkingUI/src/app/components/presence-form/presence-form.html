@@ -11,8 +11,8 @@
   <mat-form-field>
     <mat-label>Room</mat-label>
     <mat-select formControlName="room">
-      <mat-option *ngFor="let room of rooms" [value]="room">
-        {{room}}
+      <mat-option *ngFor="let room of rooms" [value]="room.id">
+        {{room.number}}
       </mat-option>
     </mat-select>
   </mat-form-field>
@@ -55,12 +55,12 @@
   <mat-table [dataSource]="todayPresences">
     <ng-container matColumnDef="employeeName">
       <mat-header-cell *matHeaderCellDef> Employee </mat-header-cell>
-      <mat-cell *matCellDef="let presence"> {{getEmployeeName(presence.employeeId)}} </mat-cell>
+      <mat-cell *matCellDef="let presence"> {{presence.employeeName}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="room">
       <mat-header-cell *matHeaderCellDef> Room </mat-header-cell>
-      <mat-cell *matCellDef="let presence"> {{presence.room}} </mat-cell>
+      <mat-cell *matCellDef="let presence"> {{presence.roomNumber}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="parkingSpot">
