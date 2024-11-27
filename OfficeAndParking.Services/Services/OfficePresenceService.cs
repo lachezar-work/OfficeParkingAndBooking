@@ -13,20 +13,18 @@ namespace OfficeAndParking.Services.Services
         private readonly UserManager<Employee> _userManager;
         private readonly OfficePresenceRepository _presenceRepository;
         private readonly RoomRepository _roomRepository;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IdentityService _identityService;
 
-        public OfficePresenceService(UserManager<Employee> userManager, 
-            OfficePresenceRepository presenceRepository, IHttpContextAccessor httpContextAccessor, RoomRepository roomRepository)
+        public OfficePresenceService(
+            UserManager<Employee> userManager, 
+            OfficePresenceRepository presenceRepository, 
+            RoomRepository roomRepository, 
+            IdentityService identityService)
         {
             _userManager = userManager;
             _presenceRepository = presenceRepository;
-            _httpContextAccessor = httpContextAccessor;
             _roomRepository = roomRepository;
-        }
-        // Separate service 
-        private string GetCurrentUserId()
-        {
-            return _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            _identityService = identityService;
         }
         private async Task ValidateRoomCapacity(int roomId, DateOnly date)
         {
@@ -40,7 +38,7 @@ namespace OfficeAndParking.Services.Services
         }
         public async Task AddOfficePresence(AddPresenceDTO model)
         {
-            var userId = GetCurrentUserId();
+            var userId = _identityService.GetCurrentUserId();
             if (await _presenceRepository.HasPresenceAtDateAsync(model.Date, userId))
             {
                 throw new DuplicateEntityException( "You already have presence at this date");
@@ -72,7 +70,7 @@ namespace OfficeAndParking.Services.Services
                 throw new EntityNotFoundException("Office presence not found");
             }
 
-            if (GetCurrentUserId() != presenceToDelete.EmployeeId)
+            if (_identityService.GetCurrentUserId() != presenceToDelete.EmployeeId)
             {
                 throw new NonAuthorizedException("You cannot delete that! ");
             }

@@ -25,6 +25,7 @@ namespace OfficeAndParking.Services.Repositories
         {
             return await _dbContext.OfficePresences
                 .Include(op => op.ParkingSpotReservation)
+                .Include(op => op.OfficeRoom)
                 .Include(op => op.Employee)
                 .ThenInclude(e => e.Team)
                 .ToListAsync();

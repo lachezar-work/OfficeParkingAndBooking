@@ -12,10 +12,12 @@ namespace OfficeAndParkingAPI.Controllers
     public class EmployeeController : ControllerBase
     {
         private readonly IEmployeeService _employeeService;
+        private readonly IdentityService _identityService;
 
-        public EmployeeController(IEmployeeService employeeService)
+        public EmployeeController(IEmployeeService employeeService, IdentityService identityService)
         {
             _employeeService = employeeService;
+            _identityService = identityService;
         }
 
         [HttpPost("assignrole")]
@@ -55,6 +57,17 @@ namespace OfficeAndParkingAPI.Controllers
                 return Ok();
             }
             return Unauthorized();
+        }
+        [HttpGet("current")]
+        [Authorize]
+        public async Task<IActionResult> GetCurrentUser()
+        {
+            var currentUser = new GetCurrentUserDTO()
+            {
+                EmployeeName = await _identityService.GetCurrentUserFullname(),
+                EmployeeTeam = await _identityService.GetCurrentUserTeam()
+            };
+            return Ok(currentUser);
         }
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GetEmployeeDTO>>> GetAllEmployees()

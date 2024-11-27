@@ -23,7 +23,7 @@ namespace OfficeAndParkingAPI.Controllers
                 Date = x.Date,
                 EmployeeName = $"{x.Employee.Firstname} {x.Employee.Lastname}",
                 EmployeeTeam = x.Employee.Team.FullName,
-                RoomId = x.RoomId,
+                RoomNumber = x.OfficeRoom.Number,
                 ParkingSpot = x.ParkingSpotReservationId,
                 ParkingArrivalTime = x.ParkingSpotReservation?.ReservedFrom,
                 ParkingDepartureTime = x.ParkingSpotReservation?.ReservedUntil,
