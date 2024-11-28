@@ -3,19 +3,19 @@
 
   <div class="p-field">
     <label for="date">Date</label>
-    <p-calendar id="date" formControlName="date" class="input-field"></p-calendar>
+    <p-calendar  [style]="{'width':'65%'}"id="date" formControlName="date" class="input-field"></p-calendar>
   </div>
 
   <div class="p-field">
     <label for="employeeName">Employee</label>
-    <p-dropdown [showClear]="true" [options]="employees" optionLabel="fullName" [filter]="true" filterBy="fullName"
+    <p-dropdown [style]="{'width':'65%'}" [showClear]="true" [options]="employees" optionLabel="fullName" [filter]="true" filterBy="fullName"
       placeholder="Select an Employee" optionValue="id" formControlName="employeeId">
     </p-dropdown>
   </div>
 
   <div class="p-field">
     <label for="room">Room</label>
-    <p-dropdown id="room" [options]="rooms" optionLabel="number" optionValue="id" formControlName="roomId"
+    <p-dropdown [style]="{'width':'65%'}" id="room" [options]="rooms" optionLabel="number" optionValue="id" formControlName="roomId"
       class="input-field"></p-dropdown>
   </div>
 
@@ -25,20 +25,27 @@
   </div>
 
   <div *ngIf="presenceForm.get('needsParking')?.value">
+      <div class="p-field">
+        <label for="car">Select your car</label>
+        <p-dropdown [style]="{'width':'65%'}" id="car" [options]="filteredCars" optionLabel="registrationPlate" optionValue="id" formControlName="car"
+          class="input-field" [disabled]="!presenceForm.get('employeeId')?.value"></p-dropdown>
+      </div>
     <div class="p-field">
-      <label for="parkingSpot">Parking Spot</label>
-      <p-dropdown id="parkingSpot" [options]="parkingSpots" formControlName="parkingSpot"
+      <label for="parkingSpot" >Parking Spot</label>
+      <p-dropdown [style]="{'width':'65%'}" id="parkingSpot" [options]="parkingSpots" optionLabel="number" optionValue="id" formControlName="parkingSpot"
         class="input-field"></p-dropdown>
     </div>
+    
     <div class="p-field">
       <label for="parkingArrivalTime">Arrival Time</label>
-      <input pInputText type="time" id="parkingArrivalTime" formControlName="parkingArrivalTime" class="input-field">
+      <p-calendar id="parkingArrivalTime" formControlName="parkingArrivalTime" class="input-field"
+                  [showTime]="true" [timeOnly]="true" hourFormat="24"></p-calendar>
     </div>
 
     <div class="p-field">
       <label for="parkingDepartureTime">Departure Time</label>
-      <input pInputText type="time" id="parkingDepartureTime" formControlName="parkingDepartureTime"
-        class="input-field">
+      <p-calendar id="parkingDepartureTime" formControlName="parkingDepartureTime" class="input-field"
+      [style]="{'width':'55%'}" [showTime]="true" [timeOnly]="true" hourFormat="24"></p-calendar>
     </div>
 
     <div class="p-field">
@@ -47,11 +54,11 @@
     </div>
   </div>
 
-  <button pButton type="submit" label="Submit"></button>
+  <button pButton type="submit" label="Submit" [disabled]="!presenceForm.valid"></button>
 </form>
 
 <div class="presence-list">
-  <h3>Today's Office Presence</h3>
+  <h3>All future office presences</h3>
   <p-table #dt [value]="allPresences" (sortFunction)="customSort($event)" [customSort]="true"
     [globalFilterFields]="['employeeName', 'roomNumber','date','employeeTeam', 'parking', 'notes']">
     <ng-template pTemplate="caption">
@@ -77,12 +84,18 @@
         <th pSortableColumn="employeeTeam">
           Team <p-sortIcon field="employeeTeam" />
         </th>
-        <th pSortableColumn="parking">
-          Parking <p-sortIcon field="parking" />
-        </th>
         <th pSortableColumn="notes">
           Notes <p-sortIcon field="notes" />
         </th>
+        <th pSortableColumn="parkingSpot">
+          Parking <p-sortIcon field="parking" />
+        </th>
+        <th>
+           Parking start
+        </th>
+        <th>
+          Parking ends
+       </th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-presence>
@@ -91,10 +104,21 @@
         <td>{{presence.roomNumber}}</td>
         <td>{{presence.date}}</td>
         <td>{{presence.employeeTeam}}</td>
-        <td>
-          <i *ngIf="presence.parkingSpot" [ngClass]="'bi bi-' + presence.parkingSpot + '-square'"></i>
+        <td>{{presence.notes}}
+          <div *ngIf="!presence.notes">-</div>
         </td>
-        <td>{{presence.notes}}</td>
+        <td>
+          <div *ngIf="presence.parkingSpot">№<i [ngClass]="'bi bi-' + presence.parkingSpot + '-square'"></i></div>
+          <div *ngIf="!presence.parkingSpot">-</div>
+        </td>
+        <td>
+          {{presence.parkingArrivalTime}}
+          <div *ngIf="!presence.parkingSpot">-</div>
+        </td>
+        <td>
+          {{presence.parkingDepartureTime}}
+          <div *ngIf="!presence.parkingSpot">-</div>
+        </td>
       </tr>
     </ng-template>
   </p-table>

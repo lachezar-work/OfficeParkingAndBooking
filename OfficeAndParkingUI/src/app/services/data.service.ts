@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { Employee, Car, GetOfficePresence, Room, AddOfficePresence } from '../models/models';
+import { Employee, Car, GetOfficePresence, Room, AddOfficePresence, ParkingSpot } from '../models/models';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -8,9 +8,14 @@ import { HttpClient } from '@angular/common/http';
 })
 export class DataService {
   constructor(private http: HttpClient) { 
+    this.getEmployees().subscribe();
   }
 
   private employees = new BehaviorSubject<Employee[]>([]);
+  private presences = new BehaviorSubject<GetOfficePresence[]>([]);
+  private rooms = new BehaviorSubject<Room[]>([]);
+  private parkingSpots = new BehaviorSubject<ParkingSpot[]>([]);
+  private cars = new BehaviorSubject<Car[]>([]);
 
   getEmployees(): Observable<Employee[]> {
     this.http.get<Employee[]>('/api/employee').subscribe(data => {
@@ -18,32 +23,28 @@ export class DataService {
     });
     return this.employees.asObservable();
   }
-  private rooms = new BehaviorSubject<Room[]>([]);
-
+  getParkingSpots(): Observable<ParkingSpot[]> {
+    this.http.get<ParkingSpot[]>('/api/parkingspot').subscribe(data => {
+      this.parkingSpots.next(data);
+    });
+    return this.parkingSpots.asObservable();
+  }
   getRooms(): Observable<Room[]> {
     this.http.get<Room[]>('/api/room').subscribe(data => {
       this.rooms.next(data);
     });
     return this.rooms.asObservable();
   }
-
-  private cars = new BehaviorSubject<Car[]>([
-    { id: 1, employeeId: 1, brand: 'Toyota', registrationPlate: 'ABC123' },
-    { id: 2, employeeId: 2, brand: 'Honda', registrationPlate: 'XYZ789' },
-    { id: 3, employeeId: 3, brand: 'BMW', registrationPlate: 'DEF456' },
-    { id: 4, employeeId: 4, brand: 'Audi', registrationPlate: 'GHI789' }
-  ]);
-
-  private presences = new BehaviorSubject<GetOfficePresence[]>([]);
-
   getPresences(): Observable<GetOfficePresence[]> {
     this.http.get<GetOfficePresence[]>('/api/officepresence').subscribe(data => {
       this.presences.next(data);
     });
     return this.presences.asObservable();
   }
-
   getCars(): Observable<Car[]> {
+    this.http.get<Car[]>('/api/car').subscribe(data => {
+      this.cars.next(data);
+    });
     return this.cars.asObservable();
   }
 
@@ -63,12 +64,27 @@ export class DataService {
       ).subscribe();
   }
 
-  addCar(car: Car) {
-    const current = this.cars.value;
-    this.cars.next([...current, { ...car, id: current.length + 1 }]);
+  addCar(car: Car): void {
+    this.http.post<Car>('/api/car/add', car).pipe(
+      tap((newCar: Car) => {
+        const current = this.cars.value;
+        this.cars.next([...current, newCar]);
+      })
+    ).subscribe();
   }
 
-  isParkingSpotAvailable(date: Date, spot: number, arrivalTime: Date, departureTime: Date): boolean {
+  public getEmployeeName(employeeId: number): string {
+    const employee = this.employees.value.find(e => e.id === employeeId);
+    return employee ? employee.fullName : 'Unknown';
+  }
+
+  public convertToTimeOnly(dateTimeString: string): string {
+    const date = new Date(dateTimeString);
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+  }
+  isParkingSpotAvailable(date: string, spot: number, arrivalTime: string, departureTime: string): boolean {
     return !this.presences.value.some(p => 
       p.parkingSpot === spot && 
       new Date(p.date).toDateString() === new Date(date).toDateString() &&
@@ -76,7 +92,17 @@ export class DataService {
     );
   }
 
-  private isTimeOverlapping(start1: Date, end1: Date, start2: Date, end2: Date): boolean {
-    return start1 <= end2 && start2 <= end1;
+  private isTimeOverlapping(start1: string, end1: string, start2: string, end2: string): boolean {
+    const [start1Hour, start1Minute] = start1.split(':').map(Number);
+    const [end1Hour, end1Minute] = end1.split(':').map(Number);
+    const [start2Hour, start2Minute] = start2.split(':').map(Number);
+    const [end2Hour, end2Minute] = end2.split(':').map(Number);
+
+    const start1Time = new Date(0, 0, 0, start1Hour, start1Minute);
+    const end1Time = new Date(0, 0, 0, end1Hour, end1Minute);
+    const start2Time = new Date(0, 0, 0, start2Hour, start2Minute);
+    const end2Time = new Date(0, 0, 0, end2Hour, end2Minute);
+
+    return (start1Time < end2Time && start2Time < end1Time);
   }
 }

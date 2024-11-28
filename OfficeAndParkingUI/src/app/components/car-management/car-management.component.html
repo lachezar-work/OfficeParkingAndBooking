@@ -4,6 +4,13 @@
   <form [formGroup]="carForm" (ngSubmit)="onSubmit()" class="car-form">
 
     <div class="p-field">
+      <label for="employeeName">Employee</label>
+      <p-dropdown [style]="{'width':'65%'}" [showClear]="true" [options]="employees" optionLabel="fullName" [filter]="true" filterBy="fullName"
+        placeholder="Select an Employee" optionValue="id" formControlName="employeeId">
+      </p-dropdown>
+    </div>
+    
+    <div class="p-field">
       <label for="brand">Car Brand</label>
       <input pInputText id="brand" formControlName="brand">
     </div>
@@ -18,7 +25,7 @@
 
   <div class="car-list">
     <h3>Registered Cars</h3>
-    <p-table [value]="carsDataSource">
+    <p-table [value]="cars">
       <ng-template pTemplate="header">
         <tr>
           <th>Employee Name</th>

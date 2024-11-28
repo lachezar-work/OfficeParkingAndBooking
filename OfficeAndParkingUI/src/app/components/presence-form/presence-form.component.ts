@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataService } from '../../services/data.service';
-import { Employee, GetOfficePresence, Room } from '../../models/models';
+import { Employee, GetOfficePresence, Room ,ParkingSpot, Car} from '../../models/models';
 import { UserService } from '../user/user.service';
 import { Table } from 'primeng/table';
 import { SortEvent } from 'primeng/api';
@@ -9,52 +9,7 @@ import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-presence-form',
-  templateUrl: './presence-form.html',
-  styles: [`
-.form-container {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.form-group-checkbox {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.input-field {
-  width: 100%;
-}
-
-button[pButton] {
-  align-self: flex-end;
-  margin-top: 20px;
-}
-
-button[pButton] {
-  display: block;
-  width: 100%;
-  margin-top: 20px;
-}
-    .presence-list {
-      max-width: 800px;
-      margin: 20px auto;
-      padding: 20px;
-    }
-  `]
+  templateUrl: './presence-form.html'
 })
 export class PresenceFormComponent implements OnInit {
   @ViewChild('dt') dt!: Table;
@@ -62,12 +17,13 @@ export class PresenceFormComponent implements OnInit {
   isSorted: boolean | null = null;
   searchValue: string | undefined;
   presenceForm: FormGroup;
+
   employees: Employee[]=[];
   rooms: Room[] = [];
-  parkingSpots = [1, 2, 3, 4];
-  
+  parkingSpots: ParkingSpot[]= [];
+  allCars: Car[] = [];
+  filteredCars: Car[] = [];
   allPresences: GetOfficePresence[] = [];
-
 
   constructor(
     private fb: FormBuilder,
@@ -76,22 +32,29 @@ export class PresenceFormComponent implements OnInit {
     private datePipe: DatePipe
   ) {
 
-
     // Initialize the form
     this.presenceForm = this.fb.group({
       date: [new Date(), Validators.required],
       roomId: ['', Validators.required],
       employeeId: ['', Validators.required],
       needsParking: [false],
+      car: [{ value: '', disabled: true }],
       parkingSpot: [''],
       parkingArrivalTime: [''],
       parkingDepartureTime: [''],
       notes: ['']
     });
   }
+
   ngOnInit(): void{
     this.dataService.getRooms().subscribe((rooms: Room[]) => {
       this.rooms = rooms;
+    });
+    this.dataService.getCars().subscribe((cars: Car[]) => {
+      this.allCars = cars;
+    });
+    this.dataService.getParkingSpots().subscribe((parkingSpots: ParkingSpot[]) => {
+      this.parkingSpots = parkingSpots;
     });
     this.dataService.getEmployees().subscribe((employees: Employee[]) => {
       this.employees = employees;
@@ -102,6 +65,16 @@ export class PresenceFormComponent implements OnInit {
     this.dataService.getPresences()
     .subscribe(presences => {
       this.allPresences = presences; 
+    });
+
+    this.presenceForm.get('employeeId')?.valueChanges.subscribe(employeeId => {
+      if (employeeId) {
+        this.filteredCars = this.allCars.filter(car => car.employeeId === employeeId);
+        this.presenceForm.get('car')?.enable();
+      } else {
+        this.filteredCars = [];
+        this.presenceForm.get('car')?.disable();
+      }
     });
   }
   getTeamNameOfEmployee(employeeId: number){
@@ -137,7 +110,6 @@ sortTableData(event: any) {
       else if (value1 == null && value2 == null) result = 0;
       else if (typeof value1 === 'string' && typeof value2 === 'string') result = value1.localeCompare(value2);
       else result = value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
-
       return event.order * result;
   });
 }
@@ -162,10 +134,11 @@ sortTableData(event: any) {
       this.dataService.addPresence({
         date: formValue.date,
         roomId: formValue.roomId,
+        carId: formValue.car,
         employeeId: formValue.employeeId,
         parkingSpot: formValue.needsParking ? formValue.parkingSpot : undefined,
-        parkingArrivalTime: formValue.needsParking ? new Date(`1970-01-01T${this.datePipe.transform(formValue.parkingArrivalTime, 'HH:mm')}:00`) : undefined,
-        parkingDepartureTime: formValue.needsParking ? new Date(`1970-01-01T${this.datePipe.transform(formValue.parkingDepartureTime, 'HH:mm')}:00`) : undefined,
+        parkingArrivalTime: formValue.needsParking ? this.dataService.convertToTimeOnly(formValue.parkingArrivalTime) : undefined,
+        parkingDepartureTime: formValue.needsParking ? this.dataService.convertToTimeOnly(formValue.parkingDepartureTime) : undefined,
         notes: formValue.notes
       });
 

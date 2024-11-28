@@ -4,8 +4,43 @@
 */
 @import "primeng/resources/themes/saga-blue/theme.css";
 @import "primeng/resources/primeng.min.css";
+@import "bootstrap-icons/font/bootstrap-icons.css";
 
 .p-button {
     margin-left: 0.25rem;
     margin-right: 0.25rem;
+}
+
+.form-container {
+    text-align: right;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+
+  }
+  
+  .p-field {
+    margin-top: 10px; 
+    margin-bottom: 10px; 
+  }
+  .input-field {
+    display: inline;
+  }
+
+  button[pButton] {
+    margin-top: 20px;
+  }
+    .presence-list {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    text-align: center;
+    }
+label {
+  text-align: left;
+    padding: 0.5rem;
 }

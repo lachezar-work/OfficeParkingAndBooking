@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataService } from '../../services/data.service';
 import { map } from 'rxjs/operators';
-import { Car } from '../../models/models';
+import { Car, Employee } from '../../models/models';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-car-management',
@@ -26,34 +27,36 @@ import { Car } from '../../models/models';
 })
 export class CarManagementComponent {
   carForm: FormGroup;
-  employees$=[];
-  cars$;
-  carsDataSource = [];
+  employees: Employee[] = [];
+  cars: Car[] = [];
   displayedColumns = ['employeeName', 'brand', 'registrationPlate'];
 
   constructor(
     private fb: FormBuilder,
     private dataService: DataService
   ) {
-    this.cars$ = this.dataService.getCars().pipe(
-      map(cars => 
-        cars.map(car => ({
-          ...car,
-          employeeName: this.getEmployeeName(car.employeeId)
-        }))
-      )
-    );
+
     this.carForm = this.fb.group({
       employeeId: ['', Validators.required],
       brand: ['', Validators.required],
       registrationPlate: ['', Validators.required]
     });
   }
+  ngOnInit(): void {
+    this.dataService.getEmployees().subscribe((employees: Employee[]) => {
+      this.employees = employees;
+    });
 
-  private getEmployeeName(employeeId: number): string {
-    const employees = (this.dataService.getEmployees() as any).value;
-    const employee = employees.find((e: any) => e.id === employeeId);
-    return employee ? employee.name : 'Unknown';
+    this.dataService.getCars().pipe(
+      map(cars => 
+        cars.map(car => ({
+          ...car,
+          employeeName: this.dataService.getEmployeeName(car.employeeId)
+        }))
+      )
+    ).subscribe((cars: Car[]) => {
+      this.cars = cars;
+    });
   }
 
   onSubmit() {
