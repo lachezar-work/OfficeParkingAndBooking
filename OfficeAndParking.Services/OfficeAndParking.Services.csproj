@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="Services\Contracts\IParkingSpotService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\OfficeAndParking.Common\OfficeAndParking.Common.csproj" />
     <ProjectReference Include="..\OfficeParkingAndBooking.Data\OfficeAndParking.Data.csproj" />
   </ItemGroup>

@@ -53,15 +53,21 @@ public class Program
             .AddDefaultTokenProviders();
 
         builder.Services.AddScoped(typeof(IBaseRepository<,>), typeof(BaseRepository<,>));
+
+        builder.Services.AddScoped<IIdentityService, IdentityService>();
+
         builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
         builder.Services.AddScoped<IEmployeeService, EmployeeService>();
-        builder.Services.AddScoped<IOfficePresenceService, OfficePresenceService>();
-        builder.Services.AddScoped<IRoomService, RoomService>();
-        builder.Services.AddScoped<ITeamService, TeamService>();
-        builder.Services.AddScoped<IIdentityService, IdentityService>();
         builder.Services.AddScoped<IOfficePresenceRepository, OfficePresenceRepository>();
+        builder.Services.AddScoped<IOfficePresenceService, OfficePresenceService>();
         builder.Services.AddScoped<IRoomRepository, RoomRepository>();
+        builder.Services.AddScoped<IRoomService, RoomService>();
         builder.Services.AddScoped<ITeamRepository, TeamRepository>();
+        builder.Services.AddScoped<ITeamService, TeamService>();
+        builder.Services.AddScoped<IParkingSpotRepository, ParkingSpotRepository>();
+        builder.Services.AddScoped<IParkingSpotService, ParkingSpotService>();
+        builder.Services.AddScoped<ICarRepository, CarRepository>();
+        builder.Services.AddScoped<ICarService, CarService>();
 
 
         builder.Services.ConfigureHttpJsonOptions(options =>

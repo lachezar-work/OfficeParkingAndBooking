@@ -63,14 +63,18 @@ namespace OfficeAndParking.Services.Services
 
             if (model.ParkingSpot!=null && model.ParkingArrivalTime != null && model.ParkingDepartureTime!=null)
             {
+                var parsedParkingArrivalTime = TimeOnly.Parse(model.ParkingArrivalTime);
+                var parsedParkingDepartureTime = TimeOnly.Parse(model.ParkingDepartureTime);
+
                 officePresenceToAdd.ParkingSpotReservation = new ParkingSpotReservation()
                 {
-                        ParkingSpot =
+                        ParkingSpot = new ParkingSpot()
                         {
                             SpotNumber = (int)model.ParkingSpot
                         },
-                        ReservedFrom = TimeOnly.FromDateTime((DateTime)model.ParkingArrivalTime),
-                        ReservedUntil = TimeOnly.FromDateTime((DateTime)model.ParkingDepartureTime)
+                        ReservedFrom = parsedParkingArrivalTime,
+                        ReservedUntil = parsedParkingDepartureTime,
+                        CarId = model.CarId
                 };
             }
             await _presenceRepository.AddAsync(officePresenceToAdd);
