@@ -4,15 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OfficeAndParking.Data.Models;
+using OfficeAndParking.Services.Contracts;
 using OfficeAndParking.Services.Repositories;
+using OfficeAndParking.Services.Repositories.Contracts;
 
 namespace OfficeAndParking.Services.Services
 {
-    public class RoomService
+    public class RoomService:IRoomService
     {
-        private readonly RoomRepository _roomRepository;
+        private readonly IRoomRepository _roomRepository;
 
-        public RoomService(RoomRepository roomRepository)
+        public RoomService(IRoomRepository roomRepository)
         {
             _roomRepository = roomRepository;
         }

@@ -1,3 +1,5 @@
+import { Time } from "@angular/common";
+
 export interface Employee {
   id: number;
   fullName: string;
@@ -12,7 +14,7 @@ export interface Car {
 }
 export interface AddOfficePresence {
   date: Date;
-  roomNumber: number;
+  roomId: number;
   employeeId: string;
   parkingSpot?: number;
   parkingArrivalTime?: string;

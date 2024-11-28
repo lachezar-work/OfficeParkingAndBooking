@@ -9,6 +9,7 @@ using OfficeAndParking.Services.Repositories.Contracts;
 using OfficeAndParking.Services.Services;
 using OfficeAndParking.Services.Services.Contracts;
 using OfficeAndParkingAPI.Middlewares;
+using OfficeAndParking.Services.Contracts;
 
 namespace OfficeAndParkingAPI;
 
@@ -54,13 +55,14 @@ public class Program
         builder.Services.AddScoped(typeof(IBaseRepository<,>), typeof(BaseRepository<,>));
         builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
         builder.Services.AddScoped<IEmployeeService, EmployeeService>();
-        builder.Services.AddScoped<OfficePresenceRepository>();
-        builder.Services.AddScoped<OfficePresenceService>();
-        builder.Services.AddScoped<RoomRepository>();
-        builder.Services.AddScoped<TeamRepository>();
-        builder.Services.AddScoped<TeamService>();
-        builder.Services.AddScoped<IdentityService>();
-        builder.Services.AddScoped<RoomService>();
+        builder.Services.AddScoped<IOfficePresenceService, OfficePresenceService>();
+        builder.Services.AddScoped<IRoomService, RoomService>();
+        builder.Services.AddScoped<ITeamService, TeamService>();
+        builder.Services.AddScoped<IIdentityService, IdentityService>();
+        builder.Services.AddScoped<IOfficePresenceRepository, OfficePresenceRepository>();
+        builder.Services.AddScoped<IRoomRepository, RoomRepository>();
+        builder.Services.AddScoped<ITeamRepository, TeamRepository>();
+
 
         builder.Services.ConfigureHttpJsonOptions(options =>
             options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
@@ -73,6 +75,7 @@ public class Program
         // Swagger
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+
     }
 
     private static void ConfigureMiddleware(WebApplication app)

@@ -10,14 +10,14 @@ namespace OfficeAndParking.Services.DTOs.OfficePresenceDTOs
     public class AddPresenceDTO
     {
         [Required]
-        public DateOnly Date { get; set; }
+        public DateTime Date { get; set; }
         [Required]
         public int RoomId { get; set; }
         [Required]
         public string EmployeeId { get; set; }
         public int? ParkingSpot { get; set; }
-        public TimeOnly? ParkingArrivalTime { get; set; }
-        public TimeOnly? ParkingDepartureTime { get; set; }
+        public DateTime? ParkingArrivalTime { get; set; }
+        public DateTime? ParkingDepartureTime { get; set; }
         public string? Notes { get; set; }
     }
 }

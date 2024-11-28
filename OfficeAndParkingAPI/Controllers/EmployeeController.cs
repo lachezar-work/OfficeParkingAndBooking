@@ -12,9 +12,9 @@ namespace OfficeAndParkingAPI.Controllers
     public class EmployeeController : ControllerBase
     {
         private readonly IEmployeeService _employeeService;
-        private readonly IdentityService _identityService;
+        private readonly IIdentityService _identityService;
 
-        public EmployeeController(IEmployeeService employeeService, IdentityService identityService)
+        public EmployeeController(IEmployeeService employeeService, IIdentityService identityService)
         {
             _employeeService = employeeService;
             _identityService = identityService;

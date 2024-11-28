@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataService } from '../../services/data.service';
-import { Employee, GetOfficePresence, AddOfficePresence, Room } from '../../models/models';
+import { Employee, GetOfficePresence, Room } from '../../models/models';
 import { UserService } from '../user/user.service';
 import { Table } from 'primeng/table';
 import { SortEvent } from 'primeng/api';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-presence-form',
@@ -71,14 +72,15 @@ export class PresenceFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private dataService: DataService,
-    private userService: UserService
+    private userService: UserService,
+    private datePipe: DatePipe
   ) {
 
 
     // Initialize the form
     this.presenceForm = this.fb.group({
       date: [new Date(), Validators.required],
-      room: ['', Validators.required],
+      roomId: ['', Validators.required],
       employeeId: ['', Validators.required],
       needsParking: [false],
       parkingSpot: [''],
@@ -159,11 +161,11 @@ sortTableData(event: any) {
 
       this.dataService.addPresence({
         date: formValue.date,
-        roomNumber: formValue.roomId,
+        roomId: formValue.roomId,
         employeeId: formValue.employeeId,
         parkingSpot: formValue.needsParking ? formValue.parkingSpot : undefined,
-        parkingArrivalTime: formValue.needsParking ? formValue.parkingArrivalTime : undefined,
-        parkingDepartureTime: formValue.needsParking ? formValue.parkingDepartureTime : undefined,
+        parkingArrivalTime: formValue.needsParking ? new Date(`1970-01-01T${this.datePipe.transform(formValue.parkingArrivalTime, 'HH:mm')}:00`) : undefined,
+        parkingDepartureTime: formValue.needsParking ? new Date(`1970-01-01T${this.datePipe.transform(formValue.parkingDepartureTime, 'HH:mm')}:00`) : undefined,
         notes: formValue.notes
       });
 

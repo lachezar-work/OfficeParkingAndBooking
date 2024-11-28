@@ -3,17 +3,18 @@ using System.Security.Claims;
 using OfficeAndParking.Data.Models;
 using OfficeAndParking.Services.Repositories;
 using OfficeAndParking.Services.Repositories.Contracts;
+using OfficeAndParking.Services.Services.Contracts;
 
 namespace OfficeAndParking.Services.Services
 {
-    public class IdentityService
+    public class IdentityService:IIdentityService
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         private readonly IEmployeeRepository _employeeRepository;
-        private readonly TeamRepository _teamRepository;
+        private readonly ITeamRepository _teamRepository;
         private readonly Employee currentEmployee;
-        public IdentityService(IHttpContextAccessor httpContextAccessor, IEmployeeRepository employeeRepository, TeamRepository teamRepository)
+        public IdentityService(IHttpContextAccessor httpContextAccessor, IEmployeeRepository employeeRepository, ITeamRepository teamRepository)
         {
             _httpContextAccessor = httpContextAccessor;
             _employeeRepository = employeeRepository;

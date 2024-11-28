@@ -15,6 +15,7 @@ import { TagModule } from 'primeng/tag';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { CommonModule } from '@angular/common';
+import { DatePipe } from '@angular/common';
 
 
 import { AppComponent } from './app.component';
@@ -55,7 +56,7 @@ import { HttpClientModule } from '@angular/common/http';
     ProgressBarModule,
     CommonModule
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

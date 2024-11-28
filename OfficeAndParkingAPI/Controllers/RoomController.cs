@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OfficeAndParking.Services.Contracts;
 using OfficeAndParking.Services.Services;
 
 namespace OfficeAndParkingAPI.Controllers
@@ -7,9 +8,9 @@ namespace OfficeAndParkingAPI.Controllers
     [ApiController]
     public class RoomController : ControllerBase
     {
-        private readonly RoomService _roomService;
+        private readonly IRoomService _roomService;
 
-        public RoomController(RoomService roomService)
+        public RoomController(IRoomService roomService)
         {
             _roomService = roomService;
         }

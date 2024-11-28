@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Runtime.InteropServices.JavaScript;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using OfficeAndParking.Data;
 using OfficeAndParking.Data.Models;
+using OfficeAndParking.Services.Repositories.Contracts;
 
 namespace OfficeAndParking.Services.Repositories
 {
-    public class OfficePresenceRepository : BaseRepository<OfficePresence, int>
+    public class OfficePresenceRepository : BaseRepository<OfficePresence, int>, IOfficePresenceRepository
     {
         public OfficePresenceRepository(OfficeParkingDbContext dbContext) : base(dbContext)
         {

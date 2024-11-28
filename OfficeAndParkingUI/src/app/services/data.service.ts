@@ -48,15 +48,15 @@ export class DataService {
   }
 
   addPresence(presence: AddOfficePresence): void {
-    this.http.post('/api/employee/add', presence)
+    this.http.post<Employee>('/api/officepresence/add', presence)
       .pipe(
-        tap(() => {
+        tap((response:Employee) => {
           const current = this.presences.value;
           const newPresence: GetOfficePresence = {
             ...presence,
             id: current.length + 1,
-            employeeName: '', 
-            employeeTeam: ''  
+            employeeName: response.fullName, 
+            employeeTeam: response.teamName  
           };
           this.presences.next([...current, newPresence]);
         })
@@ -68,7 +68,7 @@ export class DataService {
     this.cars.next([...current, { ...car, id: current.length + 1 }]);
   }
 
-  isParkingSpotAvailable(date: Date, spot: number, arrivalTime: string, departureTime: string): boolean {
+  isParkingSpotAvailable(date: Date, spot: number, arrivalTime: Date, departureTime: Date): boolean {
     return !this.presences.value.some(p => 
       p.parkingSpot === spot && 
       new Date(p.date).toDateString() === new Date(date).toDateString() &&
@@ -76,7 +76,7 @@ export class DataService {
     );
   }
 
-  private isTimeOverlapping(start1: string, end1: string, start2: string, end2: string): boolean {
+  private isTimeOverlapping(start1: Date, end1: Date, start2: Date, end2: Date): boolean {
     return start1 <= end2 && start2 <= end1;
   }
 }

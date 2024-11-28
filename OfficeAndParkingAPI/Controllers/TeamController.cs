@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OfficeAndParking.Services.Contracts;
 using OfficeAndParking.Services.Repositories;
 using OfficeAndParking.Services.Services;
 
@@ -8,9 +9,9 @@ namespace OfficeAndParkingAPI.Controllers
     [ApiController]
     public class TeamController : ControllerBase
     {
-        private readonly TeamService _teamService;
+        private readonly ITeamService _teamService;
 
-        public TeamController(TeamService teamService)
+        public TeamController(ITeamService teamService)
         {
             _teamService = teamService;
         }

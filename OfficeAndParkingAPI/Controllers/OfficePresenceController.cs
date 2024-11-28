@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OfficeAndParking.Services.Contracts;
 using OfficeAndParking.Services.DTOs.OfficePresenceDTOs;
 using OfficeAndParking.Services.Services;
 
@@ -9,8 +10,8 @@ namespace OfficeAndParkingAPI.Controllers
     [ApiController]
     public class OfficePresenceController : ControllerBase
     {
-        private readonly OfficePresenceService _presenceService;
-        public OfficePresenceController(OfficePresenceService presenceService)
+        private readonly IOfficePresenceService _presenceService;
+        public OfficePresenceController(IOfficePresenceService presenceService)
         {
             _presenceService = presenceService;
         }
@@ -35,8 +36,8 @@ namespace OfficeAndParkingAPI.Controllers
         [HttpPost("add")]
         public async Task<IActionResult> AddOfficePresence(AddPresenceDTO model)
         {
-            await _presenceService.AddOfficePresence(model);
-            return Ok();
+            var employeeDto = await _presenceService.AddOfficePresence(model);
+            return Ok(employeeDto);
         }
 
         [HttpPost("remove")]

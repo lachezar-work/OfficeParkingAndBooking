@@ -1,29 +1,37 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using OfficeAndParking.Data.Models;
+using OfficeAndParking.Services.Contracts;
+using OfficeAndParking.Services.DTOs.EmployeeDTOs;
 using OfficeAndParking.Services.DTOs.OfficePresenceDTOs;
 using OfficeAndParking.Services.Exceptions;
 using OfficeAndParking.Services.Repositories;
+using OfficeAndParking.Services.Repositories.Contracts;
+using OfficeAndParking.Services.Services.Contracts;
 
 namespace OfficeAndParking.Services.Services
 {
-    public class OfficePresenceService
+    public class OfficePresenceService:IOfficePresenceService
     {
         private readonly UserManager<Employee> _userManager;
-        private readonly OfficePresenceRepository _presenceRepository;
-        private readonly RoomRepository _roomRepository;
-        private readonly IdentityService _identityService;
+        private readonly IOfficePresenceRepository _presenceRepository;
+        private readonly IRoomRepository _roomRepository;
+        private readonly IIdentityService _identityService;
+        private readonly IEmployeeRepository _employeeRepository;
 
         public OfficePresenceService(
-            UserManager<Employee> userManager, 
-            OfficePresenceRepository presenceRepository, 
-            RoomRepository roomRepository, 
-            IdentityService identityService)
+            UserManager<Employee> userManager,
+            IOfficePresenceRepository presenceRepository,
+            IRoomRepository roomRepository,
+            IIdentityService identityService,
+            IEmployeeRepository employeeRepository)
         {
             _userManager = userManager;
             _presenceRepository = presenceRepository;
             _roomRepository = roomRepository;
             _identityService = identityService;
+            _employeeRepository = employeeRepository;
         }
+
         private async Task ValidateRoomCapacity(int roomId, DateOnly date)
         {
             var room = await _roomRepository.GetByIdAsync(roomId);
@@ -34,31 +42,52 @@ namespace OfficeAndParking.Services.Services
                 throw new InvalidOperationException("No more space in that room!");
             }
         }
-        public async Task AddOfficePresence(AddPresenceDTO model)
+
+        public async Task<GetEmployeeDTO> AddOfficePresence(AddPresenceDTO model)
         {
-            if (await _presenceRepository.HasPresenceAtDateAsync(model.Date, model.EmployeeId))
+            var date = DateOnly.FromDateTime(model.Date);
+            if (await _presenceRepository.HasPresenceAtDateAsync(date, model.EmployeeId))
             {
-                throw new DuplicateEntityException( "This employee already have presence at this date");
+                throw new DuplicateEntityException("This employee already has presence at this date");
             }
 
-            await ValidateRoomCapacity(model.RoomId, model.Date);
+            await ValidateRoomCapacity(model.RoomId, date);
 
             var officePresenceToAdd = new OfficePresence()
             {
-                Date = model.Date,
+                Date = date,
                 EmployeeId = model.EmployeeId,
                 RoomId = model.RoomId,
-                ParkingSpotReservationId = model.ParkingSpot,
                 Notes = model.Notes
             };
+
+            if (model.ParkingSpot!=null && model.ParkingArrivalTime != null && model.ParkingDepartureTime!=null)
+            {
+                officePresenceToAdd.ParkingSpotReservation = new ParkingSpotReservation()
+                {
+                        ParkingSpot =
+                        {
+                            SpotNumber = (int)model.ParkingSpot
+                        },
+                        ReservedFrom = TimeOnly.FromDateTime((DateTime)model.ParkingArrivalTime),
+                        ReservedUntil = TimeOnly.FromDateTime((DateTime)model.ParkingDepartureTime)
+                };
+            }
             await _presenceRepository.AddAsync(officePresenceToAdd);
             await _presenceRepository.SaveChangesAsync();
+
+            var employee = await _employeeRepository.GetWithTeamByIdAsync(model.EmployeeId);
+            var employeeDetails = new GetEmployeeDTO(employee.Id, employee.Firstname, employee.Lastname, employee.Team.FullName);
+
+            return employeeDetails;
         }
+
         public async Task<IEnumerable<OfficePresence>> GetAllOfficePresencesAsync()
         {
             var officePresences = await _presenceRepository.GetAllWithDetails();
             return officePresences;
         }
+
         public async Task RemoveOfficePresenceAsync(int id)
         {
             var presenceToDelete = await _presenceRepository.GetByIdAsync(id);
@@ -69,11 +98,11 @@ namespace OfficeAndParking.Services.Services
 
             if (_identityService.GetCurrentUserId() != presenceToDelete.EmployeeId)
             {
-                throw new NonAuthorizedException("You cannot delete that! ");
+                throw new NonAuthorizedException("You cannot delete that!");
             }
             await _presenceRepository.DeleteAsync(new OfficePresence()
             {
-                Id=id
+                Id = id
             });
         }
     }

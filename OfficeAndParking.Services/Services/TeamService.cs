@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OfficeAndParking.Services.Contracts;
 using OfficeAndParking.Services.DTOs.TeamDTOs;
 using OfficeAndParking.Services.Repositories;
+using OfficeAndParking.Services.Repositories.Contracts;
 
 namespace OfficeAndParking.Services.Services
 {
-    public class TeamService
+    public class TeamService:ITeamService
     {
-        private readonly TeamRepository _teamRepository;
+        private readonly ITeamRepository _teamRepository;
 
-        public TeamService(TeamRepository teamRepository)
+        public TeamService(ITeamRepository teamRepository)
         {
             _teamRepository = teamRepository;
         }
