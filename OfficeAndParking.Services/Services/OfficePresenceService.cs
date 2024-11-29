@@ -68,11 +68,8 @@ namespace OfficeAndParking.Services.Services
 
                 officePresenceToAdd.ParkingSpotReservation = new ParkingSpotReservation()
                 {
-                        ParkingSpot = new ParkingSpot()
-                        {
-                            SpotNumber = (int)model.ParkingSpot
-                        },
-                        ReservedFrom = parsedParkingArrivalTime,
+                    ParkingSpotId = (int)model.ParkingSpot,
+                    ReservedFrom = parsedParkingArrivalTime,
                         ReservedUntil = parsedParkingDepartureTime,
                         CarId = model.CarId
                 };

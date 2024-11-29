@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="Services\Contracts\IParkingSpotService.cs" />
+    <None Include="Services\Contracts\IParkingSpotReservationService.cs" />
   </ItemGroup>
 
   <ItemGroup>
