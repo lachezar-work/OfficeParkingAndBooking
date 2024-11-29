@@ -1,24 +1,27 @@
 <form [formGroup]="presenceForm" (ngSubmit)="onSubmit()" class="form-container">
-  <h2>Office Presence Registration</h2>
-
+  <h2 class="heading">Office Presence Registration</h2>
   <div class="p-field">
-    <label for="date">Date</label>
-    <p-calendar  [style]="{'width':'65%'}"id="date" formControlName="date" class="input-field"></p-calendar>
-  </div>
+<p-floatLabel>
+    <p-calendar [minDate]="minDate" [style]="{'width':'65%'}" id="date" formControlName="date" class="input-field"></p-calendar>
+    <label for="date">Select presence date</label>
+</p-floatLabel>
+</div>
+<em class="error" *ngIf="presenceForm.get('date')?.hasError('required') && presenceForm.get('date')?.touched">Presence date is required</em>
 
-  <div class="p-field">
-    <label for="employeeName">Employee</label>
+
+    <div class="p-field">
     <p-dropdown [style]="{'width':'65%'}" [showClear]="true" [options]="employees" optionLabel="fullName" [filter]="true" filterBy="fullName"
       placeholder="Select an Employee" optionValue="id" formControlName="employeeId">
     </p-dropdown>
   </div>
-
+  <em class="error" *ngIf="presenceForm.get('employeeId')?.hasError('required') && presenceForm.get('employeeId')?.touched">Employee is required</em>
+    
   <div class="p-field">
-    <label for="room">Room</label>
-    <p-dropdown [style]="{'width':'65%'}" id="room" [options]="rooms" optionLabel="number" optionValue="id" formControlName="roomId"
+    <p-dropdown [style]="{'width':'65%'}" placeholder="Select Room"  id="room" [options]="rooms" optionLabel="number" optionValue="id" formControlName="roomId"
       class="input-field"></p-dropdown>
   </div>
-
+  <em class="error" *ngIf="presenceForm.get('roomId')?.hasError('required') && presenceForm.get('roomId')?.touched">Room number is required</em>
+    
   <div class="p-field-checkbox">
     <p-checkbox id="needsParking" formControlName="needsParking" binary="true" class="input-field"></p-checkbox>
     <label for="needsParking">Need Parking Spot</label>
@@ -26,39 +29,39 @@
 
   <div *ngIf="presenceForm.get('needsParking')?.value">
       <div class="p-field">
-        <label for="car">Select your car</label>
-        <p-dropdown [style]="{'width':'65%'}" id="car" [options]="filteredCars" optionLabel="registrationPlate" optionValue="id" formControlName="car"
+        <label for="car"></label>
+        <p-dropdown placeholder="Select your car" [style]="{'width':'65%'}" id="car" [options]="filteredCars" optionLabel="registrationPlate" optionValue="id" formControlName="car"
           class="input-field" [disabled]="!presenceForm.get('employeeId')?.value"></p-dropdown>
       </div>
     <div class="p-field">
-      <label for="parkingSpot" >Parking Spot</label>
-      <p-dropdown [style]="{'width':'65%'}" id="parkingSpot" [options]="parkingSpots" optionLabel="number" optionValue="id" formControlName="parkingSpot"
+      <p-dropdown placeholder="Parking spot number" [style]="{'width':'65%'}" id="parkingSpot" [options]="parkingSpots" optionLabel="number" optionValue="id" formControlName="parkingSpot"
         class="input-field"></p-dropdown>
     </div>
     
-    <div class="p-field">
-      <label for="parkingArrivalTime">Arrival Time</label>
-      <p-calendar id="parkingArrivalTime" formControlName="parkingArrivalTime" class="input-field"
-                  [showTime]="true" [timeOnly]="true" hourFormat="24"></p-calendar>
-    </div>
+    <p-floatLabel>
+      <p-calendar [stepMinute]="15" [defaultDate]="initialDate" id="parkingArrivalTime" formControlName="parkingArrivalTime" class="input-field"
+                  [showTime]="true"
+                  [style]="{'width':'65%'}"
+                  [timeOnly]="true"></p-calendar>
+                  <label for="parkingArrivalTime">Arrival Time</label>
+                </p-floatLabel>
 
-    <div class="p-field">
+                <p-floatLabel>
+      <p-calendar [stepMinute]="15" [defaultDate]="initialDate" [stepMinute]="30" id="parkingDepartureTime" formControlName="parkingDepartureTime" class="input-field"
+      [style]="{'width':'65%'}" [showTime]="true" [timeOnly]="true" hourFormat="24"></p-calendar>
       <label for="parkingDepartureTime">Departure Time</label>
-      <p-calendar id="parkingDepartureTime" formControlName="parkingDepartureTime" class="input-field"
-      [style]="{'width':'55%'}" [showTime]="true" [timeOnly]="true" hourFormat="24"></p-calendar>
-    </div>
+    </p-floatLabel>
 
     <div class="p-field">
-      <label for="notes">Notes</label>
-      <textarea pInputTextarea id="notes" formControlName="notes" class="input-field"></textarea>
+      <textarea pInputTextarea [style]="{'width':'65%'}" placeholder="Insert your notes here" id="notes" formControlName="notes" class="input-field"></textarea>
     </div>
   </div>
 
-  <button pButton type="submit" label="Submit" [disabled]="!presenceForm.valid"></button>
+  <button pButton [style]="{'width':'100%'}" type="submit" label="Submit" [disabled]="!presenceForm.valid"></button>
 </form>
 
 <div class="presence-list">
-  <h3>All future office presences</h3>
+  <h3 class="heading">All office presences</h3>
   <p-table #dt [value]="allPresences" (sortFunction)="customSort($event)" [customSort]="true"
     [globalFilterFields]="['employeeName', 'roomNumber','date','employeeTeam', 'parking', 'notes']">
     <ng-template pTemplate="caption">

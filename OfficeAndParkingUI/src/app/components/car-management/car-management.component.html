@@ -1,26 +1,34 @@
 <div class="car-container">
-  <h2>Car Registration</h2>
+  <h2 class="heading">Car Registration</h2>
   
-  <form [formGroup]="carForm" (ngSubmit)="onSubmit()" class="car-form">
+  <form [formGroup]="carForm" (ngSubmit)="onSubmit()" class="form-container">
 
     <div class="p-field">
-      <label for="employeeName">Employee</label>
       <p-dropdown [style]="{'width':'65%'}" [showClear]="true" [options]="employees" optionLabel="fullName" [filter]="true" filterBy="fullName"
         placeholder="Select an Employee" optionValue="id" formControlName="employeeId">
       </p-dropdown>
     </div>
+    <em class="error" *ngIf="carForm.get('employeeId')?.hasError('required') && carForm.get('employeeId')?.touched">Employee is required</em>
     
     <div class="p-field">
+      <p-floatLabel>
+      <input [style]="{'width':'65%'}" pInputText id="brand" formControlName="brand">
       <label for="brand">Car Brand</label>
-      <input pInputText id="brand" formControlName="brand">
+    </p-floatLabel>
     </div>
+    <em class="error" *ngIf="carForm.get('brand')?.hasError('required') && carForm.get('brand')?.touched">Brand is required</em>
+    
 
     <div class="p-field">
+      <p-floatLabel>
+      
+      <input [style]="{'width':'65%'}" pInputText id="registrationPlate" formControlName="registrationPlate">
       <label for="registrationPlate">Registration Plate</label>
-      <input pInputText id="registrationPlate" formControlName="registrationPlate">
+    </p-floatLabel>
     </div>
+    <em class="error" *ngIf="carForm.get('registrationPlate')?.hasError('required') && carForm.get('registrationPlate')?.touched">Registration plate is required</em>
 
-    <button pButton type="submit" label="Register Car" [disabled]="!carForm.valid" class="p-button-primary"></button>
+    <button [style]="{'width':'100%'}" pButton type="submit" label="Register Car" [disabled]="!carForm.valid" class="p-button-primary"></button>
   </form>
 
   <div class="car-list">

@@ -24,6 +24,7 @@ export interface AddOfficePresence {
 }
 export interface GetOfficePresence extends AddOfficePresence {
   id: number;
+  roomNumber: number;
   employeeName: string;
   employeeTeam: string;
 }

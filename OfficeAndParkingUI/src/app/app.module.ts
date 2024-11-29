@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
 import { CheckboxModule } from 'primeng/checkbox';
+import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ButtonModule } from 'primeng/button';
@@ -54,7 +55,8 @@ import { HttpClientModule } from '@angular/common/http';
     TagModule,
     MultiSelectModule,
     ProgressBarModule,
-    CommonModule
+    CommonModule,
+    FloatLabelModule
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

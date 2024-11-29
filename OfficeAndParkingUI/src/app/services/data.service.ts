@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Employee, Car, GetOfficePresence, Room, AddOfficePresence, ParkingSpot } from '../models/models';
 import { HttpClient } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient, private datePipe: DatePipe) { 
     this.getEmployees().subscribe();
   }
 
@@ -56,6 +57,7 @@ export class DataService {
           const newPresence: GetOfficePresence = {
             ...presence,
             id: current.length + 1,
+            roomNumber: this.rooms.value.find(r => r.id === presence.roomId)!.number,
             employeeName: response.fullName, 
             employeeTeam: response.teamName  
           };
@@ -78,7 +80,7 @@ export class DataService {
     return employee ? employee.fullName : 'Unknown';
   }
 
-  public convertToTimeOnly(dateTimeString: string): string {
+  public  convertToTimeOnly(dateTimeString: string): string {
     const date = new Date(dateTimeString);
     const hours = date.getHours().toString().padStart(2, '0');
     const minutes = date.getMinutes().toString().padStart(2, '0');

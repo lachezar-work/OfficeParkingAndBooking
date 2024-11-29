@@ -8,22 +8,7 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-car-management',
   templateUrl: './car-management.component.html',
-  styles: [`
-    .car-container {
-      max-width: 800px;
-      margin: 20px auto;
-      padding: 20px;
-    }
-    .car-form {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      margin-bottom: 32px;
-    }
-    .car-list {
-      margin-top: 32px;
-    }
-  `]
+  styleUrls: ['./car-management.component.css']
 })
 export class CarManagementComponent {
   carForm: FormGroup;

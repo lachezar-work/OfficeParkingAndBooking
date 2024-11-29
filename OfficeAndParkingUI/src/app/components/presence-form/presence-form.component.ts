@@ -9,7 +9,8 @@ import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-presence-form',
-  templateUrl: './presence-form.html'
+  templateUrl: './presence-form.component.html',
+  styleUrls: ['./presence-form.component.css']
 })
 export class PresenceFormComponent implements OnInit {
   @ViewChild('dt') dt!: Table;
@@ -17,6 +18,8 @@ export class PresenceFormComponent implements OnInit {
   isSorted: boolean | null = null;
   searchValue: string | undefined;
   presenceForm: FormGroup;
+  initialDate: Date = new Date();
+  minDate: Date = new Date();
 
   employees: Employee[]=[];
   rooms: Room[] = [];
@@ -24,6 +27,7 @@ export class PresenceFormComponent implements OnInit {
   allCars: Car[] = [];
   filteredCars: Car[] = [];
   allPresences: GetOfficePresence[] = [];
+  date: Date = new Date();
 
   constructor(
     private fb: FormBuilder,
@@ -31,10 +35,10 @@ export class PresenceFormComponent implements OnInit {
     private userService: UserService,
     private datePipe: DatePipe
   ) {
-
+    this.initialDate.setHours(9, 0, 0, 0);
     // Initialize the form
     this.presenceForm = this.fb.group({
-      date: [new Date(), Validators.required],
+      date: ['', Validators.required],
       roomId: ['', Validators.required],
       employeeId: ['', Validators.required],
       needsParking: [false],
@@ -134,7 +138,7 @@ sortTableData(event: any) {
       this.dataService.addPresence({
         date: formValue.date,
         roomId: formValue.roomId,
-        carId: formValue.car,
+        carId: formValue.car? formValue.car : undefined,
         employeeId: formValue.employeeId,
         parkingSpot: formValue.needsParking ? formValue.parkingSpot : undefined,
         parkingArrivalTime: formValue.needsParking ? this.dataService.convertToTimeOnly(formValue.parkingArrivalTime) : undefined,
