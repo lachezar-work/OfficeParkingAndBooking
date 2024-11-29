@@ -2,7 +2,7 @@
   <h2 class="heading">Office Presence Registration</h2>
   <div class="p-field">
 <p-floatLabel>
-    <p-calendar [minDate]="minDate" [style]="{'width':'65%'}" id="date" formControlName="date" class="input-field"></p-calendar>
+    <p-calendar [showIcon]="true" [iconDisplay]="'input'"  [minDate]="minDate" [style]="{'width':'65%'}" id="date" formControlName="date" class="input-field"></p-calendar>
     <label for="date">Select presence date</label>
 </p-floatLabel>
 </div>
@@ -10,7 +10,8 @@
 
 
     <div class="p-field">
-    <p-dropdown [style]="{'width':'65%'}" [showClear]="true" [options]="employees" optionLabel="fullName" [filter]="true" filterBy="fullName"
+    <p-dropdown [style]="{'width':'65%'}" [showClear]="true" [options]="employees"
+     optionLabel="fullName" [filter]="true" filterBy="fullName"
       placeholder="Select an Employee" optionValue="id" formControlName="employeeId">
     </p-dropdown>
   </div>
@@ -39,7 +40,7 @@
     </div>
     
     <p-floatLabel>
-      <p-calendar [stepMinute]="15" [defaultDate]="initialDate" id="parkingArrivalTime" formControlName="parkingArrivalTime" class="input-field"
+      <p-calendar [stepMinute]="15" [defaultDate]="initialDateArrival" id="parkingArrivalTime" formControlName="parkingArrivalTime" class="input-field"
                   [showTime]="true"
                   [style]="{'width':'65%'}"
                   [timeOnly]="true"></p-calendar>
@@ -47,7 +48,7 @@
                 </p-floatLabel>
 
                 <p-floatLabel>
-      <p-calendar [stepMinute]="15" [defaultDate]="initialDate" [stepMinute]="30" id="parkingDepartureTime" formControlName="parkingDepartureTime" class="input-field"
+      <p-calendar [stepMinute]="15" [defaultDate]="initialDateDep" [stepMinute]="30" id="parkingDepartureTime" formControlName="parkingDepartureTime" class="input-field"
       [style]="{'width':'65%'}" [showTime]="true" [timeOnly]="true" hourFormat="24"></p-calendar>
       <label for="parkingDepartureTime">Departure Time</label>
     </p-floatLabel>

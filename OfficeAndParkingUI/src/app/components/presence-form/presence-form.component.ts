@@ -18,7 +18,8 @@ export class PresenceFormComponent implements OnInit {
   isSorted: boolean | null = null;
   searchValue: string | undefined;
   presenceForm: FormGroup;
-  initialDate: Date = new Date();
+  initialDateArrival: Date = new Date();
+  initialDateDep: Date = new Date();
   minDate: Date = new Date();
 
   employees: Employee[]=[];
@@ -35,7 +36,8 @@ export class PresenceFormComponent implements OnInit {
     private userService: UserService,
     private datePipe: DatePipe
   ) {
-    this.initialDate.setHours(9, 0, 0, 0);
+    this.initialDateArrival.setHours(9, 0, 0, 0);
+    this.initialDateDep.setHours(18, 0, 0, 0);
     // Initialize the form
     this.presenceForm = this.fb.group({
       date: ['', Validators.required],

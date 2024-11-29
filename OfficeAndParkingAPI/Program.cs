@@ -64,8 +64,8 @@ public class Program
         builder.Services.AddScoped<IRoomService, RoomService>();
         builder.Services.AddScoped<ITeamRepository, TeamRepository>();
         builder.Services.AddScoped<ITeamService, TeamService>();
-        builder.Services.AddScoped<IParkingSpotReservationRepository, ParkingSpotReservationRepository>();
-        builder.Services.AddScoped<IParkingSpotReservationService, ParkingSpotReservationService>();
+        builder.Services.AddScoped<IParkingSpotRepository, ParkingSpotRepository>();
+        builder.Services.AddScoped<IParkingSpotService, ParkingSpotService>();
         builder.Services.AddScoped<ICarRepository, CarRepository>();
         builder.Services.AddScoped<ICarService, CarService>();
 
