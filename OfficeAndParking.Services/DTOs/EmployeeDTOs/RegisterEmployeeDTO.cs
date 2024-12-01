@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
+using OfficeAndParking.Services.DTOs.EmployeeDTOs;
 using OfficeAndParkingAPI.Common;
 
 namespace OfficeAndParking.Services.DTOs.EmployeeDTOs

@@ -34,7 +34,7 @@ namespace OfficeAndParkingAPI.Controllers
             if (!result.Succeeded)
                 return BadRequest(result.Errors);
 
-            return Ok("Registration successful.");
+            return Ok();
         }
         
         [HttpPost("login")]

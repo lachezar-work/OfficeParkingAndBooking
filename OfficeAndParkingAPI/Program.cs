@@ -41,7 +41,7 @@ public class Program
         builder.Services.AddIdentity<Employee,IdentityRole>(
                 options =>
                 {
-                    options.User.RequireUniqueEmail = true;
+                    options.User.RequireUniqueEmail = false;
                     options.SignIn.RequireConfirmedEmail = false;
                     options.Password.RequireDigit = false;
                     options.Password.RequiredLength = 6;
