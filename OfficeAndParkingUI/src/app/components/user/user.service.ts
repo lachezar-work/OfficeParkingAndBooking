@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 
 import { IUser, IUserCredentials } from './user.model';
+import { RegisterModel } from '../../models/register.model';
 
 @Injectable({
   providedIn: 'root',
@@ -34,5 +35,13 @@ export class UserService {
       observe: 'response',
       responseType: 'text'
     });
-}
+  }
+
+  register(registerData: RegisterModel): Observable<any> {
+    return this.http.post('/api/employee/register', registerData);
+  }
+
+  isLoggedIn(): boolean {
+    return this.user.value !== null;
+  }
 }

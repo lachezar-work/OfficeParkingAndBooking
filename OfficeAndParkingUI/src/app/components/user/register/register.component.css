@@ -1,0 +1,68 @@
+.container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.register {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.sub-text {
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+input {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.button.cta {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.button.cta:disabled {
+  background-color: #ccc;
+}
+
+.registerError {
+  color: red;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.registerSuccess {
+  color: green;
+  margin-top: 10px;
+  text-align: center;
+  font-weight: bold;
+}

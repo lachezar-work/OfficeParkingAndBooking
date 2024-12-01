@@ -29,7 +29,9 @@ export class CarManagementComponent {
   }
   ngOnInit(): void {
     this.dataService.getEmployees().subscribe((employees: Employee[]) => {
-      this.employees = employees;
+      this.employees = employees.map(employee => ({
+        ...employee,
+        fullNameWithTeam: `${employee.fullName} | ${employee.teamName}`}));
     });
 
     this.dataService.getCars().pipe(

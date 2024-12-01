@@ -7,9 +7,9 @@
     <button pButton type="button" label="Car Management" routerLink="/cars"></button>
   </div>
   <div class="p-toolbar-group-right">
-    <button pButton type="button" label="Sign In" routerLink="/sign-in"></button>
-    <button pButton type="button" label="Register" routerLink="/register"></button>
-    <span *ngIf="isLoggedIn">{{ fullName }}</span>
+    <button *ngIf="!isLoggedIn" pButton type="button" label="Sign In" routerLink="/sign-in"></button>
+    <button *ngIf="!isLoggedIn" pButton type="button" label="Register" routerLink="/register"></button>
+    <span *ngIf="isLoggedIn">{{ user?.firstName }} {{ user?.lastName }}</span>
     <button *ngIf="isLoggedIn" pButton type="button" label="Logout" (click)="logout()"></button>
   </div>
 </p-toolbar>

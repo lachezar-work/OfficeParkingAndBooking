@@ -4,6 +4,7 @@ export interface Employee {
   id: number;
   fullName: string;
   teamName: string;
+  fullNameWithTeam?: string;
 }
 export interface Car {
   id: number;
@@ -40,4 +41,9 @@ export interface ParkingSpot {
 export interface Room {
   id: number;
   number: number;
+}
+
+export interface EmployeeDisplay {
+  id: number;
+  displayName: string;
 }

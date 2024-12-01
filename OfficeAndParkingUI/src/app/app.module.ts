@@ -23,6 +23,7 @@ import { AppComponent } from './app.component';
 import { PresenceFormComponent } from './components/presence-form/presence-form.component';
 import { CarManagementComponent } from './components/car-management/car-management.component';
 import { SignInComponent } from './components/user/sign-in/sign-in.component';
+import { RegisterComponent } from './components/user/register/register.component';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
@@ -30,7 +31,8 @@ import { HttpClientModule } from '@angular/common/http';
     AppComponent,
     PresenceFormComponent,
     CarManagementComponent,
-    SignInComponent
+    SignInComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +44,8 @@ import { HttpClientModule } from '@angular/common/http';
       { path: '', redirectTo: '/presence', pathMatch: 'full' },
       { path: 'sign-in', component: SignInComponent },
       { path: 'presence', component: PresenceFormComponent },
-      { path: 'cars', component: CarManagementComponent }
+      { path: 'cars', component: CarManagementComponent },
+      { path: 'register', component: RegisterComponent }
     ]),
     CalendarModule,
     DropdownModule,

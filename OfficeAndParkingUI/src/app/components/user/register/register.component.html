@@ -1,0 +1,31 @@
+<div class="container">
+  <form #registerForm="ngForm" class="form" (ngSubmit)="register()">
+    <div class="register">Register</div>
+    <div class="sub-text">to create your account</div>
+    <input name="firstName" required #firstName="ngModel" [(ngModel)]="registerData.firstName" placeholder="First Name" type="text" />
+    <em class="error" *ngIf="firstName.errors?.['required'] && firstName.touched">First Name is required</em>
+    <input name="lastName" required #lastName="ngModel" [(ngModel)]="registerData.lastName" placeholder="Last Name" type="text" />
+    <em class="error" *ngIf="lastName.errors?.['required'] && lastName.touched">Last Name is required</em>
+    <div class="p-field">
+      <p-dropdown name="team" #team="ngModel" [(ngModel)]="registerData.teamId" [style]="{'width':'100%'}" [showClear]="true" [options]="teams" optionLabel="fullName" [filter]="true" filterBy="fullName"
+        placeholder="Select a team" optionValue="id">
+      </p-dropdown>
+    </div>
+    <em class="error" *ngIf="team.errors?.['required'] && team.touched">Team is required</em>
+    <input name="username" required #username="ngModel" [(ngModel)]="registerData.username" placeholder="Username" type="text" />
+    <em class="error" *ngIf="username.errors?.['required'] && username.touched">Username is required</em>
+    <input name="password" required #password="ngModel" [(ngModel)]="registerData.password" placeholder="Password" type="password" />
+    <em class="error" *ngIf="password.errors?.['required'] && password.touched">Password is required</em>
+    <div class="buttons">
+      <button type="submit" [disabled]="registerForm.form.invalid" class="button cta">
+        Register
+      </button>
+    </div>
+    <div class="registerError" *ngIf="registerError">
+      {{registerErrorMessage}}
+    </div>
+    <div class="registerSuccess" *ngIf="registerSuccess">
+      <strong>Registration successful!</strong>
+    </div>
+  </form>
+</div>

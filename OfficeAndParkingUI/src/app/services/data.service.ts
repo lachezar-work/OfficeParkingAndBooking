@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { Employee, Car, GetOfficePresence, Room, AddOfficePresence, ParkingSpot } from '../models/models';
+import { Employee, Car, GetOfficePresence, Room, AddOfficePresence, ParkingSpot, Team } from '../models/models';
 import { HttpClient } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 
@@ -17,6 +17,7 @@ export class DataService {
   private rooms = new BehaviorSubject<Room[]>([]);
   private parkingSpots = new BehaviorSubject<ParkingSpot[]>([]);
   private cars = new BehaviorSubject<Car[]>([]);
+  private teams = new BehaviorSubject<Team[]>([]);
 
   getEmployees(): Observable<Employee[]> {
     this.http.get<Employee[]>('/api/employee').subscribe(data => {
@@ -47,6 +48,12 @@ export class DataService {
       this.cars.next(data);
     });
     return this.cars.asObservable();
+  }
+  getTeams(): Observable<Team[]> {
+    this.http.get<Team[]>('/api/team').subscribe(data => {
+      this.teams.next(data);
+    });
+    return this.teams.asObservable();
   }
 
   addPresence(presence: AddOfficePresence): void {

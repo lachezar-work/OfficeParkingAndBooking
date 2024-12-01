@@ -63,7 +63,10 @@ export class PresenceFormComponent implements OnInit {
       this.parkingSpots = parkingSpots;
     });
     this.dataService.getEmployees().subscribe((employees: Employee[]) => {
-      this.employees = employees;
+      this.employees = employees.map(employee => ({
+        ...employee,
+        fullNameWithTeam: `${employee.fullName} | ${employee.teamName}`
+      }));
     });
     this.userService.getUser().subscribe(username => {
       this.presenceForm.patchValue({ employeeName: username })

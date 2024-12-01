@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { UserService } from './components/user/user.service';
+import { IUser } from './components/user/user.model';
 
 @Component({
   selector: 'app-root',
@@ -12,12 +14,28 @@ import { Component } from '@angular/core';
     }
   `]
 })
-export class AppComponent {
-  isLoggedIn = false;
-  fullName = 'John Doe';
+export class AppComponent implements OnInit {
+  public isLoggedIn = false;
+  public user: IUser | null = null;
+
+  constructor(private userService: UserService) {}
+
+  ngOnInit() {
+    this.userService.getUser().subscribe(user => {
+      this.isLoggedIn = user !== null;
+      this.user = user;
+    });
+  }
 
   logout() {
-    // Implement logout logic here
-    this.isLoggedIn = false;
+    this.userService.signOut().subscribe({
+      next: () => {
+        this.isLoggedIn = false;
+        this.user = null;
+      },
+      error: err => {
+        console.error('Logout failed', err);
+      }
+    });
   }
 }
