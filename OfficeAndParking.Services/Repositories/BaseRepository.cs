@@ -14,6 +14,15 @@ namespace OfficeAndParking.Services.Repositories
         {
             _dbContext = dbContext;
         }
+        public async Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            var entity = await _dbContext.Set<TEntity>().FirstOrDefaultAsync(predicate);
+            if (entity != null)
+            {
+                return true;
+            }
+            return false;
+        }
 
         public async Task<IEnumerable<TEntity>> GetAllAsync()
         {

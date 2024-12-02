@@ -8,7 +8,7 @@ namespace OfficeAndParking.Services.Contracts
 {
     public interface IOfficePresenceService
     {
-        Task<GetEmployeeDTO> AddOfficePresence(AddPresenceDTO model);
+        Task<AddPresenceResponseDTO> AddOfficePresence(AddPresenceDTO model);
         Task<IEnumerable<OfficePresence>> GetAllOfficePresencesAsync();
         Task RemoveOfficePresenceAsync(int id);
     }

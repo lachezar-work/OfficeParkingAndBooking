@@ -43,7 +43,7 @@ namespace OfficeAndParking.Services.Services
             }
         }
 
-        public async Task<GetEmployeeDTO> AddOfficePresence(AddPresenceDTO model)
+        public async Task<AddPresenceResponseDTO> AddOfficePresence(AddPresenceDTO model)
         {
             var date = DateOnly.FromDateTime(model.Date);
             if (await _presenceRepository.HasPresenceAtDateAsync(date, model.EmployeeId))
@@ -78,7 +78,12 @@ namespace OfficeAndParking.Services.Services
             await _presenceRepository.SaveChangesAsync();
 
             var employee = await _employeeRepository.GetWithTeamByIdAsync(model.EmployeeId);
-            var employeeDetails = new GetEmployeeDTO(employee.Id, employee.Firstname, employee.Lastname, employee.Team.FullName);
+            var employeeDetails = new AddPresenceResponseDTO()
+            {
+                EmployeeName = employee.Firstname + " " + employee.Lastname,
+                EmployeeTeam = employee.Team.FullName,
+                ParsedDate = date.ToString(),
+            };
 
             return employeeDetails;
         }

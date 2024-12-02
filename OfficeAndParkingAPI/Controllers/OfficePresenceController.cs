@@ -36,8 +36,8 @@ namespace OfficeAndParkingAPI.Controllers
         [HttpPost("add")]
         public async Task<IActionResult> AddOfficePresence(AddPresenceDTO model)
         {
-            var employeeDto = await _presenceService.AddOfficePresence(model);
-            return Ok(employeeDto);
+            var responseDto = await _presenceService.AddOfficePresence(model);
+            return Ok(responseDto);
         }
 
         [HttpPost("remove")]

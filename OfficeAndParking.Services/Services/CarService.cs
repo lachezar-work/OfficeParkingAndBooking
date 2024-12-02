@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using OfficeAndParking.Data.Models;
 using OfficeAndParking.Services.Contracts;
 using OfficeAndParking.Services.DTOs.CarDTOs;
+using OfficeAndParking.Services.Exceptions;
 using OfficeAndParking.Services.Repositories.Contracts;
 
 namespace OfficeAndParking.Services.Services
@@ -23,13 +24,19 @@ namespace OfficeAndParking.Services.Services
 
         public async Task AddNewCar(AddNewCarDTO model)
         {
+            var carExists = await _carRepository
+                .ExistsAsync(x => x.RegistrationPlate == model.RegistrationPlate);
+            if (carExists)
+            {
+                throw new DuplicateEntityException($"Car with that Registration plate already exists!");
+            }
             await _carRepository.AddAsync(new Car()
             {
                 Brand = model.Brand,
                 EmployeeId = model.EmployeeId,
                 RegistrationPlate = model.RegistrationPlate
             });
-            _carRepository.SaveChangesAsync();
+            await _carRepository.SaveChangesAsync();
         }
 
     }
