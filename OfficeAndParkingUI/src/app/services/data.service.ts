@@ -3,6 +3,8 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Employee, Car, GetOfficePresence, Room, AddOfficePresence, ParkingSpot, Team } from '../models/models';
 import { HttpClient } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -20,66 +22,81 @@ export class DataService {
   private teams = new BehaviorSubject<Team[]>([]);
 
   getEmployees(): Observable<Employee[]> {
-    this.http.get<Employee[]>('/api/employee').subscribe(data => {
+    this.http.get<Employee[]>('/api/employee').pipe(
+      catchError(this.handleError)
+    ).subscribe(data => {
       this.employees.next(data);
     });
     return this.employees.asObservable();
   }
   getParkingSpots(): Observable<ParkingSpot[]> {
-    this.http.get<ParkingSpot[]>('/api/parkingspot').subscribe(data => {
+    this.http.get<ParkingSpot[]>('/api/parkingspot').pipe(
+      catchError(this.handleError)
+    ).subscribe(data => {
       this.parkingSpots.next(data);
     });
     return this.parkingSpots.asObservable();
   }
   getRooms(): Observable<Room[]> {
-    this.http.get<Room[]>('/api/room').subscribe(data => {
+    this.http.get<Room[]>('/api/room').pipe(
+      catchError(this.handleError)
+    ).subscribe(data => {
       this.rooms.next(data);
     });
     return this.rooms.asObservable();
   }
   getPresences(): Observable<GetOfficePresence[]> {
-    this.http.get<GetOfficePresence[]>('/api/officepresence').subscribe(data => {
+    this.http.get<GetOfficePresence[]>('/api/officepresence').pipe(
+      catchError(this.handleError)
+    ).subscribe(data => {
       this.presences.next(data);
     });
     return this.presences.asObservable();
   }
   getCars(): Observable<Car[]> {
-    this.http.get<Car[]>('/api/car').subscribe(data => {
+    this.http.get<Car[]>('/api/car').pipe(
+      catchError(this.handleError)
+    ).subscribe(data => {
       this.cars.next(data);
     });
     return this.cars.asObservable();
   }
   getTeams(): Observable<Team[]> {
-    this.http.get<Team[]>('/api/team').subscribe(data => {
+    this.http.get<Team[]>('/api/team').pipe(
+      catchError(this.handleError)
+    ).subscribe(data => {
       this.teams.next(data);
     });
     return this.teams.asObservable();
   }
 
-  addPresence(presence: AddOfficePresence): void {
-    this.http.post<Employee>('/api/officepresence/add', presence)
+  addPresence(presence: AddOfficePresence): Observable<GetOfficePresence> {
+    return this.http.post<GetOfficePresence>('/api/officepresence/add', presence)
       .pipe(
-        tap((response:Employee) => {
+        tap((response: GetOfficePresence) => {
           const current = this.presences.value;
           const newPresence: GetOfficePresence = {
             ...presence,
             id: current.length + 1,
             roomNumber: this.rooms.value.find(r => r.id === presence.roomId)!.number,
-            employeeName: response.fullName, 
-            employeeTeam: response.teamName  
+            employeeName: response.employeeName,
+            teamName: response.teamName
           };
           this.presences.next([...current, newPresence]);
-        })
-      ).subscribe();
+          return newPresence;
+        }),
+        catchError(this.handleError)
+      );
   }
 
-  addCar(car: Car): void {
-    this.http.post<Car>('/api/car/add', car).pipe(
+  addCar(car: Car): Observable<Car> {
+    return this.http.post<Car>('/api/car/add', car).pipe(
       tap((newCar: Car) => {
         const current = this.cars.value;
         this.cars.next([...current, newCar]);
-      })
-    ).subscribe();
+      }),
+      catchError(this.handleError)
+    );
   }
 
   public getEmployeeName(employeeId: number): string {
@@ -113,5 +130,10 @@ export class DataService {
     const end2Time = new Date(0, 0, 0, end2Hour, end2Minute);
 
     return (start1Time < end2Time && start2Time < end1Time);
+  }
+
+  private handleError(error: any) {
+    console.error('An error occurred:', error.error.message);
+    return throwError(() => new Error(error.error.message || 'Server error'));
   }
 }

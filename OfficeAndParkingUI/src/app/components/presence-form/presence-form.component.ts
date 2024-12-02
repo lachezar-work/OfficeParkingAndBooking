@@ -21,6 +21,7 @@ export class PresenceFormComponent implements OnInit {
   initialDateArrival: Date = new Date();
   initialDateDep: Date = new Date();
   minDate: Date = new Date();
+  errorMessage: string | null = null;
 
   employees: Employee[]=[];
   rooms: Room[] = [];
@@ -125,37 +126,40 @@ sortTableData(event: any) {
 
 
 
-  onSubmit() {
-    if (this.presenceForm.valid) {
-      const formValue = this.presenceForm.value;
-      
-      if (formValue.needsParking && !this.dataService.isParkingSpotAvailable(
-        formValue.date,
-        formValue.parkingSpot,
-        formValue.parkingArrivalTime,
-        formValue.parkingDepartureTime
-      )) {
-        alert('Parking spot not available for selected time period');
-        return;
+onSubmit() {
+  if (this.presenceForm.valid) {
+    const formValue = this.presenceForm.value;
+
+    if (formValue.needsParking && !this.dataService.isParkingSpotAvailable(
+      formValue.date,
+      formValue.parkingSpot,
+      formValue.parkingArrivalTime,
+      formValue.parkingDepartureTime
+    )) {
+      alert('Parking spot not available for selected time period');
+      return;
+    }
+
+    this.dataService.addPresence({
+      date: formValue.date,
+      roomId: formValue.roomId,
+      carId: formValue.car ? formValue.car : undefined,
+      employeeId: formValue.employeeId,
+      parkingSpot: formValue.needsParking ? formValue.parkingSpot : undefined,
+      parkingArrivalTime: formValue.needsParking ? this.dataService.convertToTimeOnly(formValue.parkingArrivalTime) : undefined,
+      parkingDepartureTime: formValue.needsParking ? this.dataService.convertToTimeOnly(formValue.parkingDepartureTime) : undefined,
+      notes: formValue.notes
+    }).subscribe({
+      next: () => {
+        this.presenceForm.reset({ date: new Date() });
+        this.errorMessage = null;
+      },
+      error: (err: any) => {
+        this.errorMessage = `Error: ${err.message}`;
       }
-
-
-      this.dataService.addPresence({
-        date: formValue.date,
-        roomId: formValue.roomId,
-        carId: formValue.car? formValue.car : undefined,
-        employeeId: formValue.employeeId,
-        parkingSpot: formValue.needsParking ? formValue.parkingSpot : undefined,
-        parkingArrivalTime: formValue.needsParking ? this.dataService.convertToTimeOnly(formValue.parkingArrivalTime) : undefined,
-        parkingDepartureTime: formValue.needsParking ? this.dataService.convertToTimeOnly(formValue.parkingDepartureTime) : undefined,
-        notes: formValue.notes
-      });
-
-      this.presenceForm.reset({ date: new Date() });
-    }
-    else {
-      // If form is invalid, display error messages
-      alert('Please fill out all required fields correctly.');
-    }
+    });
+  } else {
+    alert('Please fill out all required fields correctly.');
   }
+}
 }

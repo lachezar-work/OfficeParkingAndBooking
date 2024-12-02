@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataService } from '../../services/data.service';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import { Car, Employee } from '../../models/models';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-car-management',
@@ -15,6 +15,7 @@ export class CarManagementComponent {
   employees: Employee[] = [];
   cars: Car[] = [];
   displayedColumns = ['employeeName', 'brand', 'registrationPlate'];
+  errorMessage: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -28,7 +29,12 @@ export class CarManagementComponent {
     });
   }
   ngOnInit(): void {
-    this.dataService.getEmployees().subscribe((employees: Employee[]) => {
+    this.dataService.getEmployees().pipe(
+      catchError(error => {
+        this.errorMessage = error.message;
+        return of([]);
+      })
+    ).subscribe((employees: Employee[]) => {
       this.employees = employees.map(employee => ({
         ...employee,
         fullNameWithTeam: `${employee.fullName} | ${employee.teamName}`}));
@@ -40,7 +46,11 @@ export class CarManagementComponent {
           ...car,
           employeeName: this.dataService.getEmployeeName(car.employeeId)
         }))
-      )
+      ),
+      catchError(error => {
+        this.errorMessage = error.message;
+        return of([]);
+      })
     ).subscribe((cars: Car[]) => {
       this.cars = cars;
     });
@@ -49,12 +59,17 @@ export class CarManagementComponent {
   onSubmit() {
     if (this.carForm.valid) {
       this.dataService.addCar({
-        id: 0,
         employeeId: this.carForm.value.employeeId,
         brand: this.carForm.value.brand,
         registrationPlate: this.carForm.value.registrationPlate
+      }).pipe(
+        catchError(error => {
+          this.errorMessage = error.message;
+          return of(null);
+        })
+      ).subscribe(() => {
+        this.carForm.reset();
       });
-      this.carForm.reset();
     }
   }
 }

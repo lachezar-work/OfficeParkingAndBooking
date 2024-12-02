@@ -57,7 +57,9 @@
       <textarea pInputTextarea [style]="{'width':'65%'}" placeholder="Insert your notes here" id="notes" formControlName="notes" class="input-field"></textarea>
     </div>
   </div>
-
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
   <button pButton [style]="{'width':'100%'}" type="submit" label="Submit" [disabled]="!presenceForm.valid"></button>
 </form>
 
@@ -106,7 +108,7 @@
       <tr>
         <td>{{presence.employeeName}}</td>
         <td>{{presence.roomNumber}}</td>
-        <td>{{presence.date}}</td>
+        <td>{{ presence.date | date: 'yyyy-MM-dd' }}</td>
         <td>{{presence.employeeTeam}}</td>
         <td>{{presence.notes}}
           <div *ngIf="!presence.notes">-</div>

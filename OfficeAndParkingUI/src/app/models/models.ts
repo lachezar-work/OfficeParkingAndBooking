@@ -7,7 +7,7 @@ export interface Employee {
   fullNameWithTeam?: string;
 }
 export interface Car {
-  id: number;
+  id?: number;
   brand: string;
   registrationPlate: string;
   employeeId: number;
@@ -27,7 +27,7 @@ export interface GetOfficePresence extends AddOfficePresence {
   id: number;
   roomNumber: number;
   employeeName: string;
-  employeeTeam: string;
+  teamName: string;
 }
 export interface Team {
   id: number;

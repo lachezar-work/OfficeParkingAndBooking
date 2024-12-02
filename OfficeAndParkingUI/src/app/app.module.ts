@@ -17,7 +17,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { CommonModule } from '@angular/common';
 import { DatePipe } from '@angular/common';
-
+import { AuthGuard } from './guards/auth.guard';
 
 import { AppComponent } from './app.component';
 import { PresenceFormComponent } from './components/presence-form/presence-form.component';
@@ -41,10 +41,10 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
-      { path: '', redirectTo: '/presence', pathMatch: 'full' },
+      { path: '', redirectTo: '/sign-in', pathMatch: 'full' },
       { path: 'sign-in', component: SignInComponent },
-      { path: 'presence', component: PresenceFormComponent },
-      { path: 'cars', component: CarManagementComponent },
+      { path: 'presence', component: PresenceFormComponent, canActivate: [AuthGuard] },
+      { path: 'cars', component: CarManagementComponent, canActivate: [AuthGuard] },
       { path: 'register', component: RegisterComponent }
     ]),
     CalendarModule,
@@ -61,7 +61,7 @@ import { HttpClientModule } from '@angular/common/http';
     CommonModule,
     FloatLabelModule
   ],
-  providers: [DatePipe],
+  providers: [DatePipe, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

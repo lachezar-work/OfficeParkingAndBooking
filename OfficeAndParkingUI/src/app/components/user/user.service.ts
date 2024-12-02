@@ -41,6 +41,15 @@ export class UserService {
     return this.http.post('/api/employee/register', registerData);
   }
 
+  checkLoginStatus(): Observable<IUser | null> {
+    return this.http.get<IUser>('/api/employee/current').pipe(
+      map((user: IUser) => {
+        this.user.next(user);
+        return user;
+      })
+    );
+  }
+
   isLoggedIn(): boolean {
     return this.user.value !== null;
   }

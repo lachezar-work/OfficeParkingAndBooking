@@ -29,7 +29,12 @@
     <em class="error" *ngIf="carForm.get('registrationPlate')?.hasError('required') && carForm.get('registrationPlate')?.touched">Registration plate is required</em>
 
     <button [style]="{'width':'100%'}" pButton type="submit" label="Register Car" [disabled]="!carForm.valid" class="p-button-primary"></button>
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
   </form>
+
+
 
   <div class="car-list">
     <h3>Registered Cars</h3>
