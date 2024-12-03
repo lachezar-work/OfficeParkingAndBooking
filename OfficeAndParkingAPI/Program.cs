@@ -10,6 +10,7 @@ using OfficeAndParking.Services.Services;
 using OfficeAndParking.Services.Services.Contracts;
 using OfficeAndParkingAPI.Middlewares;
 using OfficeAndParking.Services.Contracts;
+using OfficeAndParkingAPI.Filters;
 
 namespace OfficeAndParkingAPI;
 
@@ -73,7 +74,7 @@ public class Program
         builder.Services.ConfigureHttpJsonOptions(options =>
             options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
-        builder.Services.AddControllers();
+        builder.Services.AddControllers(config => config.Filters.Add(new ErrorResultFilter()));
 
         builder.Services.AddAuthentication();
         builder.Services.AddAuthorization();
