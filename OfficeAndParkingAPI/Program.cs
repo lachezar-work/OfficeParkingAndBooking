@@ -35,7 +35,9 @@ public class Program
     {
 
         builder.Services.AddDbContext<OfficeParkingDbContext>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("OfficeAndParkingConnection")));
+            options.UseSqlServer(builder.Configuration.GetConnectionString("OfficeAndParkingConnection")
+            ).EnableSensitiveDataLogging()
+            .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
 
         builder.Services.AddIdentity<Employee,IdentityRole>(
                 options =>

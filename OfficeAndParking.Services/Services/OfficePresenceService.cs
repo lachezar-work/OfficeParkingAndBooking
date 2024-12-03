@@ -102,14 +102,15 @@ namespace OfficeAndParking.Services.Services
                 throw new EntityNotFoundException("Office presence not found");
             }
 
-            if (_identityService.GetCurrentUserId() != presenceToDelete.EmployeeId)
-            {
-                throw new NonAuthorizedException("You cannot delete that!");
-            }
+            //if (_identityService.GetCurrentUserId() != presenceToDelete.EmployeeId)
+            //{
+            //    throw new NonAuthorizedException("You cannot delete that!");
+            //}
             await _presenceRepository.DeleteAsync(new OfficePresence()
             {
                 Id = id
             });
+            await _presenceRepository.SaveChangesAsync();
         }
     }
 }

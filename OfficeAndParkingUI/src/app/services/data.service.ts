@@ -99,6 +99,16 @@ export class DataService {
     );
   }
 
+  deletePresence(presenceId: number): Observable<void> {
+    return this.http.delete<void>(`/api/officepresence/remove?id=${presenceId}`).pipe(
+      tap(() => {
+        const current = this.presences.value.filter(p => p.id !== presenceId);
+        this.presences.next(current);
+      }),
+      catchError(this.handleError)
+    );
+  }
+
   public getEmployeeName(employeeId: number): string {
     const employee = this.employees.value.find(e => e.id === employeeId);
     return employee ? employee.fullName : 'Unknown';

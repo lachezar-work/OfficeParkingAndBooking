@@ -102,6 +102,9 @@
         <th>
           Parking ends
        </th>
+       <th>
+        Remove
+       </th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-presence>
@@ -125,6 +128,13 @@
           {{presence.parkingDepartureTime}}
           <div *ngIf="!presence.parkingSpot">-</div>
         </td>
+        <td>
+          <p-button 
+          severity="danger" 
+          label="X" 
+          icon="pi pi-trash" 
+          (onClick)="deletePresence(presence.id)"  />
+      </td>
       </tr>
     </ng-template>
   </p-table>

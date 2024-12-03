@@ -21,6 +21,7 @@ namespace OfficeAndParkingAPI.Controllers
             var presences = await _presenceService.GetAllOfficePresencesAsync();
             return Ok(presences.Select(x => new GetOfficePresenceDTO()
             {
+                Id = x.Id,
                 Date = x.Date,
                 EmployeeName = $"{x.Employee.Firstname} {x.Employee.Lastname}",
                 EmployeeTeam = x.Employee.Team.FullName,
@@ -40,7 +41,7 @@ namespace OfficeAndParkingAPI.Controllers
             return Ok(responseDto);
         }
 
-        [HttpPost("remove")]
+        [HttpDelete("remove")]
         public async Task<IActionResult> RemoveOfficePresence(int id)
         {
             await _presenceService.RemoveOfficePresenceAsync(id);

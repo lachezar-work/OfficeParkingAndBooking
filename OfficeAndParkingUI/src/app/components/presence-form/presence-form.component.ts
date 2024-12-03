@@ -22,6 +22,7 @@ export class PresenceFormComponent implements OnInit {
   initialDateDep: Date = new Date();
   minDate: Date = new Date();
   errorMessage: string | null = null;
+  clonedPresences: { [s: string]: GetOfficePresence } = {};
 
   employees: Employee[]=[];
   rooms: Room[] = [];
@@ -50,6 +51,7 @@ export class PresenceFormComponent implements OnInit {
       parkingArrivalTime: [''],
       parkingDepartureTime: [''],
       notes: ['']
+      
     });
   }
 
@@ -124,7 +126,16 @@ sortTableData(event: any) {
   });
 }
 
-
+deletePresence(presenceId: number) {
+  this.dataService.deletePresence(presenceId).subscribe({
+    next: () => {
+      this.allPresences = this.allPresences.filter(p => p.id !== presenceId);
+    },
+    error: (err: any) => {
+      this.errorMessage = `Error: ${err.message}`;
+    }
+  });
+}
 
 onSubmit() {
   if (this.presenceForm.valid) {
